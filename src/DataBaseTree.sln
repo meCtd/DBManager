@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28922.388
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseTree", "DataBaseTree\DataBaseTree.csproj", "{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}.Debug|x64.ActiveCfg = Debug|x64
+		{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}.Debug|x64.Build.0 = Debug|x64
+		{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}.Release|x64.ActiveCfg = Release|x64
+		{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE2280AD-8B50-416C-BB66-D0F5ED88F065}
+	EndGlobalSection
+EndGlobal
