@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Data.SqlClient;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Media.Animation;
 using DataBaseTree.Model;
 using DataBaseTree.Model.DataBaseConnection;
 using DataBaseTree.Model.Loaders;
@@ -13,9 +10,8 @@ using DataBaseTree.Model.Printers;
 using DataBaseTree.Model.Tree;
 using DataBaseTree.Model.Tree.DbEntities;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
-namespace DataBaseTree.Tests
+namespace Tests.Tests
 {
 	[TestFixture]
 	public class DatabaseTreeUnitTester
