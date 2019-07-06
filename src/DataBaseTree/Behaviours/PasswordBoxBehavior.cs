@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace DataBaseTree.Resources
+namespace DataBaseTree.Behaviours
 {
 	public class PasswordBoxBehavior : Behavior<PasswordBox>
 	{

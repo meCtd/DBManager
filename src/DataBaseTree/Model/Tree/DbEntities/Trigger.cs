@@ -7,7 +7,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	{
 		public override bool CanHaveDefinition => true;
 
-		public override DbEntityEnum Type => DbEntityEnum.Trigger;
+		public override DbEntityType Type => DbEntityType.Trigger;
 
 		public Trigger(string name) : base(name)
 		{

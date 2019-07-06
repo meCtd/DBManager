@@ -22,7 +22,7 @@ namespace DataBaseTree.Model.Loaders
 
 		public abstract Task LoadChildren(DbObject obj);
 
-		public abstract Task LoadChildren(DbObject obj, DbEntityEnum childType);
+		public abstract Task LoadChildren(DbObject obj, DbEntityType childType);
 
 		public abstract Task LoadProperties(DbObject obj);
 

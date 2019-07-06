@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 	public class Key : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Key;
+		public override DbEntityType Type => DbEntityType.Key;
 
 		public override bool CanHaveDefinition => false;
 

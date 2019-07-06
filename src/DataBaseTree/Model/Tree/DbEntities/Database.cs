@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[KnownType(typeof(Schema))]
 	public class Database : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Database;
+		public override DbEntityType Type => DbEntityType.Database;
 
 		public override bool CanHaveDefinition => false;
 
@@ -16,7 +16,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 		protected override bool CanBeChild(DbObject obj)
 		{
-			return obj.Type == DbEntityEnum.Schema;
+			return obj.Type == DbEntityType.Schema;
 		}
 
 

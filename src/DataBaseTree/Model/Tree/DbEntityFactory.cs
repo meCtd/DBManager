@@ -12,9 +12,9 @@ namespace DataBaseTree.Model.Tree
 
 		private static DbEntityFactory _instance;
 
-		private Dictionary<DbEntityEnum, Func<DbDataReader, DbObject>> _creator;
+		private Dictionary<DbEntityType, Func<DbDataReader, DbObject>> _creator;
 
-		protected IReadOnlyDictionary<DbEntityEnum, Func<DbDataReader, DbObject>> _objectCreator =>
+		protected IReadOnlyDictionary<DbEntityType, Func<DbDataReader, DbObject>> _objectCreator =>
 			_creator ?? (_creator = SetCreator());
 
 		#endregion
@@ -26,21 +26,21 @@ namespace DataBaseTree.Model.Tree
 
 		}
 
-		protected virtual Dictionary<DbEntityEnum, Func<DbDataReader, DbObject>> SetCreator()
+		protected virtual Dictionary<DbEntityType, Func<DbDataReader, DbObject>> SetCreator()
 		{
-			Dictionary<DbEntityEnum, Func<DbDataReader, DbObject>> dictionary = new Dictionary<DbEntityEnum, Func<DbDataReader, DbObject>>
+			Dictionary<DbEntityType, Func<DbDataReader, DbObject>> dictionary = new Dictionary<DbEntityType, Func<DbDataReader, DbObject>>
 			{
-				[DbEntityEnum.Database] = (s) => new Database(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Schema] = (s) => new Schema(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Table] = (s) => new Table(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.View] = (s) => new DbView(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Key] = (s) => new Key(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Index] = (s) => new Index(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Trigger] = (s) => new Trigger(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Constraint] = (s) => new Constraint(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Procedure] = (s) => new Procedure(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Function] = (s) => new Function(s.GetString(s.GetOrdinal(Constants.NameProperty))),
-				[DbEntityEnum.Column] = (s) =>
+				[DbEntityType.Database] = (s) => new Database(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Schema] = (s) => new Schema(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Table] = (s) => new Table(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.View] = (s) => new DbView(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Key] = (s) => new Key(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Index] = (s) => new Index(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Trigger] = (s) => new Trigger(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Constraint] = (s) => new Constraint(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Procedure] = (s) => new Procedure(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Function] = (s) => new Function(s.GetString(s.GetOrdinal(Constants.NameProperty))),
+				[DbEntityType.Column] = (s) =>
 				{
 					int? length = null;
 					int? precision = null;
@@ -56,7 +56,7 @@ namespace DataBaseTree.Model.Tree
 
 					return new Column((s.GetString(s.GetOrdinal(Constants.NameProperty))), new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
 				},
-				[DbEntityEnum.Parameter] = (s) =>
+				[DbEntityType.Parameter] = (s) =>
 				{
 					int? length = null;
 					int? precision = null;
@@ -77,7 +77,7 @@ namespace DataBaseTree.Model.Tree
 			return dictionary;
 		}
 
-		public DbObject Create(DbDataReader reader, DbEntityEnum type)
+		public DbObject Create(DbDataReader reader, DbEntityType type)
 		{
 			return _objectCreator[type](reader);
 		}

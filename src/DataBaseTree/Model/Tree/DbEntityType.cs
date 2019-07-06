@@ -3,7 +3,7 @@
 namespace DataBaseTree.Model.Tree
 {
 	[Flags]
-	public enum DbEntityEnum
+	public enum DbEntityType
 	{
 		None = 0,
 		Server = 1,

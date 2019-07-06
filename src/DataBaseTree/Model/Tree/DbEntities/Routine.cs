@@ -14,7 +14,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 		
 		protected override bool CanBeChild(DbObject obj)
 		{
-			return obj.Type == DbEntityEnum.Parameter;
+			return obj.Type == DbEntityType.Parameter;
 		}
 	}
 

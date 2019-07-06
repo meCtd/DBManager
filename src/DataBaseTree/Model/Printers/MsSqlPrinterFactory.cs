@@ -12,15 +12,15 @@ namespace DataBaseTree.Model.Printers
 		{
 			switch (dbobject.Type)
 			{
-				case DbEntityEnum.None:
-				case DbEntityEnum.Server:
-				case DbEntityEnum.Constraint:
-				case DbEntityEnum.Column:
-				case DbEntityEnum.Parameter:
-				case DbEntityEnum.Key:
-				case DbEntityEnum.Index:
-				case DbEntityEnum.Type:
-				case DbEntityEnum.All:
+				case DbEntityType.None:
+				case DbEntityType.Server:
+				case DbEntityType.Constraint:
+				case DbEntityType.Column:
+				case DbEntityType.Parameter:
+				case DbEntityType.Key:
+				case DbEntityType.Index:
+				case DbEntityType.Type:
+				case DbEntityType.All:
 					return false;
 			}
 
@@ -31,7 +31,7 @@ namespace DataBaseTree.Model.Printers
 		{
 			if (!IsSupported(obj))
 				throw new NotSupportedException();
-			if (obj.Type == DbEntityEnum.Table)
+			if (obj.Type == DbEntityType.Table)
 				return new MsSqlTablePrinter();
 
 			return new MsSqlDefaultPrinter();

@@ -3,10 +3,9 @@
                     xmlns:vm="clr-namespace:DataBaseTree.ViewModel.ConnectionViewModel"
                     xmlns:convertors="clr-namespace:DataBaseTree.Convertors"
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                    xmlns:resources="clr-namespace:DataBaseTree.Resources"
-                    xmlns:treevm="clr-namespace:DataBaseTree.ViewModel.TreeViewModel">
+                    xmlns:treevm="clr-namespace:DataBaseTree.ViewModel.TreeViewModel"
+                    xmlns:behaviours="clr-namespace:DataBaseTree.Behaviours">
 
-    <convertors:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     <convertors:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <convertors:DbEntityEnumConverter x:Key="DbEntityEnumConverter" />
 
@@ -28,7 +27,7 @@
                              IsEnabled="{Binding CanChange}"/>
                 </StackPanel>
 
-                <StackPanel  Visibility="{Binding Path=IsTcp,Converter={StaticResource BooleanToVisibilityConverter}}"
+                <StackPanel  Visibility="{Binding Path=IsTcp,Converter={convertors:BooleanToVisibilityConverter}}"
                              Margin="5,0,0,0"
                              Width="80"
                              Grid.Column="1">
@@ -67,7 +66,7 @@
                 <PasswordBox>
 
                     <i:Interaction.Behaviors>
-                        <resources:PasswordBoxBehavior Password="{Binding Path=Password,Mode=TwoWay}" />
+                        <behaviours:PasswordBoxBehavior Password="{Binding Path=Password,Mode=TwoWay}" />
                     </i:Interaction.Behaviors>
 
                 </PasswordBox>

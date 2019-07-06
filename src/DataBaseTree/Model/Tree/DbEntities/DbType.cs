@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[DataContract(Name = "db-type")]
 	public class DbType : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Type;
+		public override DbEntityType Type => DbEntityType.Type;
 
 		public override bool CanHaveDefinition => false;
 

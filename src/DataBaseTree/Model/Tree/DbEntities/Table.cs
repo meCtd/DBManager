@@ -7,7 +7,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[KnownType(typeof(Key))]
 	public class Table : TableData
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Table;
+		public override DbEntityType Type => DbEntityType.Table;
 
 		public Table(string name) : base(name)
 		{
@@ -15,8 +15,8 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 		protected override bool CanBeChild(DbObject obj)
 		{
-			return base.CanBeChild(obj) || obj.Type == DbEntityEnum.Key ||
-				   obj.Type == DbEntityEnum.Constraint;
+			return base.CanBeChild(obj) || obj.Type == DbEntityType.Key ||
+				   obj.Type == DbEntityType.Constraint;
 		}
 
 	}

@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[KnownType(typeof(Database))]
 	public class Server : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Server;
+		public override DbEntityType Type => DbEntityType.Server;
 		public override bool CanHaveDefinition => false;
 
 		public Server(string name) : base(name)
@@ -15,7 +15,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 		protected override bool CanBeChild(DbObject obj)
 		{
-			return obj.Type == DbEntityEnum.Database;
+			return obj.Type == DbEntityType.Database;
 		}
 	}
 }

@@ -31,7 +31,7 @@ namespace DataBaseTree.Model.Loaders
 			});
 		}
 
-		public override Task LoadChildren(DbObject obj, DbEntityEnum childType)
+		public override Task LoadChildren(DbObject obj, DbEntityType childType)
 		{
 			if (!Hierarchy.HierarchyObject.GetChildTypes(obj.Type).Contains(childType))
 				throw new ArgumentException();
@@ -44,7 +44,7 @@ namespace DataBaseTree.Model.Loaders
 			return Task.Run(() => SetObjectProperties(obj));
 		}
 
-		private void SetChildrens(DbObject target, DbEntityEnum childrenType)
+		private void SetChildrens(DbObject target, DbEntityType childrenType)
 		{
 			if (!(Connection.GetConnection() is SqlConnection))
 				throw new InvalidCastException();

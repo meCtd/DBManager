@@ -5,7 +5,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[DataContract(Name = "index")]
 	public class Index : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Index;
+		public override DbEntityType Type => DbEntityType.Index;
 
 		public override bool CanHaveDefinition => false;
 

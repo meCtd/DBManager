@@ -16,27 +16,27 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			{
 				switch (Type)
 				{
-					case DbEntityEnum.Table:
+					case DbEntityType.Table:
 						return "Tables";
-					case DbEntityEnum.View:
+					case DbEntityType.View:
 						return "Views";
-					case DbEntityEnum.Function:
+					case DbEntityType.Function:
 						return "Functions";
-					case DbEntityEnum.Procedure:
+					case DbEntityType.Procedure:
 						return "Procedures";
-					case DbEntityEnum.Constraint:
+					case DbEntityType.Constraint:
 						return "Constraints";
-					case DbEntityEnum.Column:
+					case DbEntityType.Column:
 						return "Columns";
-					case DbEntityEnum.Trigger:
+					case DbEntityType.Trigger:
 						return "Triggers";
-					case DbEntityEnum.Parameter:
+					case DbEntityType.Parameter:
 						return "Parameters";
-					case DbEntityEnum.Key:
+					case DbEntityType.Key:
 						return "Keys";
-					case DbEntityEnum.Index:
+					case DbEntityType.Index:
 						return "Indexes";
-					case DbEntityEnum.Schema:
+					case DbEntityType.Schema:
 						return "Schemas";
 
 					default:
@@ -46,11 +46,11 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			}
 		}
 
-		public override DbEntityEnum Type { get; }
+		public override DbEntityType Type { get; }
 
 		public override string Icon => @"/Resources/Icons/Category.png";
 
-		public CategoryViewModel(MetadataViewModelBase parent, DbEntityEnum type) : base(parent, true)
+		public CategoryViewModel(MetadataViewModelBase parent, DbEntityType type) : base(parent, true)
 		{
 			Type = type;
 			Model = parent.Model;

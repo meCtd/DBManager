@@ -1,14 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
 namespace DataBaseTree.Convertors
 {
-    public class ConverterBase<TConverterType> : MarkupExtension, IValueConverter
+    public abstract class ConverterBase<TConverterType> : MarkupExtension, IValueConverter where TConverterType : class, new()
     {
+        private static TConverterType Instance;
+
+
+        public override object ProvideValue(IServiceProvider serviceProvider)
+        {
+            return Instance ?? (Instance = new TConverterType());
+        }
+
+        public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);
+
+        public abstract object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture);
     }
 }

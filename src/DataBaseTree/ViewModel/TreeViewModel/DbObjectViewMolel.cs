@@ -15,7 +15,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		public override string Name => Model.ToString();
 
-		public override DbEntityEnum Type => Model.Type;
+		public override DbEntityType Type => Model.Type;
 
 		public override string Icon
 		{
@@ -23,31 +23,31 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			{
 				switch (Type)
 				{
-					case DbEntityEnum.Server:
+					case DbEntityType.Server:
 						return "/Resources/Icons/Server.png";
-					case DbEntityEnum.Database:
+					case DbEntityType.Database:
 						return "/Resources/Icons/Database.png";
-					case DbEntityEnum.Schema:
+					case DbEntityType.Schema:
 						return "/Resources/Icons/Schema.png";
-					case DbEntityEnum.Table:
+					case DbEntityType.Table:
 						return "/Resources/Icons/Table.png";
-					case DbEntityEnum.View:
+					case DbEntityType.View:
 						return "/Resources/Icons/View.png";
-					case DbEntityEnum.Function:
+					case DbEntityType.Function:
 						return "/Resources/Icons/Function.png";
-					case DbEntityEnum.Procedure:
+					case DbEntityType.Procedure:
 						return "/Resources/Icons/Procedure.png";
-					case DbEntityEnum.Constraint:
+					case DbEntityType.Constraint:
 						return "/Resources/Icons/Constraint.png";
-					case DbEntityEnum.Column:
+					case DbEntityType.Column:
 						return "/Resources/Icons/Column.png";
-					case DbEntityEnum.Trigger:
+					case DbEntityType.Trigger:
 						return "/Resources/Icons/Trigger.png";
-					case DbEntityEnum.Parameter:
+					case DbEntityType.Parameter:
 						return "/Resources/Icons/Parameter.png";
-					case DbEntityEnum.Key:
+					case DbEntityType.Key:
 						return "/Resources/Icons/Key.png";
-					case DbEntityEnum.Index:
+					case DbEntityType.Index:
 						return "/Resources/Icons/Index.png";
 					default:
 						throw new ArgumentException();
@@ -69,7 +69,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			try
 			{
 				
-				IEnumerable<DbEntityEnum> childs = Root.DbLoader.Hierarchy.GetChildTypes(Type).ToArray();
+				IEnumerable<DbEntityType> childs = Root.DbLoader.Hierarchy.GetChildTypes(Type).ToArray();
 				if (childs.Count() > 1)
 				{
 					foreach (var type in childs)
@@ -89,7 +89,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 						if (Root.IsConnected)
 						{
-							await Root.LoadModel(this,DbEntityEnum.All);
+							await Root.LoadModel(this,DbEntityType.All);
 						}
 					}
 

@@ -8,7 +8,7 @@ namespace DataBaseTree.Model.Providers
 {
 	public abstract class ScriptProvider
 	{
-		public abstract string GetLoadNameScript(DbEntityEnum parentType,DbEntityEnum childType);
+		public abstract string GetLoadNameScript(DbEntityType parentType,DbEntityType childType);
 
 		public abstract string GetPropertiesScript(DbObject obj);
 
@@ -16,7 +16,7 @@ namespace DataBaseTree.Model.Providers
 
 		public abstract IEnumerable<IDbDataParameter> GetDefinitionParamteters(DbObject obj);
 
-		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityEnum childType);
+		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType);
 
 		public abstract IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj);
 

@@ -16,8 +16,8 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 		protected override bool CanBeChild(DbObject obj)
 		{
-			DbEntityEnum type = obj.Type;
-			return type == DbEntityEnum.Column || type == DbEntityEnum.Trigger || type == DbEntityEnum.Index;
+			DbEntityType type = obj.Type;
+			return type == DbEntityType.Column || type == DbEntityType.Trigger || type == DbEntityType.Index;
 		}
 
 	}

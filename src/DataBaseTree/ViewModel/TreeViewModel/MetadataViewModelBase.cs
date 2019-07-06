@@ -18,7 +18,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		#region Properties
 
-		public abstract DbEntityEnum Type { get; }
+		public abstract DbEntityType Type { get; }
 
 		public abstract string Icon { get; }
 

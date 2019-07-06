@@ -51,10 +51,10 @@ namespace DataBaseTree.Model.Printers
 
 		private void SetColumns(DbObject obj)
 		{
-			if (!obj.IsChildrenLoaded(DbEntityEnum.Column).GetValueOrDefault(false))
+			if (!obj.IsChildrenLoaded(DbEntityType.Column).GetValueOrDefault(false))
 				throw new NotSupportedException();
 
-			foreach (var child in obj.Children.Where(child => child.Type == DbEntityEnum.Column))
+			foreach (var child in obj.Children.Where(child => child.Type == DbEntityType.Column))
 			{
 				var col = (Column)child;
 				_defintion.Append($"\t[{col.Name}] {col.ObjectMemberType} ");
@@ -86,7 +86,7 @@ namespace DataBaseTree.Model.Printers
 			string name = keyType ? "PRIMARY KEY" : "UNIQUE";
 
 
-			IEnumerable<DbObject> matches = obj.Children.Where(key => key.Type == DbEntityEnum.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
+			IEnumerable<DbObject> matches = obj.Children.Where(key => key.Type == DbEntityType.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
 			foreach (var match in matches)
 			{
 				_defintion.Append($"CONSTRAINT [{match.Name}] {name} \n(\n");
@@ -104,7 +104,7 @@ namespace DataBaseTree.Model.Printers
 
 		private void SetForeingKeyConstraint(DbObject obj)
 		{
-			IEnumerable<DbObject> foreingnKeys = obj.Children.Where(child => child.Type == DbEntityEnum.Key&&child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
+			IEnumerable<DbObject> foreingnKeys = obj.Children.Where(child => child.Type == DbEntityType.Key&&child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
 			foreach (var key in foreingnKeys)
 			{
 				_defintion.Append(
@@ -114,7 +114,7 @@ namespace DataBaseTree.Model.Printers
 
 		private void SetCheckConstraints(DbObject obj)
 		{
-			IEnumerable<DbObject> constraints = obj.Children.Where(child => child.Type == DbEntityEnum.Constraint);
+			IEnumerable<DbObject> constraints = obj.Children.Where(child => child.Type == DbEntityType.Constraint);
 			foreach (var constraint in constraints)
 			{
 				_defintion.Append(

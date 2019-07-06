@@ -30,7 +30,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		public override DbObject Model { get; }
 
-		public override DbEntityEnum Type => DbEntityEnum.Server;
+		public override DbEntityType Type => DbEntityType.Server;
 
 		public override string Icon => "/Resources/Icons/Server.png";
 
@@ -80,12 +80,12 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 					return;
 				}
 
-				if (Model.IsChildrenLoaded(DbEntityEnum.Database) == false)
+				if (Model.IsChildrenLoaded(DbEntityType.Database) == false)
 				{
 					if (!IsConnected)
 						RestoreConnection(false);
 					if (IsConnected)
-						await LoadModel(this, DbEntityEnum.Database);
+						await LoadModel(this, DbEntityType.Database);
 				}
 
 				foreach (var child in Model.Children)
@@ -141,14 +141,14 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			}
 		}
 
-		public async Task LoadModel(MetadataViewModelBase obj, DbEntityEnum type)
+		public async Task LoadModel(MetadataViewModelBase obj, DbEntityType type)
 		{
 			Root.DbLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
 			try
 			{
 				if (Root.IsConnected)
 				{
-					if (type == DbEntityEnum.All)
+					if (type == DbEntityType.All)
 						await DbLoader.LoadChildren(obj.Model);
 					else
 						await DbLoader.LoadChildren(obj.Model, type);

@@ -10,7 +10,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[KnownType(typeof(DbView))]
 	public class Schema : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Schema;
+		public override DbEntityType Type => DbEntityType.Schema;
 
 		public override bool CanHaveDefinition => false;
 
@@ -21,8 +21,8 @@ namespace DataBaseTree.Model.Tree.DbEntities
 		protected override bool CanBeChild(DbObject obj)
 		{
 			var type = obj.Type;
-			return type == DbEntityEnum.Procedure || type == DbEntityEnum.Function ||
-			       type == DbEntityEnum.Table || type == DbEntityEnum.View;
+			return type == DbEntityType.Procedure || type == DbEntityType.Function ||
+			       type == DbEntityType.Table || type == DbEntityType.View;
 
 		}
 	}

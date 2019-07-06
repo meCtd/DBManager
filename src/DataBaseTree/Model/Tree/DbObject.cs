@@ -14,13 +14,13 @@ namespace DataBaseTree.Model.Tree
 		#region Fields
 
 		[DataMember(Name = "Children")]
-		private List<KeyValuePair<DbEntityEnum, List<DbObject>>> _childrenList;
+		private List<KeyValuePair<DbEntityType, List<DbObject>>> _childrenList;
 
 		[DataMember(Name = "Properties")]
 		private List<KeyValuePair<string, object>> _propertyList;
 
 
-		private Dictionary<DbEntityEnum, List<DbObject>> _childrenMap;
+		private Dictionary<DbEntityType, List<DbObject>> _childrenMap;
 
 		private FullName _fullName;
 
@@ -32,7 +32,7 @@ namespace DataBaseTree.Model.Tree
 
 		#region Properties
 
-		public abstract DbEntityEnum Type { get; }
+		public abstract DbEntityType Type { get; }
 
 		public abstract bool CanHaveDefinition { get; }
 
@@ -49,9 +49,9 @@ namespace DataBaseTree.Model.Tree
 		[DataMember(Name = "parent")]
 		public DbObject Parent { get; private set; }
 
-		public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(DbEntityEnum.Schema));
+		public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(DbEntityType.Schema));
 
-		public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(DbEntityEnum.Database));
+		public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(DbEntityType.Database));
 
 		public virtual IReadOnlyList<DbObject> Children => _childrenMap.Values.SelectMany(x => x).ToList();
 
@@ -63,7 +63,7 @@ namespace DataBaseTree.Model.Tree
 		{
 			Name = name;
 			Properties = new Dictionary<string, object>();
-			_childrenMap = new Dictionary<DbEntityEnum, List<DbObject>>();
+			_childrenMap = new Dictionary<DbEntityType, List<DbObject>>();
 		}
 
 		#region Methods
@@ -79,7 +79,7 @@ namespace DataBaseTree.Model.Tree
 		{
 			FullName fullName = new FullName(this);
 			DbObject parent = Parent;
-			while (parent != null && parent.Type != DbEntityEnum.Server)
+			while (parent != null && parent.Type != DbEntityType.Server)
 			{
 				fullName.AddPartent(parent);
 				parent = parent.Parent;
@@ -88,7 +88,7 @@ namespace DataBaseTree.Model.Tree
 			return fullName;
 		}
 
-		private string GetBaseName(DbEntityEnum type)
+		private string GetBaseName(DbEntityType type)
 		{
 			if (Type == type)
 				return this.Name;
@@ -127,7 +127,7 @@ namespace DataBaseTree.Model.Tree
 			_childrenMap.Clear();
 		}
 
-		public void DeleteChildrens(DbEntityEnum type)
+		public void DeleteChildrens(DbEntityType type)
 		{
 			if (_childrenMap.ContainsKey(type))
 				_childrenMap.Remove(type);
@@ -181,7 +181,7 @@ namespace DataBaseTree.Model.Tree
 			return true;
 		}
 
-		public bool? IsChildrenLoaded(DbEntityEnum? childType)
+		public bool? IsChildrenLoaded(DbEntityType? childType)
 		{
 			if (!Hierarchy.HierarchyObject.IsPossibleChilds(Type))
 				return true;
@@ -224,7 +224,7 @@ namespace DataBaseTree.Model.Tree
 		[OnDeserialized]
 		public void Update(StreamingContext context)
 		{
-			_childrenMap = new Dictionary<DbEntityEnum, List<DbObject>>();
+			_childrenMap = new Dictionary<DbEntityType, List<DbObject>>();
 			Properties = new Dictionary<string, object>();
 
 			if (_childrenList != null)

@@ -5,7 +5,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	[DataContract(Name = "constraint")]
 	public class Constraint : DbObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Constraint;
+		public override DbEntityType Type => DbEntityType.Constraint;
 
 		public override bool CanHaveDefinition => false;
 

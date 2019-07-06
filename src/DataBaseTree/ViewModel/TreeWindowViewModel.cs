@@ -36,7 +36,7 @@ namespace DataBaseTree.ViewModel
 
 		private string _definitionText;
 
-		private DbEntityEnum _searchMask;
+		private DbEntityType _searchMask;
 
 		private bool _isFilterEnabled;
 
@@ -88,7 +88,7 @@ namespace DataBaseTree.ViewModel
 			}
 		}
 
-		public DbEntityEnum SearchMask
+		public DbEntityType SearchMask
 		{
 			get { return _searchMask; }
 			set
@@ -103,7 +103,7 @@ namespace DataBaseTree.ViewModel
 		public TreeWindowViewModel()
 		{
 			ItemProperties = new ObservableCollection<KeyValuePair<string, object>>();
-			_searchMask = DbEntityEnum.All;
+			_searchMask = DbEntityType.All;
 		}
 
 		#region Commands
@@ -263,10 +263,10 @@ namespace DataBaseTree.ViewModel
 					DefinitionText = obj.Model.Definition;
 					return;
 				}
-				if (obj.Type == DbEntityEnum.Table)
+				if (obj.Type == DbEntityType.Table)
 				{
 					if (!obj.Model.IsChildrenLoaded(null).GetValueOrDefault(false))
-						await obj.Root.LoadModel(obj, DbEntityEnum.All);
+						await obj.Root.LoadModel(obj, DbEntityType.All);
 					foreach (var child in obj.Model.Children)
 					{
 						if (!child.IsPropertyLoaded)
@@ -300,8 +300,8 @@ namespace DataBaseTree.ViewModel
 		{
 			if (obj == null )
 				return false;
-			if (obj.Type == DbEntityEnum.Table &&
-			    (!obj.Model.IsChildrenLoaded(DbEntityEnum.Column).GetValueOrDefault(false) && !obj.Root.IsConnected))
+			if (obj.Type == DbEntityType.Table &&
+			    (!obj.Model.IsChildrenLoaded(DbEntityType.Column).GetValueOrDefault(false) && !obj.Root.IsConnected))
 				return false;
 			return !(obj is CategoryViewModel) && _printerFactory.IsSupported(obj.Model) && !obj.IsBusy && !obj.Root.IsLoadingInProcess;
 		}
@@ -350,7 +350,7 @@ namespace DataBaseTree.ViewModel
 
 				matches.AddRange(IsFilterEnabled
 					? FindMatchesNode(Root.First(), SearchText, SearchMask)
-					: FindMatchesNode(Root.First(), SearchText, DbEntityEnum.All));
+					: FindMatchesNode(Root.First(), SearchText, DbEntityType.All));
 
 				_searchMatches = matches;
 				_searchEnumerator = _searchMatches.GetEnumerator();
@@ -379,7 +379,7 @@ namespace DataBaseTree.ViewModel
 			return _searchMatches.Any(s => s.Root == rootViewItem);
 		}
 
-		private IEnumerable<MetadataViewModelBase> FindMatchesNode(MetadataViewModelBase node, string text, DbEntityEnum mask)
+		private IEnumerable<MetadataViewModelBase> FindMatchesNode(MetadataViewModelBase node, string text, DbEntityType mask)
 		{
 			if (node.Name.Contains(text) && !(node is CategoryViewModel) && mask.HasFlag(node.Type))
 				yield return node;

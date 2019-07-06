@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 
 	public class Parameter : TypeObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Parameter;
+		public override DbEntityType Type => DbEntityType.Parameter;
 
 		public override bool CanHaveDefinition => false;
 

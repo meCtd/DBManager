@@ -6,7 +6,7 @@ namespace DataBaseTree.Model.Tree.DbEntities
 	
 	public class Column : TypeObject
 	{
-		public override DbEntityEnum Type => DbEntityEnum.Column;
+		public override DbEntityType Type => DbEntityType.Column;
 
 		public override bool CanHaveDefinition => false;
 

@@ -92,6 +92,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
     <Compile Include="Convertors\EnumToDescriptionConverter.cs" />
     <Compile Include="Convertors\EnumToItemsSource.cs" />
@@ -111,7 +112,7 @@
     <Compile Include="Model\Tree\DbEntities\Index.cs" />
     <Compile Include="Model\Tree\DbEntities\Server.cs" />
     <Compile Include="Model\Tree\DbEntities\TypeObject.cs" />
-    <Compile Include="Model\Tree\DbEntityEnum.cs" />
+    <Compile Include="Model\Tree\DbEntityType.cs" />
     <Compile Include="Model\Loaders\Loader.cs" />
     <Compile Include="Model\Loaders\MsSqlLoader.cs" />
     <Compile Include="Model\Tree\Chunk.cs" />
@@ -133,7 +134,7 @@
     <Compile Include="Model\Tree\DbEntities\Table.cs" />
     <Compile Include="Model\Tree\DbEntities\DbView.cs" />
     <Compile Include="Model\Tree\Hierarchy.cs" />
-    <Compile Include="Resources\PasswordBoxBehavior.cs" />
+    <Compile Include="Behaviours\PasswordBoxBehavior.cs" />
     <Compile Include="Model\DatabaseTypeEnum.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\BaseConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
@@ -256,6 +257,7 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\Definition.png" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

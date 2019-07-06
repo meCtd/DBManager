@@ -7,17 +7,17 @@ namespace DataBaseTree.Convertors
 {
 	public class DbEntityEnumConverter : IValueConverter
 	{
-		private DbEntityEnum targetValue;
+		private DbEntityType targetValue;
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			targetValue = (DbEntityEnum)value;
-			return targetValue.HasFlag((DbEntityEnum)parameter);
+			targetValue = (DbEntityType)value;
+			return targetValue.HasFlag((DbEntityType)parameter);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return targetValue ^= (DbEntityEnum)parameter;
+			return targetValue ^= (DbEntityType)parameter;
 		}
 
 	}

@@ -7,11 +7,11 @@ namespace DataBaseTree.Model.Tree
 	{
 		private static Hierarchy _source;
 
-		private Dictionary<DbEntityEnum, IEnumerable<DbEntityEnum>> _childrenTypes;
+		private Dictionary<DbEntityType, IEnumerable<DbEntityType>> _childrenTypes;
 
-		public static IEnumerable<DbEntityEnum> Empty = new DbEntityEnum[0];
+		public static IEnumerable<DbEntityType> Empty = new DbEntityType[0];
 
-		public IReadOnlyDictionary<DbEntityEnum, IEnumerable<DbEntityEnum>> ChildresTypes =>
+		public IReadOnlyDictionary<DbEntityType, IEnumerable<DbEntityType>> ChildresTypes =>
 			_childrenTypes ?? (_childrenTypes = SetChilds());
 
 		public static Hierarchy HierarchyObject
@@ -24,45 +24,45 @@ namespace DataBaseTree.Model.Tree
 
 		}
 
-		protected virtual Dictionary<DbEntityEnum, IEnumerable<DbEntityEnum>> SetChilds()
+		protected virtual Dictionary<DbEntityType, IEnumerable<DbEntityType>> SetChilds()
 		{
-			Dictionary<DbEntityEnum, IEnumerable<DbEntityEnum>> dictionary =
-				new Dictionary<DbEntityEnum, IEnumerable<DbEntityEnum>>
+			Dictionary<DbEntityType, IEnumerable<DbEntityType>> dictionary =
+				new Dictionary<DbEntityType, IEnumerable<DbEntityType>>
 				{
-					[DbEntityEnum.Server] = new List<DbEntityEnum>() { DbEntityEnum.Database },
-					[DbEntityEnum.Database] = new List<DbEntityEnum>()
+					[DbEntityType.Server] = new List<DbEntityType>() { DbEntityType.Database },
+					[DbEntityType.Database] = new List<DbEntityType>()
 					{
-						DbEntityEnum.Schema
+						DbEntityType.Schema
 					},
-					[DbEntityEnum.Schema] = new List<DbEntityEnum>()
+					[DbEntityType.Schema] = new List<DbEntityType>()
 					{
-						DbEntityEnum.Table,
-						DbEntityEnum.View,
-						DbEntityEnum.Procedure,
-						DbEntityEnum.Function
+						DbEntityType.Table,
+						DbEntityType.View,
+						DbEntityType.Procedure,
+						DbEntityType.Function
 					},
-					[DbEntityEnum.Table] = new List<DbEntityEnum>()
+					[DbEntityType.Table] = new List<DbEntityType>()
 					{
-						DbEntityEnum.Column,
-						DbEntityEnum.Key,
-						DbEntityEnum.Constraint,
-						DbEntityEnum.Trigger,
-						DbEntityEnum.Index
+						DbEntityType.Column,
+						DbEntityType.Key,
+						DbEntityType.Constraint,
+						DbEntityType.Trigger,
+						DbEntityType.Index
 					},
-					[DbEntityEnum.View] =
-						new List<DbEntityEnum>() { DbEntityEnum.Column, DbEntityEnum.Trigger, DbEntityEnum.Index },
-					[DbEntityEnum.Procedure] = new List<DbEntityEnum>() { DbEntityEnum.Parameter },
-					[DbEntityEnum.Function] = new List<DbEntityEnum>() { DbEntityEnum.Parameter }
+					[DbEntityType.View] =
+						new List<DbEntityType>() { DbEntityType.Column, DbEntityType.Trigger, DbEntityType.Index },
+					[DbEntityType.Procedure] = new List<DbEntityType>() { DbEntityType.Parameter },
+					[DbEntityType.Function] = new List<DbEntityType>() { DbEntityType.Parameter }
 				};
 			return dictionary;
 		}
 
-		public IEnumerable<DbEntityEnum> GetChildTypes(DbEntityEnum type)
+		public IEnumerable<DbEntityType> GetChildTypes(DbEntityType type)
 		{
 			return ChildresTypes.ContainsKey(type) ? ChildresTypes[type] : Empty;
 		}
 
-		public bool IsPossibleChilds(DbEntityEnum type)
+		public bool IsPossibleChilds(DbEntityType type)
 		{
 			return GetChildTypes(type).Count() != 0;
 		}

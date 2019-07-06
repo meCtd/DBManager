@@ -8,30 +8,30 @@ namespace DataBaseTree.Model.Providers
 {
 	public class MsSqlScriptProvider : ScriptProvider
 	{
-		public override string GetLoadNameScript(DbEntityEnum parentType, DbEntityEnum childType)
+		public override string GetLoadNameScript(DbEntityType parentType, DbEntityType childType)
 		{
 			switch (childType)
 			{
-				case DbEntityEnum.Schema:
+				case DbEntityType.Schema:
 					return $"SELECT SCHEMA_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.SCHEMATA";
 
-				case DbEntityEnum.Table:
-				case DbEntityEnum.View:
+				case DbEntityType.Table:
+				case DbEntityType.View:
 					return $"SELECT TABLE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = {Constants.TypeParameter} AND TABLE_SCHEMA = {Constants.SchemaNameParameter}";
 
-				case DbEntityEnum.Function:
-				case DbEntityEnum.Procedure:
+				case DbEntityType.Function:
+				case DbEntityType.Procedure:
 					return $"SELECT ROUTINE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = {Constants.TypeParameter} AND ROUTINE_SCHEMA = {Constants.SchemaNameParameter}";
 
-				case DbEntityEnum.Constraint:
+				case DbEntityType.Constraint:
 					return
 						($"SELECT CONSTRAINT_NAME AS {Constants.NameProperty} FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
 						$"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
 
-				case DbEntityEnum.Column:
+				case DbEntityType.Column:
 					switch (parentType)
 					{
-						case DbEntityEnum.Table:
+						case DbEntityType.Table:
 							return ($"SELECT col.name AS'{Constants.NameProperty}', " +
 									$"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
 									$"col.max_length AS '{Constants.MaxLengthProperty}', " +
@@ -39,7 +39,7 @@ namespace DataBaseTree.Model.Providers
 									$"col.scale AS '{Constants.ScaleProperty}'  " +
 									$"FROM sys.columns AS col " +
 									$"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
-						case DbEntityEnum.View:
+						case DbEntityType.View:
 							return ($"SELECT col.name AS'{Constants.NameProperty}', " +
 								   $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
 								   $"col.max_length AS '{Constants.MaxLengthProperty}', " +
@@ -53,10 +53,10 @@ namespace DataBaseTree.Model.Providers
 					}
 
 
-				case DbEntityEnum.Trigger:
+				case DbEntityType.Trigger:
 					return $"SELECT name AS '{Constants.NameProperty}' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
 
-				case DbEntityEnum.Parameter:
+				case DbEntityType.Parameter:
 					return ($"SELECT  name AS'{Constants.NameProperty}', " +
 							$"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
 							$"max_length AS '{Constants.MaxLengthProperty}', " +
@@ -64,14 +64,14 @@ namespace DataBaseTree.Model.Providers
 							$"scale AS '{Constants.ScaleProperty}' " +
 							$"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
 
-				case DbEntityEnum.Key:
+				case DbEntityType.Key:
 					return $"SELECT DISTINCT CONSTRAINT_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
 
-				case DbEntityEnum.Index:
+				case DbEntityType.Index:
 					return
 						$"SELECT name AS '{Constants.NameProperty}' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
 
-				case DbEntityEnum.Database:
+				case DbEntityType.Database:
 					return $"SELECT name  AS '{Constants.NameProperty}' FROM sys.databases";
 
 				default:
@@ -90,34 +90,34 @@ namespace DataBaseTree.Model.Providers
 			yield return new SqlParameter(Constants.NameParameter, $"{obj.SchemaName}.{obj.Name}");
 		}
 
-		public override IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityEnum childType)
+		public override IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType)
 		{
 			List<IDbDataParameter> parameters = new List<IDbDataParameter>();
 			switch (childType)
 			{
 
-				case DbEntityEnum.Table:
+				case DbEntityType.Table:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, "BASE TABLE"));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityEnum.View:
-				case DbEntityEnum.Function:
-				case DbEntityEnum.Procedure:
+				case DbEntityType.View:
+				case DbEntityType.Function:
+				case DbEntityType.Procedure:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, childType.ToString().ToUpper()));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityEnum.Column:
-				case DbEntityEnum.Constraint:
-				case DbEntityEnum.Key:
+				case DbEntityType.Column:
+				case DbEntityType.Constraint:
+				case DbEntityType.Key:
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					break;
 
-				case DbEntityEnum.Trigger:
-				case DbEntityEnum.Parameter:
-				case DbEntityEnum.Index:
+				case DbEntityType.Trigger:
+				case DbEntityType.Parameter:
+				case DbEntityType.Index:
 					parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.FullName.ToString()));
 					break;
 			}
@@ -129,7 +129,7 @@ namespace DataBaseTree.Model.Providers
 		{
 			switch (obj.Type)
 			{
-				case DbEntityEnum.Server:
+				case DbEntityType.Server:
 					return ($"SELECT serv.product AS '{Constants.ProductProperty}', " +
 							$"@@VERSION AS '{Constants.ServerVersionProperty}', " +
 							$"serv.provider AS '{Constants.ProviderProperty}', " +
@@ -147,7 +147,7 @@ namespace DataBaseTree.Model.Providers
 							$"serv.is_nonsql_subscriber AS '{Constants.IsNonSqlSubscriberProperty}' " +
 							"FROM sys.servers AS serv WHERE name = @@SERVERNAME ");
 
-				case DbEntityEnum.Database:
+				case DbEntityType.Database:
 					return ($"SELECT suser_sname( owner_sid ) AS '{Constants.OwnerNameProperty}', " +
 							$"create_date AS '{Constants.CreationDateProperty}', " +
 							$"compatibility_level AS '{Constants.VersionProperty}', " +
@@ -160,12 +160,12 @@ namespace DataBaseTree.Model.Providers
 							$"page_verify_option_desc AS '{Constants.PageVerifyOptionProperty}' " +
 							$"FROM sys.databases WHERE name = {Constants.DatabaseNameParameter}");
 
-				case DbEntityEnum.Schema:
+				case DbEntityType.Schema:
 					return ($"SELECT SCHEMA_OWNER AS '{Constants.SchemaOwnerProperty}' FROM INFORMATION_SCHEMA.SCHEMATA " +
 							$"WHERE SCHEMA_NAME = {Constants.SchemaNameParameter}");
 
 
-				case DbEntityEnum.Table:
+				case DbEntityType.Table:
 					return ($"SELECT create_date AS '{Constants.CreationDateProperty}', " +
 							$"modify_date AS '{Constants.ModifyDateProperty}', " +
 							$"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
@@ -180,7 +180,7 @@ namespace DataBaseTree.Model.Providers
 							$" WHERE name = {Constants.NameParameter} AND schema_id = Schema_id({Constants.SchemaNameParameter})");
 
 
-				case DbEntityEnum.View:
+				case DbEntityType.View:
 					return ($"SELECT create_date AS '{Constants.CreationDateProperty}', " +
 							$"modify_date AS '{Constants.ModifyDateProperty}', " +
 							$"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
@@ -193,7 +193,7 @@ namespace DataBaseTree.Model.Providers
 							$"is_date_correlation_view AS '{Constants.IsDateCorrelationViewProperty}' " +
 							$"FROM sys.views WHERE name = {Constants.NameParameter} AND schema_id = Schema_id({Constants.SchemaNameParameter})");
 
-				case DbEntityEnum.Trigger:
+				case DbEntityType.Trigger:
 					return ($"SELECT tr.create_date AS '{Constants.CreationDateProperty}', " +
 							$"tr.modify_date  AS '{Constants.ModifyDateProperty}', " +
 							$"tr.is_ms_shipped  AS '{Constants.IsMsShippedProperty}', " +
@@ -208,7 +208,7 @@ namespace DataBaseTree.Model.Providers
 							"JOIN sys.objects as ob on  tr.object_id=ob.object_id  " +
 							$"WHERE ob.parent_object_id = OBJECT_ID({Constants.FullParentNameParameter}) and tr.name = {Constants.NameParameter}");
 
-				case DbEntityEnum.Constraint:
+				case DbEntityType.Constraint:
 					return ($"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE Where TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
 							$"con.type_desc AS '{Constants.TypeProperty}', " +
 							$"con.create_date AS '{Constants.CreationDateProperty}', " +
@@ -217,7 +217,7 @@ namespace DataBaseTree.Model.Providers
 							"FROM sys.check_constraints AS con " +
 							$"JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS inf On con.name=inf.CONSTRAINT_NAME WHERE con.name={Constants.NameParameter} AND inf.TABLE_NAME={Constants.ParentNameParameter}");
 
-				case DbEntityEnum.Column:
+				case DbEntityType.Column:
 					return ($"SELECT col.is_nullable AS '{Constants.IsNullableProperty}', " +
 							$"inf.COLUMN_DEFAULT AS  '{Constants.DefaultValueProperty}', " +
 							$"col.is_identity AS '{Constants.IsIdentityProperty}', " +
@@ -236,7 +236,7 @@ namespace DataBaseTree.Model.Providers
 							$"LEFT JOIN sys.identity_columns AS id ON col.object_id=id.object_id  " +
 							$"WHERE col.name={Constants.NameParameter} AND col.object_id=OBJECT_ID({Constants.FullParentNameParameter})");
 
-				case DbEntityEnum.Function:
+				case DbEntityType.Function:
 					return ($"SELECT CREATED AS '{Constants.CreationDateProperty}', " +
 							$"LAST_ALTERED AS '{Constants.LastAlteredProperty}', " +
 							$"DATA_TYPE AS '{Constants.ReturnValueTypeProperty}', " +
@@ -247,7 +247,7 @@ namespace DataBaseTree.Model.Providers
 							$"IS_IMPLICITLY_INVOCABLE AS '{Constants.IsImplicityInvocableProeprty}' " +
 							$"FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE={Constants.TypeParameter} AND SPECIFIC_SCHEMA = {Constants.SchemaNameParameter} AND ROUTINE_NAME= {Constants.NameParameter}");
 
-				case DbEntityEnum.Procedure:
+				case DbEntityType.Procedure:
 					return ($"SELECT CREATED AS '{Constants.CreationDateProperty}', " +
 							$"LAST_ALTERED AS '{Constants.LastAlteredProperty}', " +
 							$"ROUTINE_BODY AS '{Constants.RoutineBodyProperty}', " +
@@ -257,7 +257,7 @@ namespace DataBaseTree.Model.Providers
 							$"IS_IMPLICITLY_INVOCABLE AS '{Constants.IsImplicityInvocableProeprty}' " +
 							$"FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE={Constants.TypeParameter} AND SPECIFIC_SCHEMA ={Constants.SchemaNameParameter} AND ROUTINE_NAME= {Constants.NameParameter}");
 
-				case DbEntityEnum.Parameter:
+				case DbEntityType.Parameter:
 					return ($"SELECT has_default_value AS '{Constants.HasDefaultValueProperty}', " +
 						   $"default_value AS '{Constants.DefaultValueProperty}', " +
 						   $"is_output AS '{Constants.IsOutputProperty}', " +
@@ -266,7 +266,7 @@ namespace DataBaseTree.Model.Providers
 						   "FROM  sys.parameters " +
 						   $"WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND name = {Constants.NameParameter} ");
 
-				case DbEntityEnum.Index:
+				case DbEntityType.Index:
 					return ($"SELECT type_desc AS '{Constants.TypeProperty}', " +
 							$"is_unique AS '{Constants.IsUniqueProperty}', " +
 							$"is_unique_constraint AS '{Constants.IsUniqueConstraintProperty}', " +
@@ -277,7 +277,7 @@ namespace DataBaseTree.Model.Providers
 							$"has_filter AS '{Constants.HasFilterProperty}' " +
 							$"FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND name = {Constants.NameParameter}");
 
-				case DbEntityEnum.Key:
+				case DbEntityType.Key:
 					return  $"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
 							$"OBJECT_SCHEMA_NAME(ref.referenced_object_id) as '{Constants.ReferenceSchemaNameProperty}', " +
 							$"OBJECT_NAME(ref.referenced_object_id) as '{Constants.ReferenceTableNameProperty}', " +
@@ -326,49 +326,49 @@ namespace DataBaseTree.Model.Providers
 			List<IDbDataParameter> parameters = new List<IDbDataParameter>();
 			switch (obj.Type)
 			{
-				case DbEntityEnum.Database:
+				case DbEntityType.Database:
 					parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
 					break;
 
-				case DbEntityEnum.Schema:
+				case DbEntityType.Schema:
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityEnum.Table:
-				case DbEntityEnum.View:
+				case DbEntityType.Table:
+				case DbEntityType.View:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityEnum.Function:
-				case DbEntityEnum.Procedure:
+				case DbEntityType.Function:
+				case DbEntityType.Procedure:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, obj.Type.ToString().ToUpper()));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					break;
 
-				case DbEntityEnum.Trigger:
-				case DbEntityEnum.Index:
-				case DbEntityEnum.Parameter:
-				case DbEntityEnum.Column:
+				case DbEntityType.Trigger:
+				case DbEntityType.Index:
+				case DbEntityType.Parameter:
+				case DbEntityType.Column:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.Parent.FullName.ToString()));
 					break;
 
-				case DbEntityEnum.Constraint:
+				case DbEntityType.Constraint:
 					parameters.Add(new SqlParameter(Constants.ParentNameParameter, obj.Parent.Name));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 
 					break;
 
-				case DbEntityEnum.Key:
+				case DbEntityType.Key:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
 					break;
 
 
-				case DbEntityEnum.Server:
+				case DbEntityType.Server:
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
