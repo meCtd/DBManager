@@ -5,71 +5,69 @@ using Prism.Mvvm;
 
 namespace DataBaseTree.ViewModel
 {
-	public class ConnectionWindowViewModel : BindableBase
+    public class ConnectionWindowViewModel : BindableBase
+    {
+        #region Fields
 
-	{
-		#region Fields
+        private BaseConnectionViewModel _connectionData;
 
-		private BaseConnectionViewModel _selectedViewModel;
+        private DatabaseTypeEnum _selectedBaseType;
 
-		private DatabaseTypeEnum _selectedBaseType;
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        public DatabaseTypeEnum SelectedBaseType
+        {
+            get { return _selectedBaseType; }
+            set
+            {
+                SetProperty(ref _selectedBaseType, value);
+                OnDataBaseTypeEnumChanged();
+            }
+        }
 
-		public DatabaseTypeEnum SelectedBaseType
-		{
-			get { return _selectedBaseType; }
-			set
-			{
-				SetProperty(ref _selectedBaseType, value);
-				OnDataBaseTypeEnumChanged();
-			}
-		}
+        public BaseConnectionViewModel ConnectionData
+        {
+            get { return _connectionData; }
+            set
+            {
+                SetProperty(ref _connectionData, value);
+            }
+        }
 
-		public BaseConnectionViewModel SelectedViewModel
-		{
-			get { return _selectedViewModel; }
-			set
-			{
-				SetProperty(ref _selectedViewModel, value);
-			}
-		}
+        #endregion
 
-		#endregion
+        public ConnectionWindowViewModel()
+        {
+            ConnectionData = new MsSqlConnectionViewModel { CanChange = true };
+            DataBaseTypeChanged += ChangeDataContext;
+        }
 
-		public ConnectionWindowViewModel()
-		{
-			SelectedViewModel = new MsSqlConnectionViewModel();
-			SelectedViewModel.CanChange = true;
-			DataBaseTypeChanged += ChangeDataContext;
-		}
+        #region Events
 
-		#region Events
+        public event EventHandler DataBaseTypeChanged;
 
-		public event EventHandler DataBaseTypeChanged;
+        private void OnDataBaseTypeEnumChanged()
+        {
+            DataBaseTypeChanged?.Invoke(this, EventArgs.Empty);
+        }
 
-		private void OnDataBaseTypeEnumChanged()
-		{
-			DataBaseTypeChanged?.Invoke(this, EventArgs.Empty);
-		}
+        #endregion
 
-		#endregion
+        private void ChangeDataContext(object sender, EventArgs e)
+        {
+            switch (_selectedBaseType)
+            {
 
-		private void ChangeDataContext(object sender, EventArgs e)
-		{
-			switch (_selectedBaseType)
-			{
-
-				case DatabaseTypeEnum.MsSql:
-					SelectedViewModel = new MsSqlConnectionViewModel();
-					break;
-				default:
-					SelectedViewModel = null;
-					break;
-			}
-		}
-	}
+                case DatabaseTypeEnum.MsSql:
+                    ConnectionData = new MsSqlConnectionViewModel();
+                    break;
+                default:
+                    ConnectionData = null;
+                    break;
+            }
+        }
+    }
 }
 

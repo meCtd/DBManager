@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Windows.Input;
 namespace DataBaseTree.Framework
 {
-	public class RelayCommand : RelayCommand<object>
-	{
-		public RelayCommand(Action<object> execute, Func<object, bool> canExecute = null)
-            :base(execute, canExecute)
-		{
-		}
-	}
+    public class RelayCommand : RelayCommand<object>
+    {
+        public RelayCommand(Action execute, Func<bool> canExecute = null)
+            : base((o) => execute(), (o) => canExecute?.Invoke() ?? true)
+        {
+        }
+    }
 }

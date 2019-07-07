@@ -53,15 +53,14 @@
                       Grid.Column="1"
                       Margin="5,3"
                       SelectedItem="{Binding Path=SelectedBaseType, Converter={convertors:EnumToDescriptionConverter},ConverterParameter={x:Type model:DatabaseTypeEnum}}"
-                      ItemsSource="{Binding Source={convertors:EnumToItemsSource {x:Type model:DatabaseTypeEnum}}}"
-                      IsEnabled="{Binding SelectedViewModel.CanChange}" />
+                      ItemsSource="{Binding Source={x:Type model:DatabaseTypeEnum}, Converter={convertors:EnumToItemsSourceConverter}}"
+                      IsEnabled="{Binding ConnectionData.CanChange}" />
 
         </Grid>
 
-        <ContentControl x:Name="ContentData"
-                        Grid.Row="1"
+        <ContentPresenter Grid.Row="1"
                         Margin="15,0"
-                        Content="{Binding Path=SelectedViewModel}"
+                        Content="{Binding Path=ConnectionData}"
                         Grid.ColumnSpan="2"
                         Grid.Column="0" />
 
@@ -80,20 +79,20 @@
                 <Button Grid.Column="0"
                         Margin="10"
                         Content="Test connection"
-                        Visibility="{Binding Path=SelectedViewModel.IsBusy,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                        Command="{Binding SelectedViewModel.TestConnectionCommand}" />
+                        Visibility="{Binding Path=ConnectionData.IsBusy,Converter={convertors:InvertedBooleanToVisibilityConverter}}"
+                        Command="{Binding ConnectionData.TestConnectionCommand}" />
 
                 <Button Grid.Column="1"
                         Margin="10"
                         Content="Connect"
-                        Visibility="{Binding Path=SelectedViewModel.IsBusy,Converter={StaticResource InverseBooleanToVisibilityConverter}}"
-                        Command="{Binding Path=SelectedViewModel.CreateConnectionCommand}"
+                        Visibility="{Binding Path=ConnectionData.IsBusy,Converter={convertors:InvertedBooleanToVisibilityConverter}}"
+                        Command="{Binding Path=ConnectionData.CreateConnectionCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" />
 
                 <ProgressBar Grid.Column="0"
                              Grid.ColumnSpan="2"
                              Margin="10"
-                             Visibility="{Binding Path=SelectedViewModel.IsBusy,Converter={convertors:BooleanToVisibilityConverter}}"
+                             Visibility="{Binding Path=ConnectionData.IsBusy,Converter={convertors:BooleanToVisibilityConverter}}"
                              IsIndeterminate="True" />
             </Grid>
         </Grid>

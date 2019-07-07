@@ -3,15 +3,12 @@
                     xmlns:vm="clr-namespace:DataBaseTree.ViewModel.ConnectionViewModel"
                     xmlns:convertors="clr-namespace:DataBaseTree.Convertors"
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                    xmlns:treevm="clr-namespace:DataBaseTree.ViewModel.TreeViewModel"
-                    xmlns:behaviours="clr-namespace:DataBaseTree.Behaviours">
+                    xmlns:behaviours="clr-namespace:DataBaseTree.Behaviors">
 
-    <convertors:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter" />
     <convertors:DbEntityEnumConverter x:Key="DbEntityEnumConverter" />
 
     <DataTemplate DataType="{x:Type vm:MsSqlConnectionViewModel}">
-        <StackPanel>
-
+        <StackPanel IsEnabled="{Binding CanChange}">
             <Grid>
                 <Grid.ColumnDefinitions>
 
@@ -23,8 +20,7 @@
                 <StackPanel Grid.Column="0">
                     <TextBlock Text="Server" />
                     <TextBox Text="{Binding Path=Server,UpdateSourceTrigger=PropertyChanged}"
-                             Tag="Enter the server name" 
-                             IsEnabled="{Binding CanChange}"/>
+                             Tag="Enter the server name" />
                 </StackPanel>
 
                 <StackPanel  Visibility="{Binding Path=IsTcp,Converter={convertors:BooleanToVisibilityConverter}}"
@@ -34,32 +30,27 @@
                     <TextBlock Text="Port" />
 
                     <TextBox Tag="Enter the port"
-                             Text="{Binding Path=Port,UpdateSourceTrigger=PropertyChanged}"
-                             IsEnabled="{Binding CanChange}" />
+                             Text="{Binding Path=Port,UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
 
             </Grid>
             <CheckBox Margin="5"
                       Content="Is TCP conenction"
-                      IsChecked="{Binding Path=IsTcp}"
-                      IsEnabled="{Binding CanChange}"/>
-            
+                      IsChecked="{Binding Path=IsTcp}" />
+
             <TextBlock Text="Database name" />
             <TextBox Text="{Binding Path=InitialCatalog,UpdateSourceTrigger=PropertyChanged}"
-                     Tag="Enter the database name"
-                     IsEnabled="{Binding CanChange}" />
+                     Tag="Enter the database name" />
 
             <CheckBox Margin="5"
                       IsChecked="{Binding Path=IntegratedSecurity}"
-                      Content="Windows identification"
-                      IsEnabled="{Binding CanChange}" />
+                      Content="Windows identification" />
 
-            <StackPanel Visibility="{Binding IntegratedSecurity, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+            <StackPanel IsEnabled="{Binding IntegratedSecurity,Converter={convertors:InvertedBooleanConverter}}">
 
                 <TextBlock Text="User ID" />
                 <TextBox Text="{Binding UserId,UpdateSourceTrigger=PropertyChanged}"
-                         Tag="Enter the User ID"
-                         IsEnabled="{Binding CanChange}" />
+                         Tag="Enter the User ID" />
 
                 <TextBlock Text="Password" />
 

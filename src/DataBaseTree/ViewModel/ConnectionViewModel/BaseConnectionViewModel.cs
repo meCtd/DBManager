@@ -18,7 +18,7 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
 
 		protected string _password;
 
-		protected bool _isBusy;
+        private bool _isBusy;
 
 		private bool _canChange;
 

@@ -95,8 +95,9 @@
     <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
     <Compile Include="Convertors\EnumToDescriptionConverter.cs" />
-    <Compile Include="Convertors\EnumToItemsSource.cs" />
-    <Compile Include="Convertors\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Convertors\EnumToItemsSourceConverter.cs" />
+    <Compile Include="Convertors\InvertedBooleanConverter.cs" />
+    <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Framework\RelayCommandGeneric.cs" />
     <Compile Include="Model\Constants.cs" />
@@ -134,7 +135,7 @@
     <Compile Include="Model\Tree\DbEntities\Table.cs" />
     <Compile Include="Model\Tree\DbEntities\DbView.cs" />
     <Compile Include="Model\Tree\Hierarchy.cs" />
-    <Compile Include="Behaviours\PasswordBoxBehavior.cs" />
+    <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
     <Compile Include="Model\DatabaseTypeEnum.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\BaseConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
@@ -171,9 +172,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Diagrams\ViewModelTreeDiagram.cd" />
-    <None Include="Diagrams\DatabaseObjectsDiagram.cd" />
-    <None Include="Diagrams\ConnectionDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

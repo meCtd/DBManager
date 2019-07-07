@@ -118,7 +118,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			ConnectionWindowViewModel data = (ConnectionWindowViewModel)window.DataContext;
 			data.SelectedBaseType = DbLoader.Connection.Type;
 
-			BaseConnectionViewModel conenctData = data.SelectedViewModel;
+			BaseConnectionViewModel conenctData = data.ConnectionData;
 			conenctData.CanChange = false;
 			conenctData.Server = DbLoader.Connection.Server;
 			conenctData.Port = DbLoader.Connection.Port;
@@ -137,7 +137,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			if (window.ShowDialog() == true)
 			{
 				IsConnected = true;
-				Root.DbLoader.Connection = data.SelectedViewModel.Connection;
+				Root.DbLoader.Connection = data.ConnectionData.Connection;
 			}
 		}
 
