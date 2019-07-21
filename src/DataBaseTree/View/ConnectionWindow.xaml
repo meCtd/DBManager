@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:DataBaseTree.ViewModel"
         xmlns:convertors="clr-namespace:DataBaseTree.Convertors"
-        xmlns:model="clr-namespace:DataBaseTree.Model"
+        xmlns:model="clr-namespace:DataBaseTree.Model;assembly=DBManager.Default"
         x:Class="DataBaseTree.View.ConnectionWindow"
         mc:Ignorable="d"
         Title="ConnectionWindow"

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DataBaseTree.View"
         xmlns:vm="clr-namespace:DataBaseTree.ViewModel"
-        xmlns:tree="clr-namespace:DataBaseTree.Model.Tree"
+        xmlns:tree="clr-namespace:DataBaseTree.Model.Tree;assembly=DBManager.Default"
         xmlns:treevm="clr-namespace:DataBaseTree.ViewModel.TreeViewModel"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:convertors="clr-namespace:DataBaseTree.Convertors"

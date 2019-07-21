@@ -56,9 +56,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataBaseTree\DataBaseTree.csproj">
+    <ProjectReference Include="..\DataBaseTree\DBManager.Application.csproj">
       <Project>{47ce56c8-4dac-4418-9102-25b5d1d7e69a}</Project>
-      <Name>DataBaseTree</Name>
+      <Name>DBManager.Application</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

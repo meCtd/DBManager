@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
+  <Import Project="..\packages\NUnit.3.12.0\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -50,24 +50,25 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.1.3\lib\portable-net4+sl5+netcore45+wpa81+wp8\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
+    <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.6.3.0\lib\net45\Prism.dll</HintPath>
+    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=6.3.0.0, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.6.3.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -100,47 +101,10 @@
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Framework\RelayCommandGeneric.cs" />
-    <Compile Include="Model\Constants.cs" />
-    <Compile Include="Model\DataBaseConnection\ConnectionData.cs" />
-    <Compile Include="Model\DataBaseConnection\MsSqlServer.cs" />
-    <Compile Include="Model\Printers\IPrinter.cs" />
-    <Compile Include="Model\Printers\IPrinterFactory.cs" />
-    <Compile Include="Model\Printers\MsSqlDefaultPrinter.cs" />
-    <Compile Include="Model\Printers\MsSqlPrinterFactory.cs" />
-    <Compile Include="Model\Printers\MsSqlTablePrinter.cs" />
-    <Compile Include="Model\Providers\MsSqlScriptProvider.cs" />
-    <Compile Include="Model\Providers\ScriptProvider.cs" />
-    <Compile Include="Model\Tree\DbEntities\Index.cs" />
-    <Compile Include="Model\Tree\DbEntities\Server.cs" />
-    <Compile Include="Model\Tree\DbEntities\TypeObject.cs" />
-    <Compile Include="Model\Tree\DbEntityType.cs" />
-    <Compile Include="Model\Loaders\Loader.cs" />
-    <Compile Include="Model\Loaders\MsSqlLoader.cs" />
-    <Compile Include="Model\Tree\Chunk.cs" />
-    <Compile Include="Model\Tree\DbEntities\Constraint.cs" />
-    <Compile Include="Model\Tree\DbEntities\Database.cs" />
-    <Compile Include="Model\Tree\DbEntities\TableData.cs" />
-    <Compile Include="Model\Tree\DbEntities\Trigger.cs" />
-    <Compile Include="Model\Tree\DbEntityFactory.cs" />
-    <Compile Include="Model\Tree\DbEntities\DbType.cs" />
-    <Compile Include="Model\Tree\FullName.cs" />
-    <Compile Include="Model\Tree\DbEntities\Parameter.cs" />
-    <Compile Include="Model\Tree\DbEntities\Routine.cs" />
-    <Compile Include="Model\Tree\DbEntities\Schema.cs" />
-    <Compile Include="Model\Tree\DbEntities\Column.cs" />
-    <Compile Include="Model\Tree\DbObject.cs" />
-    <Compile Include="Model\Tree\DbEntities\Function.cs" />
-    <Compile Include="Model\Tree\DbEntities\Key.cs" />
-    <Compile Include="Model\Tree\DbEntities\Procedure.cs" />
-    <Compile Include="Model\Tree\DbEntities\Table.cs" />
-    <Compile Include="Model\Tree\DbEntities\DbView.cs" />
-    <Compile Include="Model\Tree\Hierarchy.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
-    <Compile Include="Model\DatabaseTypeEnum.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\BaseConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
-    <Compile Include="Model\SaveData.cs" />
     <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\DbObjectViewMolel.cs" />
     <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
@@ -255,12 +219,21 @@
   <ItemGroup>
     <Resource Include="Resources\Icons\Definition.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">
+      <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
+      <Name>DBManager.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBManager.SqlServer\DBManager.SqlServer.csproj">
+      <Project>{14b6b5bc-42af-4213-bb3d-bb29c9bb4ce3}</Project>
+      <Name>DBManager.SqlServer</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>Данный проект ссылается на пакеты NuGet, отсутствующие на этом компьютере. Используйте восстановление пакетов NuGet, чтобы скачать их.  Дополнительную информацию см. по адресу: http://go.microsoft.com/fwlink/?LinkID=322105. Отсутствует следующий файл: {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
   </Target>
 </Project>
