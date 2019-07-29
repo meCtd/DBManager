@@ -13,23 +13,23 @@ namespace DataBaseTree.Model
 	public class SaveData
 	{
 		[DataMember(Name ="Loader")]
-		public Loader Loader { get; private set; }
+		public ObjectLoader ObjectLoader { get; private set; }
 
 		[DataMember(Name = "Root")]
 		public DbObject Root { get; private set; }
 
-		public SaveData(Loader loader,DbObject root)
+		public SaveData(ObjectLoader objectLoader,DbObject root)
 		{
-			Loader = loader;
+			ObjectLoader = objectLoader;
 			Root = root;
 		}
 
 		private static IEnumerable<Type> KnownType()
 		{
 
-			foreach (var type in typeof(Loader).Assembly.GetTypes())
+			foreach (var type in typeof(ObjectLoader).Assembly.GetTypes())
 			{
-				if (type.IsSubclassOf(typeof(Loader)))
+				if (type.IsSubclassOf(typeof(ObjectLoader)))
 					yield return type;
 			}
 

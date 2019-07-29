@@ -77,7 +77,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 				foreach (var child in Model.Children.Where(s => s.Type == Type))
 				{
-					Children.Add(new DbObjectViewMolel(this, child));
+					Children.Add(new DbObjectViewModel(this, child));
 				}
 			}
 			catch (DbException e)

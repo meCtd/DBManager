@@ -106,7 +106,7 @@
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\DbObjectViewMolel.cs" />
+    <Compile Include="ViewModel\TreeViewModel\DbObjectViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
     <Compile Include="ViewModel\TreeViewModel\TreeRootViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\TreeViewItemViewModelBase.cs" />

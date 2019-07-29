@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 namespace DataBaseTree.Model.Loaders
 {
 	[DataContract(Name = "MsSqlLoader")]
-	public class MsSqlLoader : Loader
+	public class MsSqlObjectLoader : ObjectLoader
 	{
 
-		public MsSqlLoader(ConnectionData connection) : base(connection, new MsSqlScriptProvider())
+		public MsSqlObjectLoader(ConnectionData connection) : base(connection, new MsSqlScriptProvider())
 		{
 		}
 
-		public override Task LoadChildren(DbObject obj)
+		public override Task LoadChildrenAsync(DbObject obj)
 		{
 			return Task.Run(() =>
 			{
@@ -32,7 +32,7 @@ namespace DataBaseTree.Model.Loaders
 			});
 		}
 
-		public override Task LoadChildren(DbObject obj, DbEntityType childType)
+		public override Task LoadChildrenAsync(DbObject obj, DbEntityType childType)
 		{
 			if (!Hierarchy.HierarchyObject.GetChildTypes(obj.Type).Contains(childType))
 				throw new ArgumentException();
@@ -40,7 +40,7 @@ namespace DataBaseTree.Model.Loaders
 			return Task.Run(() => SetChildrens(obj, childType));
 		}
 
-		public override Task LoadProperties(DbObject obj)
+		public override Task LoadPropertiesAsync(DbObject obj)
 		{
 			return Task.Run(() => SetObjectProperties(obj));
 		}

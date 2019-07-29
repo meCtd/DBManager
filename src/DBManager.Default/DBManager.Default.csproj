@@ -45,6 +45,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataBaseConnection\ConnectionData.cs" />
     <Compile Include="DatabaseTypeEnum.cs" />
+    <Compile Include="DialectBase.cs" />
+    <Compile Include="Loaders\IObjectLoader.cs" />
     <Compile Include="Loaders\Loader.cs" />
     <Compile Include="Printers\IPrinter.cs" />
     <Compile Include="Printers\IPrinterFactory.cs" />

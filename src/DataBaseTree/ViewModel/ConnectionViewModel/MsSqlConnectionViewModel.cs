@@ -9,11 +9,11 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
 {
     public sealed class MsSqlConnectionViewModel : BaseConnectionViewModel
     {
+        private MsSqlServer _model;
+
         #region Fields
 
-        private bool _isTCP = false;
-
-        private uint _connectionTimeout = 5;
+        private int _connectionTimeout = 5;
 
         private bool _integratedSecurity;
 
@@ -23,17 +23,7 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
 
         #region Properties
 
-        public bool IsTcp
-        {
-            get { return _isTCP; }
-            set
-            {
-                SetProperty(ref _isTCP, value);
-
-            }
-        }
-
-        public uint ConnectionTimeout
+        public int ConnectionTimeout
         {
             get { return _connectionTimeout; }
             set { SetProperty(ref _connectionTimeout, value); }
@@ -47,7 +37,7 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
                 if (SetProperty(ref _integratedSecurity, value))
                 {
                     UserId = value ? Environment.UserName : string.Empty;
-                    Password = String.Empty;
+                    Password = string.Empty;
                 }
             }
         }
@@ -60,6 +50,12 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
 
         #endregion
 
+
+        public MsSqlConnectionViewModel()
+        {
+            _model = new MsSqlServer();
+        }
+
         private async void CreateConnection(ConnectionWindow window)
         {
             IsBusy = true;
@@ -67,7 +63,6 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
             {
                 Server = _server,
                 Port = _port,
-                IsTcp = _isTCP,
                 InitialCatalog = _initialCatalog,
                 UserId = _userId,
                 Password = _password,
@@ -97,7 +92,6 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
             {
                 Server = _server,
                 Port = _port,
-                IsTcp = _isTCP,
                 InitialCatalog = _initialCatalog,
                 UserId = _userId,
                 Password = _password,
@@ -122,21 +116,16 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
             }
         }
 
-        private bool InputSuccsess()
+        private bool IsValid(ConnectionWindow window)
         {
-            bool inputSuccsess = !string.IsNullOrWhiteSpace(Server);
+            bool inputSuccess = !string.IsNullOrWhiteSpace(Server);
 
             if (!IntegratedSecurity)
             {
-                inputSuccsess = inputSuccsess && !(string.IsNullOrWhiteSpace(UserId) || string.IsNullOrWhiteSpace(Password));
+                inputSuccess = inputSuccess && !(string.IsNullOrWhiteSpace(UserId) || string.IsNullOrWhiteSpace(Password));
             }
 
-            return inputSuccsess && !IsBusy;
-        }
-
-        private bool InputSuccsess(ConnectionWindow window)
-        {
-            return InputSuccsess();
+            return inputSuccess && !IsBusy;
         }
 
         #region Commands
@@ -151,7 +140,7 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
             {
                 return _createConnectionCommand ?? (_createConnectionCommand = new RelayCommand<ConnectionWindow>(
                            CreateConnection,
-                           InputSuccsess));
+                           IsValid));
             }
         }
 
@@ -167,7 +156,7 @@ namespace DataBaseTree.ViewModel.ConnectionViewModel
             {
                 return _testConnectionCommand ?? (_testConnectionCommand = new RelayCommand(
                             TestConnection,
-                            InputSuccsess));
+                            IsValid(null)));
             }
         }
 

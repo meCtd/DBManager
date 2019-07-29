@@ -11,8 +11,7 @@ namespace DataBaseTree.Model.Printers
 {
 	public class MsSqlTablePrinter : IPrinter
 	{
-
-		private StringBuilder _defintion;
+		private readonly StringBuilder _defintion;
 
 		private readonly Regex _bracketRegex = new Regex(@"(\,)[\n|\t]+\)", RegexOptions.Compiled);
 
@@ -21,7 +20,7 @@ namespace DataBaseTree.Model.Printers
 			_defintion = new StringBuilder();
 		}
 
-		public string GetDefintition(DbObject obj)
+		public string GetDefinition(DbObject obj)
 		{
 			if (obj == null)
 				throw new ArgumentNullException();

@@ -125,7 +125,7 @@ namespace DataBaseTree.ViewModel
                 {
                     case DatabaseTypeEnum.MsSql:
                         TreeRootViewModel root =
-                            new TreeRootViewModel(new MsSqlLoader(data.ConnectionData.Connection));
+                            new TreeRootViewModel(new MsSqlObjectLoader(data.ConnectionData.Connection));
                         root.TreeChanged += (sender, e) => _searchMatches = null;
 
                         Root = new TreeRootViewModel[] { root };
@@ -265,17 +265,17 @@ namespace DataBaseTree.ViewModel
                     {
                         if (!child.IsPropertyLoaded)
                         {
-                            obj.Root.DbLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
-                            await obj.Root.DbLoader.LoadProperties(child);
+                            obj.Root.DbObjectLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
+                            await obj.Root.DbObjectLoader.LoadPropertiesAsync(child);
                             if (obj.Root.IsDefaultDatabase)
-                                obj.Root.DbLoader.Connection.InitialCatalog = string.Empty;
+                                obj.Root.DbObjectLoader.Connection.InitialCatalog = string.Empty;
                         }
                     }
                 }
 
                 //get printer
 
-                DefinitionText = obj.Model.Definition = _printerFactory.GetPrinter(obj.Model).GetDefintition(obj.Model);
+                DefinitionText = obj.Model.Definition = _printerFactory.GetPrinter(obj.Model).GetDefinition(obj.Model);
 
             }
             catch (Exception e)
@@ -419,7 +419,7 @@ namespace DataBaseTree.ViewModel
                     {
                         fs.SetLength(0);
                         DataContractSerializer saver = new DataContractSerializer(typeof(SaveData));
-                        saver.WriteObject(fs, new SaveData(Root.First().DbLoader, Root.First().Model));
+                        saver.WriteObject(fs, new SaveData(Root.First().DbObjectLoader, Root.First().Model));
                     }
                     MessageBox.Show("Tree was saved!", "Saving", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
@@ -461,7 +461,7 @@ namespace DataBaseTree.ViewModel
                     {
                         DataContractSerializer ser = new DataContractSerializer(typeof(SaveData));
                         SaveData save = (SaveData)ser.ReadObject(fs);
-                        Root = new[] { new TreeRootViewModel(save.Root, save.Loader) };
+                        Root = new[] { new TreeRootViewModel(save.Root, save.ObjectLoader) };
                     }
                     catch (Exception ex)
                     {
@@ -471,7 +471,7 @@ namespace DataBaseTree.ViewModel
                 }
 
             }
-            switch (Root.First().DbLoader.Connection.Type)
+            switch (Root.First().DbObjectLoader.Connection.Type)
             {
                 case DatabaseTypeEnum.MsSql:
                     _printerFactory = new MsSqlPrinterFactory();

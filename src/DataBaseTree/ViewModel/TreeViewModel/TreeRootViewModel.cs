@@ -34,7 +34,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		public override string Icon => "/Resources/Icons/Server.png";
 
-		public Loader DbLoader { get; }
+		public ObjectLoader DbObjectLoader { get; }
 
 		public override TreeRootViewModel Root => this;
 
@@ -48,19 +48,19 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		public override string Name => Model.Name;
 
-		public TreeRootViewModel(Loader loader) : base(null, true)
+		public TreeRootViewModel(ObjectLoader objectLoader) : base(null, true)
 		{
-			DbLoader = loader;
-			Model = new Server(DbLoader.Connection.Server);
-			IsDefaultDatabase = string.IsNullOrWhiteSpace(DbLoader.Connection.InitialCatalog);
+			DbObjectLoader = objectLoader;
+			Model = new Server(DbObjectLoader.Connection.Server);
+			IsDefaultDatabase = string.IsNullOrWhiteSpace(DbObjectLoader.Connection.InitialCatalog);
 			IsConnected = true;
 		}
 
-		public TreeRootViewModel(DbObject model, Loader loader) : base(null, true)
+		public TreeRootViewModel(DbObject model, ObjectLoader objectLoader) : base(null, true)
 		{
-			DbLoader = loader;
+			DbObjectLoader = objectLoader;
 			Model = model;
-			IsDefaultDatabase = string.IsNullOrWhiteSpace(DbLoader.Connection.InitialCatalog);
+			IsDefaultDatabase = string.IsNullOrWhiteSpace(DbObjectLoader.Connection.InitialCatalog);
 			IsConnected = false;
 
 		}
@@ -73,9 +73,9 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			{
 				if (!IsDefaultDatabase)
 				{
-					Database db = new Database(DbLoader.Connection.InitialCatalog);
+					Database db = new Database(DbObjectLoader.Connection.InitialCatalog);
 					Model.AddChild(db);
-					Children.Add(new DbObjectViewMolel(this, db));
+					Children.Add(new DbObjectViewModel(this, db));
 
 					return;
 				}
@@ -90,7 +90,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 				foreach (var child in Model.Children)
 				{
-					Children.Add(new DbObjectViewMolel(this, child));
+					Children.Add(new DbObjectViewModel(this, child));
 				}
 
 			}
@@ -116,42 +116,41 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 			ConnectionWindow window = new ConnectionWindow();
 			ConnectionWindowViewModel data = (ConnectionWindowViewModel)window.DataContext;
-			data.SelectedBaseType = DbLoader.Connection.Type;
+			data.SelectedBaseType = DbObjectLoader.Connection.Type;
 
 			BaseConnectionViewModel conenctData = data.ConnectionData;
 			conenctData.CanChange = false;
-			conenctData.Server = DbLoader.Connection.Server;
-			conenctData.Port = DbLoader.Connection.Port;
-			conenctData.UserId = DbLoader.Connection.UserId;
+			conenctData.Server = DbObjectLoader.Connection.Server;
+			conenctData.Port = DbObjectLoader.Connection.Port;
+			conenctData.UserId = DbObjectLoader.Connection.UserId;
 
 			switch (conenctData)
 			{
 				case MsSqlConnectionViewModel msSql:
-					msSql.IsTcp = ((MsSqlServer)DbLoader.Connection).IsTcp;
-					msSql.IntegratedSecurity = ((MsSqlServer)DbLoader.Connection).IntegratedSecurity;
-					msSql.Pooling = ((MsSqlServer)DbLoader.Connection).Pooling;
-					msSql.ConnectionTimeout = ((MsSqlServer)DbLoader.Connection).ConnectionTimeout;
+					msSql.IntegratedSecurity = ((MsSqlServer)DbObjectLoader.Connection).IntegratedSecurity;
+					msSql.Pooling = ((MsSqlServer)DbObjectLoader.Connection).Pooling;
+					msSql.ConnectionTimeout = ((MsSqlServer)DbObjectLoader.Connection).ConnectionTimeout;
 					break;
 			}
 
 			if (window.ShowDialog() == true)
 			{
 				IsConnected = true;
-				Root.DbLoader.Connection = data.ConnectionData.Connection;
+				Root.DbObjectLoader.Connection = data.ConnectionData.Connection;
 			}
 		}
 
 		public async Task LoadModel(MetadataViewModelBase obj, DbEntityType type)
 		{
-			Root.DbLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
+			Root.DbObjectLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
 			try
 			{
 				if (Root.IsConnected)
 				{
 					if (type == DbEntityType.All)
-						await DbLoader.LoadChildren(obj.Model);
+						await DbObjectLoader.LoadChildrenAsync(obj.Model);
 					else
-						await DbLoader.LoadChildren(obj.Model, type);
+						await DbObjectLoader.LoadChildrenAsync(obj.Model, type);
 				}
 			}
 			catch (DbException d)
@@ -166,7 +165,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			finally
 			{
 				if (Root.IsDefaultDatabase)
-					Root.DbLoader.Connection.InitialCatalog = string.Empty;
+					Root.DbObjectLoader.Connection.InitialCatalog = string.Empty;
 			}
 
 		}
@@ -177,8 +176,8 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			Root.IsLoadingInProcess = true;
 			try
 			{
-				Root.DbLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
-				await Root.DbLoader.LoadProperties(obj.Model);
+				Root.DbObjectLoader.Connection.InitialCatalog = obj.Model.DataBaseName;
+				await Root.DbObjectLoader.LoadPropertiesAsync(obj.Model);
 
 			}
 			catch (DbException e)
@@ -191,7 +190,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 				obj.IsBusy = false;
 				Root.IsLoadingInProcess = false;
 				if (Root.IsDefaultDatabase)
-					Root.DbLoader.Connection.InitialCatalog = string.Empty;
+					Root.DbObjectLoader.Connection.InitialCatalog = string.Empty;
 			}
 		}
 

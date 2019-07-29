@@ -12,7 +12,7 @@ namespace DataBaseTree.Model.Tree
 		public static IEnumerable<DbEntityType> Empty = new DbEntityType[0];
 
 		public IReadOnlyDictionary<DbEntityType, IEnumerable<DbEntityType>> ChildresTypes =>
-			_childrenTypes ?? (_childrenTypes = SetChilds());
+			_childrenTypes ?? (_childrenTypes = SetChildren());
 
 		public static Hierarchy HierarchyObject
 		{
@@ -24,7 +24,7 @@ namespace DataBaseTree.Model.Tree
 
 		}
 
-		protected virtual Dictionary<DbEntityType, IEnumerable<DbEntityType>> SetChilds()
+		protected virtual Dictionary<DbEntityType, IEnumerable<DbEntityType>> SetChildren()
 		{
 			Dictionary<DbEntityType, IEnumerable<DbEntityType>> dictionary =
 				new Dictionary<DbEntityType, IEnumerable<DbEntityType>>

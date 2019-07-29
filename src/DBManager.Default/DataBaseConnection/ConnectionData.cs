@@ -5,38 +5,40 @@ using System.Threading.Tasks;
 
 namespace DataBaseTree.Model.DataBaseConnection
 {
-	[DataContract(Name = "ConnectionData")]
-	public abstract class ConnectionData
-	{
-		public abstract DatabaseTypeEnum Type { get; }
+    [DataContract(Name = "ConnectionData")]
+    public abstract class ConnectionData
+    {
+        public abstract DatabaseTypeEnum Type { get; }
 
-		[DataMember(Name = "Server")]
-		public string Server { get; set; }
+        [DataMember(Name = "Server")]
+        public string Server { get; set; }
 
-		[DataMember(Name = "Port")]
-		public uint Port { get; set; }
+        [DataMember(Name = "Port")]
+        public uint Port { get; set; }
 
-		[DataMember(Name = "InitialCatalog")]
-		public string InitialCatalog { get; set; }
+        [DataMember(Name = "InitialCatalog")]
+        public string InitialCatalog { get; set; }
 
-		public abstract string DefaultDatabase { get; }
+        public abstract string DefaultDatabase { get; }
 
-		[DataMember(Name = "UserId")]
-		public string UserId { get; set; }
+        public abstract string DefaultPort { get; }
 
-		public string Password { get; set; }
+        [DataMember(Name = "UserId")]
+        public string UserId { get; set; }
 
-		public abstract string ConnectionString { get; }
+        public string Password { get; set; }
 
-		public abstract DbConnection GetConnection();
+        public abstract string ConnectionString { get; }
 
-		public abstract bool TestConnection();
+        public abstract DbConnection GetConnection();
 
-		public virtual Task<bool> TestConnectionAsync()
-		{
-			return Task.Run<bool>(new Func<bool>(TestConnection));
-		}
+        public abstract bool TestConnection();
+
+        public virtual Task<bool> TestConnectionAsync()
+        {
+            return Task.Run(TestConnection);
+        }
 
 
-	}
+    }
 }

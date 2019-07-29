@@ -6,36 +6,38 @@ using System.Threading.Tasks;
 using DataBaseTree.Model.DataBaseConnection;
 using DataBaseTree.Model.Providers;
 using DataBaseTree.Model.Tree;
+using DBManager.Default.Loaders;
 
 namespace DataBaseTree.Model.Loaders
 {
-	[DataContract(Name = "Loader", IsReference = true)]
-	[KnownType("KnownType")]
-	public abstract class Loader
-	{
-		protected ScriptProvider _provider;
-		
-		[DataMember(Name = "ConnectionData")]
-		public ConnectionData Connection { get;  set; }
+    [DataContract(Name = "Loader", IsReference = true)]
+    [KnownType(nameof(KnownType))]
+    public abstract class ObjectLoader : IObjectLoader
+    {
+        protected ScriptProvider _provider;
 
-		public Hierarchy Hierarchy => Hierarchy.HierarchyObject;
+        //TODO: TO project
+        [DataMember(Name = "ConnectionData")]
+        public ConnectionData Connection { get; set; }
 
-		public abstract Task LoadChildren(DbObject obj);
+        public Hierarchy Hierarchy => Hierarchy.HierarchyObject;
 
-		public abstract Task LoadChildren(DbObject obj, DbEntityType childType);
+        public abstract Task LoadChildrenAsync(DbObject obj);
 
-		public abstract Task LoadProperties(DbObject obj);
+        public abstract Task LoadChildrenAsync(DbObject obj, DbEntityType childType);
 
-		protected Loader(ConnectionData connection, ScriptProvider provider)
-		{
-			Connection = connection;
-			_provider = provider;
-		}
+        public abstract Task LoadPropertiesAsync(DbObject obj);
 
-		private static IEnumerable<Type> KnownType()
-		{
-			return typeof(ConnectionData).Assembly.GetTypes()
-				.Where(t => t.IsSubclassOf(typeof(ConnectionData)));
-		}
-	}
+        protected ObjectLoader(ConnectionData connection, ScriptProvider provider)
+        {
+            Connection = connection;
+            _provider = provider;
+        }
+
+        private static IEnumerable<Type> KnownType()
+        {
+            return typeof(ConnectionData).Assembly.GetTypes()
+                .Where(t => t.IsSubclassOf(typeof(ConnectionData)));
+        }
+    }
 }

@@ -7,7 +7,7 @@ using DataBaseTree.Model.Tree;
 
 namespace DataBaseTree.ViewModel.TreeViewModel
 {
-	public class DbObjectViewMolel : MetadataViewModelBase
+	public class DbObjectViewModel : MetadataViewModelBase
 	{
 		#region Properties
 
@@ -57,7 +57,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 		#endregion
 
-		public DbObjectViewMolel(MetadataViewModelBase parent, DbObject model) : base(parent, parent.Root.DbLoader.Hierarchy.IsPossibleChilds(model.Type))
+		public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, parent.Root.DbObjectLoader.Hierarchy.IsPossibleChilds(model.Type))
 		{
 			Model = model;
 		}
@@ -69,7 +69,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			try
 			{
 				
-				IEnumerable<DbEntityType> childs = Root.DbLoader.Hierarchy.GetChildTypes(Type).ToArray();
+				IEnumerable<DbEntityType> childs = Root.DbObjectLoader.Hierarchy.GetChildTypes(Type).ToArray();
 				if (childs.Count() > 1)
 				{
 					foreach (var type in childs)
@@ -95,7 +95,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 
 					foreach (var child in Model.Children)
 					{
-						Children.Add(new DbObjectViewMolel(this, child));
+						Children.Add(new DbObjectViewModel(this, child));
 					}
 				}
 
