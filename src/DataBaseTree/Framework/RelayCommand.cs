@@ -1,5 +1,6 @@
 ﻿using System;
-namespace DataBaseTree.Framework
+
+namespace DBManager.Application.Framework
 {
     public class RelayCommand : RelayCommand<object>
     {

@@ -1,6 +1,7 @@
-﻿using DataBaseTree.Model.Tree;
+﻿using DBManager.Default.Printers;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Printers
+namespace DBManager.SqlServer.Printer
 {
 	public class MsSqlDefaultPrinter : IPrinter
 	{

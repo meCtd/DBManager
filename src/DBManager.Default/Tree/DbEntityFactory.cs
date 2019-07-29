@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
-using System.Security.Cryptography;
-using DataBaseTree.Model.Tree.DbEntities;
+using DBManager.Default.Tree.DbEntities;
 
-namespace DataBaseTree.Model.Tree
+namespace DBManager.Default.Tree
 {
 	public class DbEntityFactory
 	{

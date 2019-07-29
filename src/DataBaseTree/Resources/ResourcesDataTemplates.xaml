@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vm="clr-namespace:DataBaseTree.ViewModel.ConnectionViewModel"
-                    xmlns:convertors="clr-namespace:DataBaseTree.Convertors"
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-                    xmlns:behaviours="clr-namespace:DataBaseTree.Behaviors">
+                    xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+                    xmlns:vm="clr-namespace:DBManager.Application.ViewModel.ConnectionViewModel"
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
 
     <convertors:DbEntityEnumConverter x:Key="DbEntityEnumConverter" />
 
@@ -57,7 +57,7 @@
                 <PasswordBox>
 
                     <i:Interaction.Behaviors>
-                        <behaviours:PasswordBoxBehavior Password="{Binding Path=Password,Mode=TwoWay}" />
+                        <behaviors:PasswordBoxBehavior Password="{Binding Path=Password,Mode=TwoWay}" />
                     </i:Interaction.Behaviors>
 
                 </PasswordBox>

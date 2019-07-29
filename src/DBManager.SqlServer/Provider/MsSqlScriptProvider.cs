@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using DataBaseTree.Model.Tree;
+using DBManager.Default;
+using DBManager.Default.Providers;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Providers
+namespace DBManager.SqlServer.Provider
 {
 	public class MsSqlScriptProvider : ScriptProvider
 	{
@@ -85,7 +87,7 @@ namespace DataBaseTree.Model.Providers
 			return $"EXEC sp_helptext {Constants.NameParameter}";
 		}
 
-		public override IEnumerable<IDbDataParameter> GetDefinitionParamteters(DbObject obj)
+		public override IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj)
 		{
 			yield return new SqlParameter(Constants.NameParameter, $"{obj.SchemaName}.{obj.Name}");
 		}

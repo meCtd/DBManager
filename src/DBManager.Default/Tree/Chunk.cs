@@ -1,4 +1,4 @@
-﻿namespace DataBaseTree.Model.Tree
+﻿namespace DBManager.Default.Tree
 {
 	public class Chunk
 	{

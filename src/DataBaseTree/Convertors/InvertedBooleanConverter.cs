@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
     public class InvertedBooleanConverter : ConverterBase<InvertedBooleanConverter>
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
 	public class DbEntityEnumConverter : IValueConverter
 	{

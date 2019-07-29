@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Windows;
 using System.Globalization;
-namespace DataBaseTree.Convertors
+using System.Windows;
+
+namespace DBManager.Application.Convertors
 {
     public class InvertedBooleanToVisibilityConverter : ConverterBase<InvertedBooleanToVisibilityConverter>
     {

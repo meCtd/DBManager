@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
-using DataBaseTree.Model.DataBaseConnection;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.DataBaseConnection;
+using DBManager.Default.Tree;
 
 namespace DBManager.Default.Loaders
 {

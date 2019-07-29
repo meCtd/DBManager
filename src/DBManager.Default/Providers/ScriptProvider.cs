@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Runtime.Serialization;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Providers
+namespace DBManager.Default.Providers
 {
 	public abstract class ScriptProvider
 	{
@@ -14,7 +12,7 @@ namespace DataBaseTree.Model.Providers
 
 		public abstract string GetDefinitionScript();
 
-		public abstract IEnumerable<IDbDataParameter> GetDefinitionParamteters(DbObject obj);
+		public abstract IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj);
 
 		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType);
 

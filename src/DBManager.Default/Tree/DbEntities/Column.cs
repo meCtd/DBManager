@@ -1,6 +1,6 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "column")]
 	

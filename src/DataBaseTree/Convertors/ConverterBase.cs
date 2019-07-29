@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
     public abstract class ConverterBase<TConverterType> : MarkupExtension, IValueConverter where TConverterType : class, new()
     {

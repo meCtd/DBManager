@@ -1,6 +1,6 @@
-﻿using DataBaseTree.Model.Tree;
+﻿using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Printers
+namespace DBManager.Default.Printers
 {
 	public interface IPrinterFactory
 	{

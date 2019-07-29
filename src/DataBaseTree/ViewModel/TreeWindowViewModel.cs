@@ -5,17 +5,16 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
-using DataBaseTree.Framework;
-using DataBaseTree.Model;
-using DataBaseTree.Model.Loaders;
-using DataBaseTree.Model.Printers;
-using DataBaseTree.Model.Tree;
-using DataBaseTree.View;
-using DataBaseTree.ViewModel.TreeViewModel;
+using DBManager.Application.Framework;
+using DBManager.Application.View;
+using DBManager.Application.ViewModel.TreeViewModel;
+using DBManager.Default;
+using DBManager.Default.Printers;
+using DBManager.Default.Tree;
 using Microsoft.Win32;
 using Prism.Mvvm;
 
-namespace DataBaseTree.ViewModel
+namespace DBManager.Application.ViewModel
 {
     public class TreeWindowViewModel : BindableBase
     {
@@ -123,7 +122,7 @@ namespace DataBaseTree.ViewModel
             {
                 switch (data.SelectedBaseType)
                 {
-                    case DatabaseTypeEnum.MsSql:
+                    case DialectType.MsSql:
                         TreeRootViewModel root =
                             new TreeRootViewModel(new MsSqlObjectLoader(data.ConnectionData.Connection));
                         root.TreeChanged += (sender, e) => _searchMatches = null;
@@ -473,7 +472,7 @@ namespace DataBaseTree.ViewModel
             }
             switch (Root.First().DbObjectLoader.Connection.Type)
             {
-                case DatabaseTypeEnum.MsSql:
+                case DialectType.MsSql:
                     _printerFactory = new MsSqlPrinterFactory();
                     break;
                 default:

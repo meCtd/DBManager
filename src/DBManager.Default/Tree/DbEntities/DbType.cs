@@ -1,7 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using System.Text;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "db-type")]
 	public class DbType : DbObject

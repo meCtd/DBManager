@@ -1,12 +1,6 @@
-﻿using System;
-using System.Windows;
-using System.Windows.Controls;
-using DataBaseTree.Model;
-using DataBaseTree.Model.DataBaseConnection;
-using DataBaseTree.ViewModel;
-using DataBaseTree.ViewModel.ConnectionViewModel;
+﻿using System.Windows;
 
-namespace DataBaseTree.View
+namespace DBManager.Application.View
 {
 	/// <summary>
 	/// Логика взаимодействия для ConnectionWindow.xaml

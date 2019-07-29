@@ -1,33 +1,36 @@
 ﻿using System;
-using DataBaseTree.Model;
-using DataBaseTree.ViewModel.ConnectionViewModel;
+using System.Windows.Input;
+using DBManager.Application.ViewModel.ConnectionViewModel;
+using DBManager.Default;
+using Prism.Commands;
 using Prism.Mvvm;
 
-namespace DataBaseTree.ViewModel
+namespace DBManager.Application.ViewModel
 {
     public class ConnectionWindowViewModel : BindableBase
     {
-        #region Fields
+        private readonly ICommand _createConnectionCommand;
+        private readonly ICommand _testConnectionCommand;
 
-        private BaseConnectionViewModel _connectionData;
+        
 
-        private DatabaseTypeEnum _selectedBaseType;
+        private ConnectionViewModelBase _connection;
+        private DialectType _selectedBaseType;
 
-        #endregion
 
-        #region Properties
-
-        public DatabaseTypeEnum SelectedBaseType
+        public DialectType SelectedBaseType
         {
             get { return _selectedBaseType; }
             set
             {
-                SetProperty(ref _selectedBaseType, value);
-                OnDataBaseTypeEnumChanged();
+                if (SetProperty(ref _selectedBaseType, value))
+                {
+                    Conenction = Con
+                }
             }
         }
 
-        public BaseConnectionViewModel ConnectionData
+        public ConnectionViewModelBase Conenction
         {
             get { return _connectionData; }
             set
@@ -36,38 +39,17 @@ namespace DataBaseTree.ViewModel
             }
         }
 
-        #endregion
 
         public ConnectionWindowViewModel()
         {
-            ConnectionData = new MsSqlConnectionViewModel { CanChange = true };
-            DataBaseTypeChanged += ChangeDataContext;
+            ConnectionData = Co
         }
 
-        #region Events
 
-        public event EventHandler DataBaseTypeChanged;
+        //TODO: Implement
+        public ICommand CreateConnectionCommand => _createConnectionCommand ?? (_createConnectionCommand = new DelegateCommand())
 
-        private void OnDataBaseTypeEnumChanged()
-        {
-            DataBaseTypeChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        #endregion
-
-        private void ChangeDataContext(object sender, EventArgs e)
-        {
-            switch (_selectedBaseType)
-            {
-
-                case DatabaseTypeEnum.MsSql:
-                    ConnectionData = new MsSqlConnectionViewModel();
-                    break;
-                default:
-                    ConnectionData = null;
-                    break;
-            }
-        }
+        public ICommand TestConnectionCommand => _testConnectionCommand;
     }
 }
 

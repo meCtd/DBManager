@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using DBManager.Default;
+using DBManager.Default.Printers;
+using DBManager.Default.Tree;
+using DBManager.Default.Tree.DbEntities;
 
-using DataBaseTree.Model.Tree;
-using DataBaseTree.Model.Tree.DbEntities;
-
-namespace DataBaseTree.Model.Printers
+namespace DBManager.SqlServer.Printer
 {
 	public class MsSqlTablePrinter : IPrinter
 	{

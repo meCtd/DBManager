@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DataBaseTree</RootNamespace>
-    <AssemblyName>DataBaseTree</AssemblyName>
+    <RootNamespace>DBManager.Application</RootNamespace>
+    <AssemblyName>DBManager.Application</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -99,12 +99,15 @@
     <Compile Include="Convertors\EnumToItemsSourceConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
+    <Compile Include="Framework\Enums\ConnectionMode.cs" />
+    <Compile Include="Framework\Interfaces\IModelObject.cs" />
     <Compile Include="Framework\RelayCommand.cs" />
     <Compile Include="Framework\RelayCommandGeneric.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
-    <Compile Include="ViewModel\ConnectionViewModel\BaseConnectionViewModel.cs" />
+    <Compile Include="ViewModel\ConnectionViewModel\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
+    <Compile Include="ViewModel\Providers\ConnectionViewModelProvider.cs" />
     <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\DbObjectViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
@@ -224,10 +227,9 @@
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DBManager.SqlServer\DBManager.SqlServer.csproj">
-      <Project>{14b6b5bc-42af-4213-bb3d-bb29c9bb4ce3}</Project>
-      <Name>DBManager.SqlServer</Name>
-    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModel\Base\Connection\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

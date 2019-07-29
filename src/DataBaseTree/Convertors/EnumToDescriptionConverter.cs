@@ -3,9 +3,8 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Data;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
 	public class EnumToDescriptionConverter : ConverterBase<EnumToDescriptionConverter>
 	{

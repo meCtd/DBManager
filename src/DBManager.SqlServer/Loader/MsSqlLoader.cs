@@ -1,17 +1,16 @@
-﻿using DataBaseTree.Model.DataBaseConnection;
-using DataBaseTree.Model.Providers;
-using DataBaseTree.Model.Tree;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using DBManager.Default.DataBaseConnection;
+using DBManager.Default.Loaders;
+using DBManager.Default.Tree;
+using DBManager.SqlServer.Provider;
 
-
-namespace DataBaseTree.Model.Loaders
+namespace DBManager.SqlServer.Loader
 {
 	[DataContract(Name = "MsSqlLoader")]
 	public class MsSqlObjectLoader : ObjectLoader
@@ -85,7 +84,7 @@ namespace DataBaseTree.Model.Loaders
 					{
 						query = _provider.GetDefinitionScript();
 						SqlCommand descCommand = new SqlCommand(query, connection);
-						foreach (var param in _provider.GetDefinitionParamteters(child))
+						foreach (var param in _provider.GetDefinitionParameters(child))
 						{
 							descCommand.Parameters.Add(param);
 						}

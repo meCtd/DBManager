@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DataBaseTree.Model.Tree
+namespace DBManager.Default.Tree
 {
 	[Flags]
 	public enum DbEntityType

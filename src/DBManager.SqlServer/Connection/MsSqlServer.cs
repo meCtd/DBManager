@@ -1,10 +1,10 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
-using System.Text;
+using DBManager.Default;
+using DBManager.Default.DataBaseConnection;
 
-namespace DataBaseTree.Model.DataBaseConnection
+namespace DBManager.SqlServer.Connection
 {
     [DataContract(Name = "MsSqlServer")]
     public class MsSqlServer : ConnectionData
@@ -19,56 +19,38 @@ namespace DataBaseTree.Model.DataBaseConnection
         public int ConnectionTimeout { get; set; }
 
         [DataMember(Name = "Type")]
-        public override DatabaseTypeEnum Type => DatabaseTypeEnum.MsSql;
+        public override DialectType Type => DialectType.MsSql;
 
-        public override string DefaultDatabase => "master";
+        protected override string DefaultDatabase => "master";
 
-        public override string DefaultPort => "1433";
+        protected override string DefaultPort => "1433";
 
-        public override string ConnectionString => GetConnectionString();
-
-        private string GetConnectionString()
+        public override string ConnectionString
         {
-            var builder = new SqlConnectionStringBuilder
+            get
             {
-                Pooling = Pooling,
-                DataSource = Server,
-                IntegratedSecurity = IntegratedSecurity,
-                InitialCatalog = string.IsNullOrWhiteSpace(InitialCatalog) ? DefaultDatabase : InitialCatalog,
-                ConnectTimeout = ConnectionTimeout
-            };
+                var builder = new SqlConnectionStringBuilder
+                {
+                    Pooling = Pooling,
+                    DataSource = $"{Server},{Port.ToString()}",
+                    IntegratedSecurity = IntegratedSecurity,
+                    InitialCatalog = string.IsNullOrWhiteSpace(InitialCatalog) ? DefaultDatabase : InitialCatalog,
+                    ConnectTimeout = ConnectionTimeout
+                };
 
-            if (IntegratedSecurity)
-            {
-                builder.UserID = UserId;
-                builder.Password = Password;
+                if (IntegratedSecurity)
+                {
+                    builder.UserID = UserId;
+                    builder.Password = Password;
+                }
+
+                return builder.ToString();
             }
-
-            return builder.ToString();
         }
-
+        
         public override DbConnection GetConnection()
         {
-            return new SqlConnection(GetConnectionString());
+            return new SqlConnection(ConnectionString);
         }
-
-        public override bool TestConnection()
-        {
-            bool conenctionSuccess = false;
-            using (SqlConnection connection = new SqlConnection(ConnectionString))
-            {
-                try
-                {
-                    connection.Open();
-                    conenctionSuccess = true;
-                }
-                catch (Exception)
-                {
-                    conenctionSuccess = false;
-                }
-            }
-            return conenctionSuccess;
-        }
-
     }
 }

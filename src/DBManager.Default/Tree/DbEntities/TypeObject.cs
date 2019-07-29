@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "type-object")]
 	public abstract class TypeObject : DbObject

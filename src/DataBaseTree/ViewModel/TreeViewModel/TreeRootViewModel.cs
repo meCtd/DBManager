@@ -2,15 +2,13 @@
 using System.Data.Common;
 using System.Threading.Tasks;
 using System.Windows;
-using DataBaseTree.Model.DataBaseConnection;
-using DataBaseTree.Model.Loaders;
-using DataBaseTree.Model.Printers;
-using DataBaseTree.Model.Tree;
-using DataBaseTree.Model.Tree.DbEntities;
-using DataBaseTree.View;
-using DataBaseTree.ViewModel.ConnectionViewModel;
+using DBManager.Application.View;
+using DBManager.Application.ViewModel.ConnectionViewModel;
+using DBManager.Default.Loaders;
+using DBManager.Default.Tree;
+using DBManager.Default.Tree.DbEntities;
 
-namespace DataBaseTree.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.TreeViewModel
 {
 	public class TreeRootViewModel : MetadataViewModelBase
 	{
@@ -118,7 +116,7 @@ namespace DataBaseTree.ViewModel.TreeViewModel
 			ConnectionWindowViewModel data = (ConnectionWindowViewModel)window.DataContext;
 			data.SelectedBaseType = DbObjectLoader.Connection.Type;
 
-			BaseConnectionViewModel conenctData = data.ConnectionData;
+			ConnectionViewModelBase conenctData = data.ConnectionData;
 			conenctData.CanChange = false;
 			conenctData.Server = DbObjectLoader.Connection.Server;
 			conenctData.Port = DbObjectLoader.Connection.Port;

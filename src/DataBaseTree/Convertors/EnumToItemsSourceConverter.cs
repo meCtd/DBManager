@@ -3,9 +3,8 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
-using System.Windows.Markup;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
     public class EnumToItemsSourceConverter : ConverterBase<EnumToItemsSourceConverter>
     {

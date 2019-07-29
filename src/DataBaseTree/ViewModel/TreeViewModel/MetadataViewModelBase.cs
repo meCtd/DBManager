@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.TreeViewModel
 {
 	public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
 	{

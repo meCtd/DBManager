@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace DataBaseTree.Model.Tree
+namespace DBManager.Default.Tree
 {
 	public class Hierarchy
 	{

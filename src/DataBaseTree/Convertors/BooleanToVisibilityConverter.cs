@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
     public class BooleanToVisibilityConverter : ConverterBase<BooleanToVisibilityConverter>
     {

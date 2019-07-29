@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading.Tasks;
-using DataBaseTree.Model.DataBaseConnection;
-using DataBaseTree.Model.Providers;
-using DataBaseTree.Model.Tree;
-using DBManager.Default.Loaders;
+using DBManager.Default.DataBaseConnection;
+using DBManager.Default.Providers;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Loaders
+namespace DBManager.Default.Loaders
 {
     [DataContract(Name = "Loader", IsReference = true)]
     [KnownType(nameof(KnownType))]

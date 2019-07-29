@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Data.Common;
 using System.Runtime.Serialization;
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace DataBaseTree.Model.DataBaseConnection
+namespace DBManager.Default.DataBaseConnection
 {
     [DataContract(Name = "ConnectionData")]
     public abstract class ConnectionData
     {
-        public abstract DatabaseTypeEnum Type { get; }
+        public abstract DialectType Type { get; }
 
         [DataMember(Name = "Server")]
         public string Server { get; set; }
@@ -19,12 +20,12 @@ namespace DataBaseTree.Model.DataBaseConnection
         [DataMember(Name = "InitialCatalog")]
         public string InitialCatalog { get; set; }
 
-        public abstract string DefaultDatabase { get; }
-
-        public abstract string DefaultPort { get; }
-
         [DataMember(Name = "UserId")]
         public string UserId { get; set; }
+
+        protected abstract string DefaultDatabase { get; }
+
+        protected abstract string DefaultPort { get; }
 
         public string Password { get; set; }
 
@@ -32,13 +33,27 @@ namespace DataBaseTree.Model.DataBaseConnection
 
         public abstract DbConnection GetConnection();
 
-        public abstract bool TestConnection();
-
-        public virtual Task<bool> TestConnectionAsync()
+        public Task<bool> TestConnectionAsync()
         {
-            return Task.Run(TestConnection);
+            return TestConnectionAsync(CancellationToken.None);
         }
 
+        public async Task<bool> TestConnectionAsync(CancellationToken token)
+        {
+            var result = true;
+            try
+            {
+                using (var connection = GetConnection())
+                {
+                    await connection.OpenAsync(token);
+                }
+            }
+            catch (Exception)
+            {
+                result = false;
+            }
 
+            return result;
+        }
     }
 }

@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
-using DataBaseTree.Model.Tree.DbEntities;
 
-namespace DataBaseTree.Model.Tree
+namespace DBManager.Default.Tree
 {
 	[DataContract(Name = "db-object", IsReference = true)]
 	[KnownType(typeof(DBNull))]
@@ -81,7 +79,7 @@ namespace DataBaseTree.Model.Tree
 			DbObject parent = Parent;
 			while (parent != null && parent.Type != DbEntityType.Server)
 			{
-				fullName.AddPartent(parent);
+				fullName.AddParent(parent);
 				parent = parent.Parent;
 			}
 

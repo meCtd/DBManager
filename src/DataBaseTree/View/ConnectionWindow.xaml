@@ -2,10 +2,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:DataBaseTree.ViewModel"
-        xmlns:convertors="clr-namespace:DataBaseTree.Convertors"
-        xmlns:model="clr-namespace:DataBaseTree.Model;assembly=DBManager.Default"
-        x:Class="DataBaseTree.View.ConnectionWindow"
+        xmlns:viewModel="clr-namespace:DBManager.Application.ViewModel"
+        xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+        x:Class="DBManager.Application.View.ConnectionWindow"
         mc:Ignorable="d"
         Title="ConnectionWindow"
         Height="350"
@@ -13,7 +12,7 @@
         ResizeMode="NoResize">
 
     <Window.DataContext>
-        <vm:ConnectionWindowViewModel />
+        <viewModel:ConnectionWindowViewModel />
     </Window.DataContext>
 
     <Grid>
@@ -48,13 +47,6 @@
                        Text="New connection to database"
                        FontSize="18"
                        HorizontalAlignment="Center" />
-
-            <ComboBox Grid.Row="1"
-                      Grid.Column="1"
-                      Margin="5,3"
-                      SelectedItem="{Binding Path=SelectedBaseType, Converter={convertors:EnumToDescriptionConverter},ConverterParameter={x:Type model:DatabaseTypeEnum}}"
-                      ItemsSource="{Binding Source={x:Type model:DatabaseTypeEnum}, Converter={convertors:EnumToItemsSourceConverter}}"
-                      IsEnabled="{Binding ConnectionData.CanChange}" />
 
         </Grid>
 

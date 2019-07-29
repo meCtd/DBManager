@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace DataBaseTree.Framework
+namespace DBManager.Application.Framework
 {
 	public class RelayCommand<T> : ICommand
 	{

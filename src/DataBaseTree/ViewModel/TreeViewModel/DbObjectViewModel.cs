@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Windows;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.TreeViewModel
 {
 	public class DbObjectViewModel : MetadataViewModelBase
 	{

@@ -1,4 +1,4 @@
-﻿namespace DataBaseTree.Model
+﻿namespace DBManager.Default
 {
 	public static class Constants
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DataBaseTree.Model.Tree
+namespace DBManager.Default.Tree
 {
 	public class FullName : IEnumerable<Chunk>
 	{
@@ -13,7 +13,7 @@ namespace DataBaseTree.Model.Tree
 			_fullNameList = new List<Chunk>() { new Chunk(obj.Name, obj.Type) };
 		}
 
-		public void AddPartent(DbObject obj)
+		public void AddParent(DbObject obj)
 		{
 			_fullNameList.Insert(0, new Chunk(obj.Name, obj.Type));
 		}

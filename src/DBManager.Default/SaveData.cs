@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using DataBaseTree.Model.Loaders;
-using DataBaseTree.Model.Tree;
-using DataBaseTree.Model.Tree.DbEntities;
+using DBManager.Default.Loaders;
+using DBManager.Default.Tree;
+using DBManager.Default.Tree.DbEntities;
 
-namespace DataBaseTree.Model
+namespace DBManager.Default
 {
 	[DataContract(Name = "SaveData")]
 	[KnownType("KnownType")]

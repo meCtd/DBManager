@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Prism.Mvvm;
 
-namespace DataBaseTree.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.TreeViewModel
 {
 	public abstract class TreeViewItemViewModelBase : BindableBase
 	{
