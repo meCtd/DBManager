@@ -15,7 +15,7 @@ namespace DBManager.Default.DataBaseConnection
         public string Server { get; set; }
 
         [DataMember(Name = "Port")]
-        public uint Port { get; set; }
+        public string Port { get; set; }
 
         [DataMember(Name = "InitialCatalog")]
         public string InitialCatalog { get; set; }

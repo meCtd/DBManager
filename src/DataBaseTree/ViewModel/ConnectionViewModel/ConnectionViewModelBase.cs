@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Collections.Generic;
+using System.Windows.Input;
 using DBManager.Default.DataBaseConnection;
 using Prism.Mvvm;
 
@@ -7,6 +8,8 @@ namespace DBManager.Application.ViewModel.ConnectionViewModel
     public abstract class ConnectionViewModelBase : BindableBase
     {
         private readonly ConnectionData _model;
+
+        private readonly Dictionary<string, string> _advancedProperties = new Dictionary<string, string>();
 
         public string Server
         {
@@ -18,7 +21,7 @@ namespace DBManager.Application.ViewModel.ConnectionViewModel
             }
         }
 
-        public uint Port
+        public string Port
         {
             get { return _model.Port; }
             set

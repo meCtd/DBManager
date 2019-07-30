@@ -12,12 +12,6 @@ namespace DBManager.SqlServer.Connection
         [DataMember(Name = "IntegratedSecurity")]
         public bool IntegratedSecurity { get; set; }
 
-        [DataMember(Name = "Pooling")]
-        public bool Pooling { get; set; }
-
-        [DataMember(Name = "ConnectionTimeout")]
-        public int ConnectionTimeout { get; set; }
-
         [DataMember(Name = "Type")]
         public override DialectType Type => DialectType.MsSql;
 
@@ -31,11 +25,10 @@ namespace DBManager.SqlServer.Connection
             {
                 var builder = new SqlConnectionStringBuilder
                 {
-                    Pooling = Pooling,
-                    DataSource = $"{Server},{Port.ToString()}",
+                    Pooling = true,
+                    DataSource = $"{Server},{(string.IsNullOrEmpty(Port) ? DefaultPort : Port)}",
                     IntegratedSecurity = IntegratedSecurity,
                     InitialCatalog = string.IsNullOrWhiteSpace(InitialCatalog) ? DefaultDatabase : InitialCatalog,
-                    ConnectTimeout = ConnectionTimeout
                 };
 
                 if (IntegratedSecurity)
@@ -46,8 +39,9 @@ namespace DBManager.SqlServer.Connection
 
                 return builder.ToString();
             }
+
         }
-        
+
         public override DbConnection GetConnection()
         {
             return new SqlConnection(ConnectionString);

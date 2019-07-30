@@ -9,13 +9,8 @@ namespace DBManager.Application.ViewModel.ConnectionViewModel
 {
     public sealed class MsSqlConnectionViewModel : ConnectionViewModelBase
     {
-        private int _connectionTimeout = 5;
-
         private bool _integratedSecurity;
-
-        private bool _pooling = true;
-
-
+        
         public int ConnectionTimeout
         {
             get { return _connectionTimeout; }
@@ -34,14 +29,6 @@ namespace DBManager.Application.ViewModel.ConnectionViewModel
                 }
             }
         }
-
-        public bool Pooling
-        {
-            get { return _pooling; }
-            set { SetProperty(ref _pooling, value); }
-        }
-
-
 
         public MsSqlConnectionViewModel(ConnectionData model) : base(model)
         {
