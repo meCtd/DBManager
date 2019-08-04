@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
-                    xmlns:vm="clr-namespace:DBManager.Application.ViewModel.ConnectionViewModel"
-                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+                    xmlns:vm="clr-namespace:DBManager.Application.ViewModel.Connections">
 
     <convertors:DbEntityEnumConverter x:Key="DbEntityEnumConverter" />
 

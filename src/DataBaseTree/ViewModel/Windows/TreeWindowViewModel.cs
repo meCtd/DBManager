@@ -5,16 +5,15 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
-using DBManager.Application.Framework;
 using DBManager.Application.View;
-using DBManager.Application.ViewModel.TreeViewModel;
+using DBManager.Application.ViewModel.MetadataTree;
 using DBManager.Default;
 using DBManager.Default.Printers;
 using DBManager.Default.Tree;
 using Microsoft.Win32;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel
+namespace DBManager.Application.ViewModel.Windows
 {
     public class TreeWindowViewModel : BindableBase
     {

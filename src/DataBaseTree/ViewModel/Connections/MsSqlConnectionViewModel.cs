@@ -1,6 +1,6 @@
 ﻿using DBManager.Default.DataBaseConnection;
 
-namespace DBManager.Application.ViewModel.ConnectionViewModel
+namespace DBManager.Application.ViewModel.Connections
 {
     public sealed class MsSqlConnectionViewModel : ConnectionViewModelBase
     {

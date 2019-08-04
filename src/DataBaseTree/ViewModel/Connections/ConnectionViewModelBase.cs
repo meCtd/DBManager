@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Windows.Input;
 using DBManager.Default.DataBaseConnection;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel.ConnectionViewModel
+namespace DBManager.Application.ViewModel.Connections
 {
     public abstract class ConnectionViewModelBase : BindableBase, IDataErrorInfo
     {

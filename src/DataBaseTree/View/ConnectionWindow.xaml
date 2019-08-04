@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:DBManager.Application.ViewModel"
         xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+        xmlns:windows="clr-namespace:DBManager.Application.ViewModel.Windows"
         x:Class="DBManager.Application.View.ConnectionWindow"
         mc:Ignorable="d"
         Title="ConnectionWindow"
@@ -12,7 +13,7 @@
         ResizeMode="NoResize">
 
     <Window.DataContext>
-        <viewModel:ConnectionWindowViewModel />
+        <windows:ConnectionWindowViewModel />
     </Window.DataContext>
 
     <Grid>

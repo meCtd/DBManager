@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using DBManager.Default.Tree;
 
-namespace DBManager.Application.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.MetadataTree
 {
 	public class DbObjectViewModel : MetadataViewModelBase
 	{

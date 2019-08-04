@@ -92,6 +92,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Framework\Providers\ConnectionProvider.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
@@ -99,19 +100,18 @@
     <Compile Include="Convertors\EnumToItemsSourceConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
-    <Compile Include="Framework\Enums\ConnectionMode.cs" />
     <Compile Include="Framework\Interfaces\IModelObject.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
     <Compile Include="Framework\WindowManager.cs" />
-    <Compile Include="ViewModel\ConnectionViewModel\ConnectionViewModelBase.cs" />
-    <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
-    <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\DbObjectViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
-    <Compile Include="ViewModel\TreeViewModel\TreeRootViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModel\TreeWindowViewModel.cs" />
+    <Compile Include="ViewModel\Connections\ConnectionViewModelBase.cs" />
+    <Compile Include="ViewModel\Connections\MsSqlConnectionViewModel.cs" />
+    <Compile Include="ViewModel\Windows\ConnectionWindowViewModel.cs" />
+    <Compile Include="ViewModel\MetadataTree\CategoryViewModel.cs" />
+    <Compile Include="ViewModel\MetadataTree\DbObjectViewModel.cs" />
+    <Compile Include="ViewModel\MetadataTree\MetadataViewModelBase.cs" />
+    <Compile Include="ViewModel\MetadataTree\TreeRootViewModel.cs" />
+    <Compile Include="ViewModel\MetadataTree\TreeViewItemViewModelBase.cs" />
+    <Compile Include="ViewModel\Windows\TreeWindowViewModel.cs" />
     <Compile Include="View\ConnectionWindow.xaml.cs">
       <DependentUpon>ConnectionWindow.xaml</DependentUpon>
     </Compile>
@@ -221,22 +221,20 @@
     <Resource Include="Resources\Icons\Definition.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DbManager.ApplicationDispatcher\DBManager.ApplicationDispatcher.csproj">
-      <Project>{4c155e59-f5cf-4cf5-b8bc-733ac5160a14}</Project>
-      <Name>DBManager.ApplicationDispatcher</Name>
-    </ProjectReference>
     <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBManager.SqlServer\DBManager.SqlServer.csproj">
+      <Project>{14b6b5bc-42af-4213-bb3d-bb29c9bb4ce3}</Project>
+      <Name>DBManager.SqlServer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Framework\Framework.csproj">
       <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\Base\Connection\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

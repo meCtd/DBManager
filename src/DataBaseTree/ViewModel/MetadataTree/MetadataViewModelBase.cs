@@ -1,7 +1,7 @@
 ﻿using System;
 using DBManager.Default.Tree;
 
-namespace DBManager.Application.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.MetadataTree
 {
 	public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
 	{

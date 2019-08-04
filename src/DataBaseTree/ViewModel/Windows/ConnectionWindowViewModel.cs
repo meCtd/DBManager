@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Input;
-using DBManager.Application.ViewModel.ConnectionViewModel;
-using DBManager.ApplicationDispatcher;
+using DBManager.Application.Framework.Providers;
+using DBManager.Application.ViewModel.Connections;
 using DBManager.Default;
-using DBManager.Default.DataBaseConnection;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel
+namespace DBManager.Application.ViewModel.Windows
 {
     public class ConnectionWindowViewModel : BindableBase
     {

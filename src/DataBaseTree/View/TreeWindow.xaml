@@ -7,14 +7,15 @@
         xmlns:viewModel="clr-namespace:DBManager.Application.ViewModel"
         xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
         xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
-        xmlns:treevm="clr-namespace:DBManager.Application.ViewModel.TreeViewModel"
+        xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModel.MetadataTree"
+        xmlns:windows="clr-namespace:DBManager.Application.ViewModel.Windows"
         mc:Ignorable="d"
         Title="TreeWindow"
         Height="550"
         Width="750">
 
     <Window.DataContext>
-        <viewModel:TreeWindowViewModel />
+        <windows:TreeWindowViewModel />
     </Window.DataContext>
 
     <Grid>
@@ -188,7 +189,7 @@
 
                 <TreeView.Resources>
 
-                    <HierarchicalDataTemplate DataType="{x:Type treevm:MetadataViewModelBase}"
+                    <HierarchicalDataTemplate DataType="{x:Type metadataTree:MetadataViewModelBase}"
                                               ItemsSource="{Binding Children}">
 
                         <StackPanel x:Name="Container"

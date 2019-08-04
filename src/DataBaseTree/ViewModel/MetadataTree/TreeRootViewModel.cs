@@ -1,14 +1,8 @@
-﻿using System;
-using System.Data.Common;
-using System.Threading.Tasks;
-using System.Windows;
-using DBManager.Application.View;
-using DBManager.Application.ViewModel.ConnectionViewModel;
-using DBManager.Default.Loaders;
+﻿using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 
-namespace DBManager.Application.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.MetadataTree
 {
 	public class TreeRootViewModel : MetadataViewModelBase
 	{

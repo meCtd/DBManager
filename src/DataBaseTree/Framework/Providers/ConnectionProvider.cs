@@ -4,7 +4,7 @@ using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.SqlServer.Connection;
 
-namespace DBManager.ApplicationDispatcher
+namespace DBManager.Application.Framework.Providers
 {
     public class ConnectionProvider
     {

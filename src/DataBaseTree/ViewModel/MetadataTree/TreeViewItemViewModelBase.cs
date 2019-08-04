@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel.TreeViewModel
+namespace DBManager.Application.ViewModel.MetadataTree
 {
 	public abstract class TreeViewItemViewModelBase : BindableBase
 	{
