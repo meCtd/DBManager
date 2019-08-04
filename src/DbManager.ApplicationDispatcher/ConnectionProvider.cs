@@ -8,6 +8,14 @@ namespace DBManager.ApplicationDispatcher
 {
     public class ConnectionProvider
     {
+        private static ConnectionProvider _instance;
+
+        public static ConnectionProvider Instance => _instance ?? (_instance = new ConnectionProvider());
+
+        private ConnectionProvider()
+        {
+        }
+
         private static readonly Dictionary<DialectType, ConnectionData> _connectionCreator = new Dictionary<DialectType, ConnectionData>
         {
             [DialectType.MsSql] = new MsSqlServer()

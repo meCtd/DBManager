@@ -1,71 +1,77 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Input;
 using DBManager.Default.DataBaseConnection;
 using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModel.ConnectionViewModel
 {
-    public abstract class ConnectionViewModelBase : BindableBase
+    public abstract class ConnectionViewModelBase : BindableBase, IDataErrorInfo
     {
-        private readonly ConnectionData _model;
+        public ConnectionData Model { get; }
 
         private readonly Dictionary<string, string> _advancedProperties = new Dictionary<string, string>();
 
         public string Server
         {
-            get { return _model.Server; }
+            get { return Model.Server; }
             set
             {
-                _model.Server = value;
+                Model.Server = value;
                 RaisePropertyChanged();
             }
         }
 
         public string Port
         {
-            get { return _model.Port; }
+            get { return Model.Port ?? Model.DefaultPort; }
             set
             {
-                _model.Port = value;
+                Model.Port = value;
                 RaisePropertyChanged();
             }
         }
 
         public string InitialCatalog
         {
-            get { return _model.InitialCatalog; }
+            get { return Model.InitialCatalog; }
             set
             {
-                _model.InitialCatalog = value;
+                Model.InitialCatalog = value;
                 RaisePropertyChanged();
             }
         }
 
         public string UserId
         {
-            get { return _model.UserId; }
+            get { return Model.UserId; }
             set
             {
-                _model.UserId = value;
+                Model.UserId = value;
                 RaisePropertyChanged();
             }
         }
 
         public string Password
         {
-            get { return _model.Password; }
+            get { return Model.Password; }
             set
             {
-                _model.Password = value;
+                Model.Password = value;
                 RaisePropertyChanged();
             }
         }
 
+        public bool IsValid;
 
         protected ConnectionViewModelBase(ConnectionData model)
         {
-            _model = model;
+            Model = model;
         }
+
+        public string this[string columnName] => throw new System.NotImplementedException();
+
+        public string Error { get; }
     }
 }
 

@@ -101,13 +101,11 @@
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Framework\Enums\ConnectionMode.cs" />
     <Compile Include="Framework\Interfaces\IModelObject.cs" />
-    <Compile Include="Framework\RelayCommand.cs" />
-    <Compile Include="Framework\RelayCommandGeneric.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
+    <Compile Include="Framework\WindowManager.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
-    <Compile Include="ViewModel\Providers\ConnectionViewModelProvider.cs" />
     <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\DbObjectViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
@@ -223,9 +221,17 @@
     <Resource Include="Resources\Icons\Definition.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DbManager.ApplicationDispatcher\DBManager.ApplicationDispatcher.csproj">
+      <Project>{4c155e59-f5cf-4cf5-b8bc-733ac5160a14}</Project>
+      <Name>DBManager.ApplicationDispatcher</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
+      <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

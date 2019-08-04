@@ -55,6 +55,10 @@
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

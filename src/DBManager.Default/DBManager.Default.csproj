@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DataBaseConnection\ConnectionData.cs" />
+    <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialect.cs" />
     <Compile Include="Loaders\IObjectLoader.cs" />
@@ -77,6 +78,12 @@
     <Compile Include="Tree\DbObject.cs" />
     <Compile Include="Tree\FullName.cs" />
     <Compile Include="Tree\Hierarchy.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
