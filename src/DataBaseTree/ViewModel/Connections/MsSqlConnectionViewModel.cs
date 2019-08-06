@@ -1,4 +1,5 @@
-﻿using DBManager.Default.DataBaseConnection;
+﻿using System;
+using DBManager.Default.DataBaseConnection;
 
 namespace DBManager.Application.ViewModel.Connections
 {
@@ -13,6 +14,12 @@ namespace DBManager.Application.ViewModel.Connections
                     return;
 
                 Model.Properties[ConnectionProperty.IntegratedSecurity] = value.ToString();
+
+                if (value)
+                {
+                    UserId = Environment.UserName;
+                    Password = string.Empty;
+                }
             }
         }
 

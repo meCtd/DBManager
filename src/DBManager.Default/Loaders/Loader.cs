@@ -19,8 +19,6 @@ namespace DBManager.Default.Loaders
         [DataMember(Name = "ConnectionData")]
         public ConnectionData Connection { get; set; }
 
-        public Hierarchy Hierarchy => Hierarchy.HierarchyObject;
-
         public abstract Task LoadChildrenAsync(DbObject obj);
 
         public abstract Task LoadChildrenAsync(DbObject obj, DbEntityType childType);
