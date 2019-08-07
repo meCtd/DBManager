@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using DBManager.Default.DataBaseConnection;
 using Prism.Mvvm;
 
@@ -8,9 +9,10 @@ namespace DBManager.Application.ViewModel.Connections
     {
         protected const string IsRequired = "Field is required";
         protected const string NotValid = "Value is not valid";
-        
-        private bool _isValid = true;
+
+        private bool _isValid;
         private bool _isInProgress;
+        private readonly HashSet<string> _invalidColumns = new HashSet<string>();
 
         public ConnectionData Model { get; }
 
@@ -80,7 +82,7 @@ namespace DBManager.Application.ViewModel.Connections
         {
             Model = model;
         }
-        
+
 
         protected virtual string ValidateColumn(string columnName)
         {
@@ -112,7 +114,7 @@ namespace DBManager.Application.ViewModel.Connections
 
             return string.Empty;
         }
-        
+
         #region IDataErrorInfoImpl
 
         string IDataErrorInfo.this[string columnName]
@@ -120,7 +122,14 @@ namespace DBManager.Application.ViewModel.Connections
             get
             {
                 string error = ValidateColumn(columnName);
-                IsValid = string.IsNullOrEmpty(error);
+
+                if (!string.IsNullOrEmpty(error))
+                    _invalidColumns.Add(columnName);
+
+                else
+                    _invalidColumns.Remove(columnName);
+
+                IsValid = _invalidColumns.Count == 0;
                 return error;
             }
         }

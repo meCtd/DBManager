@@ -26,5 +26,13 @@ namespace DBManager.Application.ViewModel.Connections
         public MsSqlConnectionViewModel(ConnectionData model) : base(model)
         {
         }
+
+        protected override string ValidateColumn(string columnName)
+        {
+            if (IntegratedSecurity && columnName == nameof(Password))
+                return string.Empty;
+
+            return base.ValidateColumn(columnName);
+        }
     }
 }
