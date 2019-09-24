@@ -7,9 +7,26 @@ namespace DBManager.Application.ViewModel.Connections
 {
     public abstract class ConnectionViewModelBase : BindableBase, IDataErrorInfo
     {
+        protected const string IsRequired = "Field is required";
+        protected const string NotValid = "Value is not valid";
+
+        private bool _isValid;
+        private bool _isInProgress;
+        private readonly HashSet<string> _invalidColumns = new HashSet<string>();
+
         public ConnectionData Model { get; }
 
-        private readonly Dictionary<string, string> _advancedProperties = new Dictionary<string, string>();
+        public bool IsValid
+        {
+            get { return _isValid; }
+            set { SetProperty(ref _isValid, value); }
+        }
+
+        public bool IsInProgress
+        {
+            get { return _isInProgress; }
+            set { SetProperty(ref _isInProgress, value); }
+        }
 
         public string Server
         {
@@ -61,16 +78,65 @@ namespace DBManager.Application.ViewModel.Connections
             }
         }
 
-        public bool IsValid;
-
         protected ConnectionViewModelBase(ConnectionData model)
         {
             Model = model;
         }
 
-        public string this[string columnName] => throw new System.NotImplementedException();
 
-        public string Error { get; }
+        protected virtual string ValidateColumn(string columnName)
+        {
+            switch (columnName)
+            {
+                case nameof(Server):
+                    if (string.IsNullOrEmpty(Server))
+                        return IsRequired;
+                    break;
+
+                case nameof(Port):
+                    if (string.IsNullOrEmpty(Password))
+                        return IsRequired;
+
+                    if (!bool.TryParse(Port, out _))
+                        return NotValid;
+                    break;
+
+                case nameof(UserId):
+                    if (string.IsNullOrEmpty(UserId))
+                        return IsRequired;
+                    break;
+
+                case nameof(Password):
+                    if (string.IsNullOrEmpty(Password))
+                        return IsRequired;
+                    break;
+            }
+
+            return string.Empty;
+        }
+
+        #region IDataErrorInfoImpl
+
+        string IDataErrorInfo.this[string columnName]
+        {
+            get
+            {
+                string error = ValidateColumn(columnName);
+
+                if (!string.IsNullOrEmpty(error))
+                    _invalidColumns.Add(columnName);
+
+                else
+                    _invalidColumns.Remove(columnName);
+
+                IsValid = _invalidColumns.Count == 0;
+                return error;
+            }
+        }
+
+        string IDataErrorInfo.Error => null;
+
+        #endregion
     }
 }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DBManager.Default.Loaders;
+﻿using DBManager.Default.Loaders;
 using DBManager.Default.Printers;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.Hierarchy;
@@ -11,7 +6,7 @@ using DBManager.Default.Tree.Hierarchy;
 namespace DBManager.Default
 {
     //TODO: Base dialect components that need to work with
-    public interface IDialect
+    public interface IDialectComponent
     {
         IPrinterFactory Printer { get; }
 

@@ -1,4 +1,5 @@
-﻿using DBManager.Default.DataBaseConnection;
+﻿using System;
+using DBManager.Default.DataBaseConnection;
 
 namespace DBManager.Application.ViewModel.Connections
 {
@@ -13,11 +14,25 @@ namespace DBManager.Application.ViewModel.Connections
                     return;
 
                 Model.Properties[ConnectionProperty.IntegratedSecurity] = value.ToString();
+
+                if (value)
+                {
+                    UserId = Environment.UserName;
+                    Password = string.Empty;
+                }
             }
         }
 
         public MsSqlConnectionViewModel(ConnectionData model) : base(model)
         {
+        }
+
+        protected override string ValidateColumn(string columnName)
+        {
+            if (IntegratedSecurity && columnName == nameof(Password))
+                return string.Empty;
+
+            return base.ValidateColumn(columnName);
         }
     }
 }
