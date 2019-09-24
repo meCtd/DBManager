@@ -6,7 +6,8 @@ namespace DBManager.Default.Tree.DbEntities
 	[DataContract(Name = "db-type")]
 	public class DbType : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Type;
+		public override DialectType Dialect => DialectType.MsSql;
+		public override MetadataType Type => MetadataType.Type;
 
 		public override bool CanHaveDefinition => false;
 

@@ -28,7 +28,7 @@ namespace DBManager.Application.ViewModel.Windows
 
         private string _definitionText;
 
-        private DbEntityType _searchMask;
+        private MetadataType _searchMask;
 
         private bool _isFilterEnabled;
 
@@ -80,7 +80,7 @@ namespace DBManager.Application.ViewModel.Windows
             }
         }
 
-        public DbEntityType SearchMask
+        public MetadataType SearchMask
         {
             get { return _searchMask; }
             set
@@ -95,7 +95,7 @@ namespace DBManager.Application.ViewModel.Windows
         public TreeWindowViewModel()
         {
             ItemProperties = new ObservableCollection<KeyValuePair<string, object>>();
-            _searchMask = DbEntityType.All;
+            _searchMask = MetadataType.All;
         }
 
         #region Commands
@@ -255,10 +255,10 @@ namespace DBManager.Application.ViewModel.Windows
                     DefinitionText = obj.Model.Definition;
                     return;
                 }
-                if (obj.Type == DbEntityType.Table)
+                if (obj.Type == MetadataType.Table)
                 {
                     if (!obj.Model.IsChildrenLoaded(null).GetValueOrDefault(false))
-                        await obj.Root.LoadModel(obj, DbEntityType.All);
+                        await obj.Root.LoadModel(obj, MetadataType.All);
                     foreach (var child in obj.Model.Children)
                     {
                         if (!child.IsPropertyLoaded)
@@ -292,8 +292,8 @@ namespace DBManager.Application.ViewModel.Windows
         {
             if (obj == null)
                 return false;
-            if (obj.Type == DbEntityType.Table &&
-                (!obj.Model.IsChildrenLoaded(DbEntityType.Column).GetValueOrDefault(false) && !obj.Root.IsConnected))
+            if (obj.Type == MetadataType.Table &&
+                (!obj.Model.IsChildrenLoaded(MetadataType.Column).GetValueOrDefault(false) && !obj.Root.IsConnected))
                 return false;
             return !(obj is CategoryViewModel) && _printerFactory.IsSupported(obj.Model) && !obj.IsBusy && !obj.Root.IsLoadingInProcess;
         }
@@ -342,7 +342,7 @@ namespace DBManager.Application.ViewModel.Windows
 
                 matches.AddRange(IsFilterEnabled
                     ? FindMatchesNode(Root.First(), SearchText, SearchMask)
-                    : FindMatchesNode(Root.First(), SearchText, DbEntityType.All));
+                    : FindMatchesNode(Root.First(), SearchText, MetadataType.All));
 
                 _searchMatches = matches;
                 _searchEnumerator = _searchMatches.GetEnumerator();
@@ -371,7 +371,7 @@ namespace DBManager.Application.ViewModel.Windows
             return _searchMatches.Any(s => s.Root == rootViewItem);
         }
 
-        private IEnumerable<MetadataViewModelBase> FindMatchesNode(MetadataViewModelBase node, string text, DbEntityType mask)
+        private IEnumerable<MetadataViewModelBase> FindMatchesNode(MetadataViewModelBase node, string text, MetadataType mask)
         {
             if (node.Name.Contains(text) && !(node is CategoryViewModel) && mask.HasFlag(node.Type))
                 yield return node;

@@ -3,9 +3,9 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "constraint")]
-	public class Constraint : DbObject
+	public abstract class Constraint : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Constraint;
+		public override MetadataType Type => MetadataType.Constraint;
 
 		public override bool CanHaveDefinition => false;
 

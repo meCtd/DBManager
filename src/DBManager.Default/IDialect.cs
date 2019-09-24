@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DBManager.Default.Loaders;
 using DBManager.Default.Printers;
 using DBManager.Default.Tree;
+using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.Default
 {
@@ -16,6 +17,6 @@ namespace DBManager.Default
 
         IObjectLoader Loader { get; }
 
-        Hierarchy GetHierarchy();
+        MetadataHierarchy GetHierarchy();
     }
 }

@@ -6,7 +6,7 @@ namespace DBManager.Default.Providers
 {
 	public abstract class ScriptProvider
 	{
-		public abstract string GetLoadNameScript(DbEntityType parentType,DbEntityType childType);
+		public abstract string GetLoadNameScript(MetadataType parentType,MetadataType childType);
 
 		public abstract string GetPropertiesScript(DbObject obj);
 
@@ -14,7 +14,7 @@ namespace DBManager.Default.Providers
 
 		public abstract IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj);
 
-		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType);
+		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType);
 
 		public abstract IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj);
 

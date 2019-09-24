@@ -10,7 +10,7 @@ namespace DBManager.Default.Loaders
 
         Task LoadChildrenAsync(DbObject obj);
 
-        Task LoadChildrenAsync(DbObject obj, DbEntityType childType);
+        Task LoadChildrenAsync(DbObject obj, MetadataType childType);
 
         Task LoadPropertiesAsync(DbObject obj);
     }

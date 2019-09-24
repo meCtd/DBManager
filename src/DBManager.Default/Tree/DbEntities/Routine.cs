@@ -11,11 +11,6 @@ namespace DBManager.Default.Tree.DbEntities
 		protected Routine(string name) : base(name)
 		{
 		}
-		
-		protected override bool CanBeChild(DbObject obj)
-		{
-			return obj.Type == DbEntityType.Parameter;
-		}
 	}
 
 }

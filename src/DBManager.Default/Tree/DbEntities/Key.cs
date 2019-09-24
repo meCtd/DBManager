@@ -3,10 +3,9 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "key")]
-
-	public class Key : DbObject
+	public abstract class Key : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Key;
+		public override MetadataType Type => MetadataType.Key;
 
 		public override bool CanHaveDefinition => false;
 

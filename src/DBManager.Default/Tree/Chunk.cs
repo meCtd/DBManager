@@ -4,9 +4,9 @@
 	{
 		public string Name { get; }
 
-		public DbEntityType Type { get; }
+		public MetadataType Type { get; }
 
-		public Chunk(string name, DbEntityType type)
+		public Chunk(string name, MetadataType type)
 		{
 			Name = name;
 			Type = type;

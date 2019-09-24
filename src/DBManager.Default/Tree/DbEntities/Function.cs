@@ -3,9 +3,9 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "function")]
-	public class Function : Routine
+	public abstract class Function : Routine
 	{
-		public override DbEntityType Type => DbEntityType.Function;
+		public override MetadataType Type => MetadataType.Function;
 
 		public Function(string name) : base(name)
 		{

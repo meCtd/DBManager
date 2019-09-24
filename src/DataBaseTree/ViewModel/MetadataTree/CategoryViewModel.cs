@@ -16,27 +16,27 @@ namespace DBManager.Application.ViewModel.MetadataTree
 			{
 				switch (Type)
 				{
-					case DbEntityType.Table:
+					case MetadataType.Table:
 						return "Tables";
-					case DbEntityType.View:
+					case MetadataType.View:
 						return "Views";
-					case DbEntityType.Function:
+					case MetadataType.Function:
 						return "Functions";
-					case DbEntityType.Procedure:
+					case MetadataType.Procedure:
 						return "Procedures";
-					case DbEntityType.Constraint:
+					case MetadataType.Constraint:
 						return "Constraints";
-					case DbEntityType.Column:
+					case MetadataType.Column:
 						return "Columns";
-					case DbEntityType.Trigger:
+					case MetadataType.Trigger:
 						return "Triggers";
-					case DbEntityType.Parameter:
+					case MetadataType.Parameter:
 						return "Parameters";
-					case DbEntityType.Key:
+					case MetadataType.Key:
 						return "Keys";
-					case DbEntityType.Index:
+					case MetadataType.Index:
 						return "Indexes";
-					case DbEntityType.Schema:
+					case MetadataType.Schema:
 						return "Schemas";
 
 					default:
@@ -46,11 +46,11 @@ namespace DBManager.Application.ViewModel.MetadataTree
 			}
 		}
 
-		public override DbEntityType Type { get; }
+		public override MetadataType Type { get; }
 
 		public override string Icon => @"/Resources/Icons/Category.png";
 
-		public CategoryViewModel(MetadataViewModelBase parent, DbEntityType type) : base(parent, true)
+		public CategoryViewModel(MetadataViewModelBase parent, MetadataType type) : base(parent, true)
 		{
 			Type = type;
 			Model = parent.Model;

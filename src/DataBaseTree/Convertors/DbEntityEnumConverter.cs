@@ -7,17 +7,17 @@ namespace DBManager.Application.Convertors
 {
 	public class DbEntityEnumConverter : IValueConverter
 	{
-		private DbEntityType targetValue;
+		private MetadataType targetValue;
 
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			targetValue = (DbEntityType)value;
-			return targetValue.HasFlag((DbEntityType)parameter);
+			targetValue = (MetadataType)value;
+			return targetValue.HasFlag((MetadataType)parameter);
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return targetValue ^= (DbEntityType)parameter;
+			return targetValue ^= (MetadataType)parameter;
 		}
 
 	}

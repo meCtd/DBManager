@@ -13,7 +13,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 
 		#region Properties
 
-		public abstract DbEntityType Type { get; }
+		public abstract MetadataType Type { get; }
 
 		public abstract string Icon { get; }
 

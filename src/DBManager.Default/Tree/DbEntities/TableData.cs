@@ -13,12 +13,5 @@ namespace DBManager.Default.Tree.DbEntities
 		protected TableData(string name) : base(name)
 		{
 		}
-
-		protected override bool CanBeChild(DbObject obj)
-		{
-			DbEntityType type = obj.Type;
-			return type == DbEntityType.Column || type == DbEntityType.Trigger || type == DbEntityType.Index;
-		}
-
 	}
 }

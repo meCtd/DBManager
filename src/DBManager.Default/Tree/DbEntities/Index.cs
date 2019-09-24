@@ -3,9 +3,9 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "index")]
-	public class Index : DbObject
+	public abstract class Index : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Index;
+		public override MetadataType Type => MetadataType.Index;
 
 		public override bool CanHaveDefinition => false;
 

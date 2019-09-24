@@ -12,13 +12,13 @@ namespace DBManager.Default.Tree
 		#region Fields
 
 		[DataMember(Name = "Children")]
-		private List<KeyValuePair<DbEntityType, List<DbObject>>> _childrenList;
+		private List<KeyValuePair<MetadataType, List<DbObject>>> _childrenList;
 
 		[DataMember(Name = "Properties")]
 		private List<KeyValuePair<string, object>> _propertyList;
 
 
-		private Dictionary<DbEntityType, List<DbObject>> _childrenMap;
+		private Dictionary<MetadataType, List<DbObject>> _childrenMap;
 
 		private FullName _fullName;
 
@@ -30,7 +30,9 @@ namespace DBManager.Default.Tree
 
 		#region Properties
 
-		public abstract DbEntityType Type { get; }
+		public abstract MetadataType Type { get; }
+
+		public abstract DialectType Dialect { get; }
 
 		public abstract bool CanHaveDefinition { get; }
 
@@ -47,9 +49,9 @@ namespace DBManager.Default.Tree
 		[DataMember(Name = "parent")]
 		public DbObject Parent { get; private set; }
 
-		public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(DbEntityType.Schema));
+		public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(MetadataType.Schema));
 
-		public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(DbEntityType.Database));
+		public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(MetadataType.Database));
 
 		public virtual IReadOnlyList<DbObject> Children => _childrenMap.Values.SelectMany(x => x).ToList();
 
@@ -61,7 +63,7 @@ namespace DBManager.Default.Tree
 		{
 			Name = name;
 			Properties = new Dictionary<string, object>();
-			_childrenMap = new Dictionary<DbEntityType, List<DbObject>>();
+			_childrenMap = new Dictionary<MetadataType, List<DbObject>>();
 		}
 
 		#region Methods
@@ -77,7 +79,7 @@ namespace DBManager.Default.Tree
 		{
 			FullName fullName = new FullName(this);
 			DbObject parent = Parent;
-			while (parent != null && parent.Type != DbEntityType.Server)
+			while (parent != null && parent.Type != MetadataType.Server)
 			{
 				fullName.AddParent(parent);
 				parent = parent.Parent;
@@ -86,7 +88,7 @@ namespace DBManager.Default.Tree
 			return fullName;
 		}
 
-		private string GetBaseName(DbEntityType type)
+		private string GetBaseName(MetadataType type)
 		{
 			if (Type == type)
 				return this.Name;
@@ -99,14 +101,6 @@ namespace DBManager.Default.Tree
 				}
 			}
 			return null;
-		}
-
-		#endregion
-
-		#region Protected
-		protected virtual bool CanBeChild(DbObject obj)
-		{
-			return false;
 		}
 
 		#endregion
@@ -125,7 +119,7 @@ namespace DBManager.Default.Tree
 			_childrenMap.Clear();
 		}
 
-		public void DeleteChildrens(DbEntityType type)
+		public void DeleteChildrens(MetadataType type)
 		{
 			if (_childrenMap.ContainsKey(type))
 				_childrenMap.Remove(type);
@@ -133,9 +127,6 @@ namespace DBManager.Default.Tree
 
 		public virtual bool AddChild(DbObject obj)
 		{
-			if (!CanBeChild(obj))
-				return false;
-
 			List<DbObject> items = _childrenMap.ContainsKey(obj.Type) ? _childrenMap[obj.Type] : (_childrenMap[obj.Type] = new List<DbObject>());
 			items.Add(obj);
 			SetParent(obj);
@@ -145,9 +136,6 @@ namespace DBManager.Default.Tree
 
 		public virtual bool RemoveChild(DbObject obj)
 		{
-			if (!CanBeChild(obj))
-				return false;
-
 			bool result = _childrenMap[obj.Type].Remove(obj);
 
 			if (result)
@@ -179,9 +167,9 @@ namespace DBManager.Default.Tree
 			return true;
 		}
 
-		public bool? IsChildrenLoaded(DbEntityType? childType)
+		public bool? IsChildrenLoaded(MetadataType? childType)
 		{
-			if (!Hierarchy.HierarchyObject.IsPossibleChilds(Type))
+			if (!HierarhyOld.HierarchyObject.IsPossibleChilds(Type))
 				return true;
 
 			if (childType == null)
@@ -189,7 +177,7 @@ namespace DBManager.Default.Tree
 				if (_childrenMap.Count == 0)
 					return false;
 
-				if (Hierarchy.HierarchyObject.GetChildTypes(Type).Any(type => !_childrenMap.ContainsKey(type)))
+				if (HierarhyOld.HierarchyObject.GetChildTypes(Type).Any(type => !_childrenMap.ContainsKey(type)))
 				{
 					return null;
 				}
@@ -222,7 +210,7 @@ namespace DBManager.Default.Tree
 		[OnDeserialized]
 		public void Update(StreamingContext context)
 		{
-			_childrenMap = new Dictionary<DbEntityType, List<DbObject>>();
+			_childrenMap = new Dictionary<MetadataType, List<DbObject>>();
 			Properties = new Dictionary<string, object>();
 
 			if (_childrenList != null)

@@ -4,9 +4,9 @@ namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "parameter")]
 
-	public class Parameter : TypeObject
+	public abstract class Parameter : TypeObject
 	{
-		public override DbEntityType Type => DbEntityType.Parameter;
+		public override MetadataType Type => MetadataType.Parameter;
 
 		public override bool CanHaveDefinition => false;
 

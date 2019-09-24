@@ -107,31 +107,31 @@
                     <WrapPanel  Orientation="Vertical"
                                 Margin="5">
                         <CheckBox  Content="Server"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Server }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Server }}" />
                         <CheckBox  Content="Database"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Database }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Database }}" />
                         <CheckBox  Content="Schema"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Schema }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Schema }}" />
                         <CheckBox  Content="Table"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Table }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Table }}" />
                         <CheckBox  Content="View"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.View }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.View }}" />
                         <CheckBox  Content="Function"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Function }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Function }}" />
                         <CheckBox  Content="Pocedure"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Procedure }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Procedure }}" />
                         <CheckBox  Content="Constraint"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Constraint }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Constraint }}" />
                         <CheckBox  Content="Column"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Column }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Column }}" />
                         <CheckBox  Content="Trigger"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Trigger }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Trigger }}" />
                         <CheckBox  Content="Parameter"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Parameter }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Parameter }}" />
                         <CheckBox  Content="Key"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Key }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Key }}" />
                         <CheckBox  Content="Index"
-                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:DbEntityType.Index }}" />
+                                   IsChecked="{Binding Path=SearchMask,Mode=TwoWay,Converter={StaticResource DbEntityEnumConverter}, ConverterParameter={x:Static tree:MetadataType.Index }}" />
                     </WrapPanel>
                 </Border>
 

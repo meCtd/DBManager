@@ -10,30 +10,30 @@ namespace DBManager.SqlServer.Provider
 {
 	public class MsSqlScriptProvider : ScriptProvider
 	{
-		public override string GetLoadNameScript(DbEntityType parentType, DbEntityType childType)
+		public override string GetLoadNameScript(MetadataType parentType, MetadataType childType)
 		{
 			switch (childType)
 			{
-				case DbEntityType.Schema:
+				case MetadataType.Schema:
 					return $"SELECT SCHEMA_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.SCHEMATA";
 
-				case DbEntityType.Table:
-				case DbEntityType.View:
+				case MetadataType.Table:
+				case MetadataType.View:
 					return $"SELECT TABLE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = {Constants.TypeParameter} AND TABLE_SCHEMA = {Constants.SchemaNameParameter}";
 
-				case DbEntityType.Function:
-				case DbEntityType.Procedure:
+				case MetadataType.Function:
+				case MetadataType.Procedure:
 					return $"SELECT ROUTINE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = {Constants.TypeParameter} AND ROUTINE_SCHEMA = {Constants.SchemaNameParameter}";
 
-				case DbEntityType.Constraint:
+				case MetadataType.Constraint:
 					return
 						($"SELECT CONSTRAINT_NAME AS {Constants.NameProperty} FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
 						$"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
 
-				case DbEntityType.Column:
+				case MetadataType.Column:
 					switch (parentType)
 					{
-						case DbEntityType.Table:
+						case MetadataType.Table:
 							return ($"SELECT col.name AS'{Constants.NameProperty}', " +
 									$"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
 									$"col.max_length AS '{Constants.MaxLengthProperty}', " +
@@ -41,7 +41,7 @@ namespace DBManager.SqlServer.Provider
 									$"col.scale AS '{Constants.ScaleProperty}'  " +
 									$"FROM sys.columns AS col " +
 									$"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
-						case DbEntityType.View:
+						case MetadataType.View:
 							return ($"SELECT col.name AS'{Constants.NameProperty}', " +
 								   $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
 								   $"col.max_length AS '{Constants.MaxLengthProperty}', " +
@@ -55,10 +55,10 @@ namespace DBManager.SqlServer.Provider
 					}
 
 
-				case DbEntityType.Trigger:
+				case MetadataType.Trigger:
 					return $"SELECT name AS '{Constants.NameProperty}' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
 
-				case DbEntityType.Parameter:
+				case MetadataType.Parameter:
 					return ($"SELECT  name AS'{Constants.NameProperty}', " +
 							$"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
 							$"max_length AS '{Constants.MaxLengthProperty}', " +
@@ -66,14 +66,14 @@ namespace DBManager.SqlServer.Provider
 							$"scale AS '{Constants.ScaleProperty}' " +
 							$"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
 
-				case DbEntityType.Key:
+				case MetadataType.Key:
 					return $"SELECT DISTINCT CONSTRAINT_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
 
-				case DbEntityType.Index:
+				case MetadataType.Index:
 					return
 						$"SELECT name AS '{Constants.NameProperty}' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
 
-				case DbEntityType.Database:
+				case MetadataType.Database:
 					return $"SELECT name  AS '{Constants.NameProperty}' FROM sys.databases";
 
 				default:
@@ -92,34 +92,34 @@ namespace DBManager.SqlServer.Provider
 			yield return new SqlParameter(Constants.NameParameter, $"{obj.SchemaName}.{obj.Name}");
 		}
 
-		public override IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType)
+		public override IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType)
 		{
 			List<IDbDataParameter> parameters = new List<IDbDataParameter>();
 			switch (childType)
 			{
 
-				case DbEntityType.Table:
+				case MetadataType.Table:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, "BASE TABLE"));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityType.View:
-				case DbEntityType.Function:
-				case DbEntityType.Procedure:
+				case MetadataType.View:
+				case MetadataType.Function:
+				case MetadataType.Procedure:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, childType.ToString().ToUpper()));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityType.Column:
-				case DbEntityType.Constraint:
-				case DbEntityType.Key:
+				case MetadataType.Column:
+				case MetadataType.Constraint:
+				case MetadataType.Key:
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					break;
 
-				case DbEntityType.Trigger:
-				case DbEntityType.Parameter:
-				case DbEntityType.Index:
+				case MetadataType.Trigger:
+				case MetadataType.Parameter:
+				case MetadataType.Index:
 					parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.FullName.ToString()));
 					break;
 			}
@@ -131,7 +131,7 @@ namespace DBManager.SqlServer.Provider
 		{
 			switch (obj.Type)
 			{
-				case DbEntityType.Server:
+				case MetadataType.Server:
 					return ($"SELECT serv.product AS '{Constants.ProductProperty}', " +
 							$"@@VERSION AS '{Constants.ServerVersionProperty}', " +
 							$"serv.provider AS '{Constants.ProviderProperty}', " +
@@ -149,7 +149,7 @@ namespace DBManager.SqlServer.Provider
 							$"serv.is_nonsql_subscriber AS '{Constants.IsNonSqlSubscriberProperty}' " +
 							"FROM sys.servers AS serv WHERE name = @@SERVERNAME ");
 
-				case DbEntityType.Database:
+				case MetadataType.Database:
 					return ($"SELECT suser_sname( owner_sid ) AS '{Constants.OwnerNameProperty}', " +
 							$"create_date AS '{Constants.CreationDateProperty}', " +
 							$"compatibility_level AS '{Constants.VersionProperty}', " +
@@ -162,12 +162,12 @@ namespace DBManager.SqlServer.Provider
 							$"page_verify_option_desc AS '{Constants.PageVerifyOptionProperty}' " +
 							$"FROM sys.databases WHERE name = {Constants.DatabaseNameParameter}");
 
-				case DbEntityType.Schema:
+				case MetadataType.Schema:
 					return ($"SELECT SCHEMA_OWNER AS '{Constants.SchemaOwnerProperty}' FROM INFORMATION_SCHEMA.SCHEMATA " +
 							$"WHERE SCHEMA_NAME = {Constants.SchemaNameParameter}");
 
 
-				case DbEntityType.Table:
+				case MetadataType.Table:
 					return ($"SELECT create_date AS '{Constants.CreationDateProperty}', " +
 							$"modify_date AS '{Constants.ModifyDateProperty}', " +
 							$"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
@@ -182,7 +182,7 @@ namespace DBManager.SqlServer.Provider
 							$" WHERE name = {Constants.NameParameter} AND schema_id = Schema_id({Constants.SchemaNameParameter})");
 
 
-				case DbEntityType.View:
+				case MetadataType.View:
 					return ($"SELECT create_date AS '{Constants.CreationDateProperty}', " +
 							$"modify_date AS '{Constants.ModifyDateProperty}', " +
 							$"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
@@ -195,7 +195,7 @@ namespace DBManager.SqlServer.Provider
 							$"is_date_correlation_view AS '{Constants.IsDateCorrelationViewProperty}' " +
 							$"FROM sys.views WHERE name = {Constants.NameParameter} AND schema_id = Schema_id({Constants.SchemaNameParameter})");
 
-				case DbEntityType.Trigger:
+				case MetadataType.Trigger:
 					return ($"SELECT tr.create_date AS '{Constants.CreationDateProperty}', " +
 							$"tr.modify_date  AS '{Constants.ModifyDateProperty}', " +
 							$"tr.is_ms_shipped  AS '{Constants.IsMsShippedProperty}', " +
@@ -210,7 +210,7 @@ namespace DBManager.SqlServer.Provider
 							"JOIN sys.objects as ob on  tr.object_id=ob.object_id  " +
 							$"WHERE ob.parent_object_id = OBJECT_ID({Constants.FullParentNameParameter}) and tr.name = {Constants.NameParameter}");
 
-				case DbEntityType.Constraint:
+				case MetadataType.Constraint:
 					return ($"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE Where TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
 							$"con.type_desc AS '{Constants.TypeProperty}', " +
 							$"con.create_date AS '{Constants.CreationDateProperty}', " +
@@ -219,7 +219,7 @@ namespace DBManager.SqlServer.Provider
 							"FROM sys.check_constraints AS con " +
 							$"JOIN INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE AS inf On con.name=inf.CONSTRAINT_NAME WHERE con.name={Constants.NameParameter} AND inf.TABLE_NAME={Constants.ParentNameParameter}");
 
-				case DbEntityType.Column:
+				case MetadataType.Column:
 					return ($"SELECT col.is_nullable AS '{Constants.IsNullableProperty}', " +
 							$"inf.COLUMN_DEFAULT AS  '{Constants.DefaultValueProperty}', " +
 							$"col.is_identity AS '{Constants.IsIdentityProperty}', " +
@@ -238,7 +238,7 @@ namespace DBManager.SqlServer.Provider
 							$"LEFT JOIN sys.identity_columns AS id ON col.object_id=id.object_id  " +
 							$"WHERE col.name={Constants.NameParameter} AND col.object_id=OBJECT_ID({Constants.FullParentNameParameter})");
 
-				case DbEntityType.Function:
+				case MetadataType.Function:
 					return ($"SELECT CREATED AS '{Constants.CreationDateProperty}', " +
 							$"LAST_ALTERED AS '{Constants.LastAlteredProperty}', " +
 							$"DATA_TYPE AS '{Constants.ReturnValueTypeProperty}', " +
@@ -249,7 +249,7 @@ namespace DBManager.SqlServer.Provider
 							$"IS_IMPLICITLY_INVOCABLE AS '{Constants.IsImplicityInvocableProeprty}' " +
 							$"FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE={Constants.TypeParameter} AND SPECIFIC_SCHEMA = {Constants.SchemaNameParameter} AND ROUTINE_NAME= {Constants.NameParameter}");
 
-				case DbEntityType.Procedure:
+				case MetadataType.Procedure:
 					return ($"SELECT CREATED AS '{Constants.CreationDateProperty}', " +
 							$"LAST_ALTERED AS '{Constants.LastAlteredProperty}', " +
 							$"ROUTINE_BODY AS '{Constants.RoutineBodyProperty}', " +
@@ -259,7 +259,7 @@ namespace DBManager.SqlServer.Provider
 							$"IS_IMPLICITLY_INVOCABLE AS '{Constants.IsImplicityInvocableProeprty}' " +
 							$"FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE={Constants.TypeParameter} AND SPECIFIC_SCHEMA ={Constants.SchemaNameParameter} AND ROUTINE_NAME= {Constants.NameParameter}");
 
-				case DbEntityType.Parameter:
+				case MetadataType.Parameter:
 					return ($"SELECT has_default_value AS '{Constants.HasDefaultValueProperty}', " +
 						   $"default_value AS '{Constants.DefaultValueProperty}', " +
 						   $"is_output AS '{Constants.IsOutputProperty}', " +
@@ -268,7 +268,7 @@ namespace DBManager.SqlServer.Provider
 						   "FROM  sys.parameters " +
 						   $"WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND name = {Constants.NameParameter} ");
 
-				case DbEntityType.Index:
+				case MetadataType.Index:
 					return ($"SELECT type_desc AS '{Constants.TypeProperty}', " +
 							$"is_unique AS '{Constants.IsUniqueProperty}', " +
 							$"is_unique_constraint AS '{Constants.IsUniqueConstraintProperty}', " +
@@ -279,7 +279,7 @@ namespace DBManager.SqlServer.Provider
 							$"has_filter AS '{Constants.HasFilterProperty}' " +
 							$"FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND name = {Constants.NameParameter}");
 
-				case DbEntityType.Key:
+				case MetadataType.Key:
 					return  $"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
 							$"OBJECT_SCHEMA_NAME(ref.referenced_object_id) as '{Constants.ReferenceSchemaNameProperty}', " +
 							$"OBJECT_NAME(ref.referenced_object_id) as '{Constants.ReferenceTableNameProperty}', " +
@@ -328,49 +328,49 @@ namespace DBManager.SqlServer.Provider
 			List<IDbDataParameter> parameters = new List<IDbDataParameter>();
 			switch (obj.Type)
 			{
-				case DbEntityType.Database:
+				case MetadataType.Database:
 					parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
 					break;
 
-				case DbEntityType.Schema:
+				case MetadataType.Schema:
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityType.Table:
-				case DbEntityType.View:
+				case MetadataType.Table:
+				case MetadataType.View:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					break;
 
-				case DbEntityType.Function:
-				case DbEntityType.Procedure:
+				case MetadataType.Function:
+				case MetadataType.Procedure:
 					parameters.Add(new SqlParameter(Constants.TypeParameter, obj.Type.ToString().ToUpper()));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					break;
 
-				case DbEntityType.Trigger:
-				case DbEntityType.Index:
-				case DbEntityType.Parameter:
-				case DbEntityType.Column:
+				case MetadataType.Trigger:
+				case MetadataType.Index:
+				case MetadataType.Parameter:
+				case MetadataType.Column:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.Parent.FullName.ToString()));
 					break;
 
-				case DbEntityType.Constraint:
+				case MetadataType.Constraint:
 					parameters.Add(new SqlParameter(Constants.ParentNameParameter, obj.Parent.Name));
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 
 					break;
 
-				case DbEntityType.Key:
+				case MetadataType.Key:
 					parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
 					parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
 					parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
 					break;
 
 
-				case DbEntityType.Server:
+				case MetadataType.Server:
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();

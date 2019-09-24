@@ -10,15 +10,15 @@ namespace DBManager.SqlServer.Printer
 		{
 			switch (dbobject.Type)
 			{
-				case DbEntityType.None:
-				case DbEntityType.Server:
-				case DbEntityType.Constraint:
-				case DbEntityType.Column:
-				case DbEntityType.Parameter:
-				case DbEntityType.Key:
-				case DbEntityType.Index:
-				case DbEntityType.Type:
-				case DbEntityType.All:
+				case MetadataType.None:
+				case MetadataType.Server:
+				case MetadataType.Constraint:
+				case MetadataType.Column:
+				case MetadataType.Parameter:
+				case MetadataType.Key:
+				case MetadataType.Index:
+				case MetadataType.Type:
+				case MetadataType.All:
 					return false;
 			}
 
@@ -29,7 +29,7 @@ namespace DBManager.SqlServer.Printer
 		{
 			if (!IsSupported(obj))
 				throw new NotSupportedException();
-			if (obj.Type == DbEntityType.Table)
+			if (obj.Type == MetadataType.Table)
 				return new MsSqlTablePrinter();
 
 			return new MsSqlDefaultPrinter();

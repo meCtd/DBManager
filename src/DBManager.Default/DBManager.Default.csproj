@@ -60,7 +60,7 @@
     <Compile Include="Tree\DbEntities\Constraint.cs" />
     <Compile Include="Tree\DbEntities\Database.cs" />
     <Compile Include="Tree\DbEntities\DbType.cs" />
-    <Compile Include="Tree\DbEntities\DbView.cs" />
+    <Compile Include="Tree\DbEntities\View.cs" />
     <Compile Include="Tree\DbEntities\Function.cs" />
     <Compile Include="Tree\DbEntities\Index.cs" />
     <Compile Include="Tree\DbEntities\Key.cs" />
@@ -73,11 +73,12 @@
     <Compile Include="Tree\DbEntities\TableData.cs" />
     <Compile Include="Tree\DbEntities\Trigger.cs" />
     <Compile Include="Tree\DbEntities\TypeObject.cs" />
-    <Compile Include="Tree\DbEntityFactory.cs" />
-    <Compile Include="Tree\DbEntityType.cs" />
+    <Compile Include="Tree\MetadataTypeFactory.cs" />
+    <Compile Include="Tree\MetadataType.cs" />
     <Compile Include="Tree\DbObject.cs" />
     <Compile Include="Tree\FullName.cs" />
-    <Compile Include="Tree\Hierarchy.cs" />
+    <Compile Include="Tree\Hierarchy\MetadataHierarchyInfo.cs" />
+    <Compile Include="Tree\Hierarchy\MetadataHierarchy.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Framework\Framework.csproj">

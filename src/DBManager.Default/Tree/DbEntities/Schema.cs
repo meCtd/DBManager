@@ -7,23 +7,15 @@ namespace DBManager.Default.Tree.DbEntities
 	[KnownType(typeof(Procedure))]
 	[KnownType(typeof(Function))]
 	[KnownType(typeof(Table))]
-	[KnownType(typeof(DbView))]
-	public class Schema : DbObject
+	[KnownType(typeof(View))]
+	public abstract class Schema : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Schema;
+		public override MetadataType Type => MetadataType.Schema;
 
 		public override bool CanHaveDefinition => false;
 
 		public Schema(string name) : base(name)
 		{
-		}
-
-		protected override bool CanBeChild(DbObject obj)
-		{
-			var type = obj.Type;
-			return type == DbEntityType.Procedure || type == DbEntityType.Function ||
-			       type == DbEntityType.Table || type == DbEntityType.View;
-
 		}
 	}
 }

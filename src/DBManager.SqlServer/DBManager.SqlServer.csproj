@@ -44,6 +44,21 @@
   <ItemGroup>
     <Compile Include="Connection\MsSqlServer.cs" />
     <Compile Include="Loader\MsSqlLoader.cs" />
+    <Compile Include="Metadata\Entities\MsSqlColumn.cs" />
+    <Compile Include="Metadata\Entities\MsSqlConstraint.cs" />
+    <Compile Include="Metadata\Entities\MsSqlDatabase.cs" />
+    <Compile Include="Metadata\Entities\MsSqlFunction.cs" />
+    <Compile Include="Metadata\Entities\MsSqlIndex.cs" />
+    <Compile Include="Metadata\Entities\MsSqlKey.cs" />
+    <Compile Include="Metadata\Entities\MsSqlParameter.cs" />
+    <Compile Include="Metadata\Entities\MsSqlProcedure.cs" />
+    <Compile Include="Metadata\Entities\MsSqlSchema.cs" />
+    <Compile Include="Metadata\Entities\MsSqlServer.cs" />
+    <Compile Include="Metadata\Entities\MsSqlTable.cs" />
+    <Compile Include="Metadata\Entities\MsSqlTrigger.cs" />
+    <Compile Include="Metadata\Entities\MsSqlView.cs" />
+    <Compile Include="Metadata\MsSqlHierarchy.cs" />
+    <Compile Include="Metadata\MsSqlMetadataTypeFactory.cs" />
     <Compile Include="Printer\MsSqlDefaultPrinter.cs" />
     <Compile Include="Printer\MsSqlPrinterFactory.cs" />
     <Compile Include="Printer\MsSqlTablePrinter.cs" />
@@ -60,5 +75,6 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

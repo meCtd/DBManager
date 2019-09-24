@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree;
+using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.Default.Loaders
 {
@@ -19,11 +20,11 @@ namespace DBManager.Default.Loaders
         [DataMember(Name = "ConnectionData")]
         public ConnectionData Connection { get; set; }
 
-        public Hierarchy Hierarchy => Hierarchy.HierarchyObject;
+        public MetadataHierarchy Hierarchy => MetadataHierarchy.Instance;
 
         public abstract Task LoadChildrenAsync(DbObject obj);
 
-        public abstract Task LoadChildrenAsync(DbObject obj, DbEntityType childType);
+        public abstract Task LoadChildrenAsync(DbObject obj, MetadataType childType);
 
         public abstract Task LoadPropertiesAsync(DbObject obj);
 

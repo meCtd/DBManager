@@ -15,7 +15,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 
 		public override string Name => Model.ToString();
 
-		public override DbEntityType Type => Model.Type;
+		public override MetadataType Type => Model.Type;
 
 		public override string Icon
 		{
@@ -23,31 +23,31 @@ namespace DBManager.Application.ViewModel.MetadataTree
 			{
 				switch (Type)
 				{
-					case DbEntityType.Server:
+					case MetadataType.Server:
 						return "/Resources/Icons/Server.png";
-					case DbEntityType.Database:
+					case MetadataType.Database:
 						return "/Resources/Icons/Database.png";
-					case DbEntityType.Schema:
+					case MetadataType.Schema:
 						return "/Resources/Icons/Schema.png";
-					case DbEntityType.Table:
+					case MetadataType.Table:
 						return "/Resources/Icons/Table.png";
-					case DbEntityType.View:
+					case MetadataType.View:
 						return "/Resources/Icons/View.png";
-					case DbEntityType.Function:
+					case MetadataType.Function:
 						return "/Resources/Icons/Function.png";
-					case DbEntityType.Procedure:
+					case MetadataType.Procedure:
 						return "/Resources/Icons/Procedure.png";
-					case DbEntityType.Constraint:
+					case MetadataType.Constraint:
 						return "/Resources/Icons/Constraint.png";
-					case DbEntityType.Column:
+					case MetadataType.Column:
 						return "/Resources/Icons/Column.png";
-					case DbEntityType.Trigger:
+					case MetadataType.Trigger:
 						return "/Resources/Icons/Trigger.png";
-					case DbEntityType.Parameter:
+					case MetadataType.Parameter:
 						return "/Resources/Icons/Parameter.png";
-					case DbEntityType.Key:
+					case MetadataType.Key:
 						return "/Resources/Icons/Key.png";
-					case DbEntityType.Index:
+					case MetadataType.Index:
 						return "/Resources/Icons/Index.png";
 					default:
 						throw new ArgumentException();
@@ -69,7 +69,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 			try
 			{
 				
-				IEnumerable<DbEntityType> childs = Root.DbObjectLoader.Hierarchy.GetChildTypes(Type).ToArray();
+				IEnumerable<MetadataType> childs = Root.DbObjectLoader.Hierarchy.GetChildTypes(Type).ToArray();
 				if (childs.Count() > 1)
 				{
 					foreach (var type in childs)
@@ -89,7 +89,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 
 						if (Root.IsConnected)
 						{
-							await Root.LoadModel(this,DbEntityType.All);
+							await Root.LoadModel(this,MetadataType.All);
 						}
 					}
 

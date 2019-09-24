@@ -22,7 +22,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 
 		public override DbObject Model { get; }
 
-		public override DbEntityType Type => DbEntityType.Server;
+		public override MetadataType Type => MetadataType.Server;
 
 		public override string Icon => "/Resources/Icons/Server.png";
 

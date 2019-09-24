@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
+using DBManager.SqlServer.Metadata;
 using DBManager.SqlServer.Provider;
 
 namespace DBManager.SqlServer.Loader
@@ -24,16 +25,16 @@ namespace DBManager.SqlServer.Loader
 		{
 			return Task.Run(() =>
 			{
-				foreach (var child in Hierarchy.HierarchyObject.GetChildTypes(obj.Type))
+				foreach (var child in MsSqlHierarchy.Instance.HierarchyStructure[obj.Type].ChildrenTypes)
 				{
 					SetChildrens(obj, child);
 				}
 			});
 		}
 
-		public override Task LoadChildrenAsync(DbObject obj, DbEntityType childType)
+		public override Task LoadChildrenAsync(DbObject obj, MetadataType childType)
 		{
-			if (!Hierarchy.HierarchyObject.GetChildTypes(obj.Type).Contains(childType))
+			if (!MsSqlHierarchy.Instance.HierarchyStructure[obj.Type].ChildrenTypes.Contains(childType))
 				throw new ArgumentException();
 
 			return Task.Run(() => SetChildrens(obj, childType));
@@ -44,7 +45,7 @@ namespace DBManager.SqlServer.Loader
 			return Task.Run(() => SetObjectProperties(obj));
 		}
 
-		private void SetChildrens(DbObject target, DbEntityType childrenType)
+		private void SetChildrens(DbObject target, MetadataType childrenType)
 		{
 			if (!(Connection.GetConnection() is SqlConnection))
 				throw new InvalidCastException();
@@ -69,7 +70,7 @@ namespace DBManager.SqlServer.Loader
 				{
 					while (reader.Read())
 					{
-						DbObject child = (DbEntityFactory.ObjectCreator.Create(reader, childrenType));
+						DbObject child = (MetadataTypeFactoryOld.ObjectCreator.Create(reader, childrenType));
 						if (!target.AddChild(child))
 						{
 							throw new ArgumentException();

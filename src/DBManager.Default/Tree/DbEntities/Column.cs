@@ -4,9 +4,9 @@ namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "column")]
 	
-	public class Column : TypeObject
+	public abstract class Column : TypeObject
 	{
-		public override DbEntityType Type => DbEntityType.Column;
+		public override MetadataType Type => MetadataType.Column;
 
 		public override bool CanHaveDefinition => false;
 
