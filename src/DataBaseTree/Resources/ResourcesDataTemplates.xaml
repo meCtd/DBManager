@@ -3,7 +3,7 @@
                     xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
                     xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
-                    xmlns:vm="clr-namespace:DBManager.Application.ViewModel.Connections">
+                    xmlns:vm="clr-namespace:DBManager.Application.ViewModels.Connections">
 
     <convertors:DbEntityEnumConverter x:Key="DbEntityEnumConverter" />
 

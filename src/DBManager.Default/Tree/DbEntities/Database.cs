@@ -2,16 +2,16 @@
 
 namespace DBManager.Default.Tree.DbEntities
 {
-	[DataContract(Name = "database")]
-	[KnownType(typeof(Schema))]
-	public abstract class Database : DbObject
-	{
-		public override MetadataType Type => MetadataType.Database;
+    [DataContract(Name = "database")]
+    [KnownType(typeof(Schema))]
+    public class Database : DbObject
+    {
+        public override MetadataType Type => MetadataType.Database;
 
-		public override bool CanHaveDefinition => false;
+        public override bool CanHaveDefinition => false;
 
-		public Database(string name) : base(name)
-		{
-		}
-	}
+        public Database(string name) : base(name)
+        {
+        }
+    }
 }

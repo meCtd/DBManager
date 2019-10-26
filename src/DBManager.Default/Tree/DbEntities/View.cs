@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "view")]
-	public abstract class View : TableData
+	public class View : TableData
 	{
 		public override MetadataType Type => MetadataType.View;
 

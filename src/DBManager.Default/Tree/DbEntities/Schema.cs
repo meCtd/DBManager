@@ -8,7 +8,7 @@ namespace DBManager.Default.Tree.DbEntities
 	[KnownType(typeof(Function))]
 	[KnownType(typeof(Table))]
 	[KnownType(typeof(View))]
-	public abstract class Schema : DbObject
+	public class Schema : DbObject
 	{
 		public override MetadataType Type => MetadataType.Schema;
 

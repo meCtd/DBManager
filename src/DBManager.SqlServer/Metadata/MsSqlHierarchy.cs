@@ -5,20 +5,20 @@ using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.SqlServer.Metadata
 {
-	class MsSqlHierarchy : MetadataHierarchy
+	class MsSqlHierarchy : IMetadataHierarchy
 	{
 		#region Singleton
-		private static MsSqlHierarchy _instance;
+		private static readonly MsSqlHierarchy _instance;
 		public static MsSqlHierarchy Instance = _instance ?? (_instance = new MsSqlHierarchy());
 
 		private MsSqlHierarchy() { }
 		#endregion
 
-		public override DialectType Dialect => DialectType.MsSql;
+		public DialectType Dialect => DialectType.MsSql;
 
-		private Dictionary<MetadataType, MetadataHierarchyInfo> _hierarchyStructure = new Dictionary<MetadataType, MetadataHierarchyInfo>
+		private Dictionary<MetadataType, MetadataHierarchyInfo> _structure = new Dictionary<MetadataType, MetadataHierarchyInfo>
 		{
-			[MetadataType.Server] = new MetadataHierarchyInfo(MetadataType.Server, new[] { MetadataType.Database }, false),
+			//[MetadataType.Server] = new MetadataHierarchyInfo(MetadataType.Server, new[] { MetadataType.Database }, false),
 
 			[MetadataType.Database] = new MetadataHierarchyInfo(MetadataType.Database, new[] { MetadataType.Schema }, true),
 
@@ -45,6 +45,6 @@ namespace DBManager.SqlServer.Metadata
 			[MetadataType.Function] = new MetadataHierarchyInfo(MetadataType.Function, new[] { MetadataType.Parameter }, true),
 		};
 
-		public override IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> HierarchyStructure => _hierarchyStructure;
+		public IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> Structure => _structure;
 	}
 }

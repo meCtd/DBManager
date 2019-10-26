@@ -6,7 +6,6 @@ namespace DBManager.Default.Tree.DbEntities
 	[DataContract(Name = "db-type")]
 	public class DbType : DbObject
 	{
-		public override DialectType Dialect => DialectType.MsSql;
 		public override MetadataType Type => MetadataType.Type;
 
 		public override bool CanHaveDefinition => false;
@@ -27,6 +26,7 @@ namespace DBManager.Default.Tree.DbEntities
 		[DataMember(Name = "scale")]
 		public int? Scale { get; private set; }
 
+        //TODO:CHANGE USING PRINTER
 		public override string ToString()
 		{
 			StringBuilder name = new StringBuilder();

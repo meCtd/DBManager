@@ -1,6 +1,6 @@
-﻿using DBManager.Default.Loaders;
+﻿using System.Data.Common;
 using DBManager.Default.Printers;
-using DBManager.Default.Tree;
+using DBManager.Default.Providers;
 using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.Default
@@ -10,8 +10,11 @@ namespace DBManager.Default
     {
         IPrinterFactory Printer { get; }
 
-        IObjectLoader Loader { get; }
+        IScriptProvider ScriptProvider { get; }
 
-        MetadataHierarchy GetHierarchy();
+        IMetadataHierarchy Hierarchy { get; }
+
+        DbCommand CreateCommand();
+        DbParameter CreateParameter();
     }
 }

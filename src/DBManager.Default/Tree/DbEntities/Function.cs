@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "function")]
-	public abstract class Function : Routine
+	public class Function : Routine
 	{
 		public override MetadataType Type => MetadataType.Function;
 

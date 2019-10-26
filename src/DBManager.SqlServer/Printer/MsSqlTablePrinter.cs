@@ -10,118 +10,118 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.SqlServer.Printer
 {
-	public class MsSqlTablePrinter : IPrinter
-	{
-		private readonly StringBuilder _defintion;
+    //TODO USE WITH NORMALIZER
+    public class MsSqlTablePrinter : IPrinter
+    {
+        private readonly StringBuilder _defintion;
 
-		private readonly Regex _bracketRegex = new Regex(@"(\,)[\n|\t]+\)", RegexOptions.Compiled);
+        private readonly Regex _bracketRegex = new Regex(@"(\,)[\n|\t]+\)", RegexOptions.Compiled);
 
-		public MsSqlTablePrinter()
-		{
-			_defintion = new StringBuilder();
-		}
+        public MsSqlTablePrinter()
+        {
+            _defintion = new StringBuilder();
+        }
 
-		public string GetDefinition(DbObject obj)
-		{
-			if (obj == null)
-				throw new ArgumentNullException();
-			_defintion.Append($"CREATE TABLE [{obj.SchemaName}].[{obj.Name}](\n");
+        public string GetDefinition(DbObject obj)
+        {
+            if (obj == null)
+                throw new ArgumentNullException();
+            _defintion.Append($"CREATE TABLE [{obj.SchemaName}].[{obj.Name}](\n");
 
-			SetColumns(obj);
-			SetPrimaryUniqueKeys(obj, true);
-			SetPrimaryUniqueKeys(obj, false);
+            SetColumns(obj);
+            SetPrimaryUniqueKeys(obj, true);
+            SetPrimaryUniqueKeys(obj, false);
 
-			_defintion.Append(")\n\n");
+            _defintion.Append(")\n\n");
 
-			SetCheckConstraints(obj);
-			_defintion.Append("\n\n");
+            SetCheckConstraints(obj);
+            _defintion.Append("\n\n");
 
-			SetForeingKeyConstraint(obj);
+            SetForeingKeyConstraint(obj);
 
-			string definition = _defintion.ToString();
-			Match match;
-			while ((match = _bracketRegex.Match(definition)).Success)
-			{
-				definition = definition.Remove(match.Groups[1].Index, 1);
-			}
-			return definition;
+            string definition = _defintion.ToString();
+            Match match;
+            while ((match = _bracketRegex.Match(definition)).Success)
+            {
+                definition = definition.Remove(match.Groups[1].Index, 1);
+            }
+            return definition;
 
-		}
+        }
 
+        private void SetColumns(DbObject obj)
+        {
+            foreach (var column in obj.Children.OfType<Column>())
+            {
+                _defintion.Append($"\t[{column.Name}] {column.ObjectMemberType} ");
+                if ((bool)column.Properties[Constants.IsIdentityProperty])
+                {
+                    _defintion.Append(
+                        $"IDENTITY ({column.Properties[Constants.SeedValueProperty]},{column.Properties[Constants.SeedIncrementProperty]}) ");
+                }
+                 ;
+                if (!string.IsNullOrWhiteSpace(column.Properties[Constants.DefaultValueProperty].ToString()))
+                {
+                    _defintion.Append($"CONSTRAINT [DF_{column.SchemaName}_{column.Name}] DEFAULT {column.Properties[Constants.DefaultValueProperty]} ,\n");
+                }
+                else
+                {
+                    if ((bool)column.Properties[Constants.IsNullableProperty])
+                    {
+                        _defintion.Append("NULL ,\n");
+                    }
+                    else
+                        _defintion.Append("NOT NULL ,\n");
+                }
+            }
+        }
 
-		private void SetColumns(DbObject obj)
-		{
-			if (!obj.IsChildrenLoaded(MetadataType.Column).GetValueOrDefault(false))
-				throw new NotSupportedException();
-
-			foreach (var child in obj.Children.Where(child => child.Type == MetadataType.Column))
-			{
-				var col = (Column)child;
-				_defintion.Append($"\t[{col.Name}] {col.ObjectMemberType} ");
-				if ((bool)child.Properties[Constants.IsIdentityProperty])
-				{
-					_defintion.Append(
-						$"IDENTITY ({child.Properties[Constants.SeedValueProperty]},{child.Properties[Constants.SeedIncrementProperty]}) ");
-				}
-				;
-				if (!string.IsNullOrWhiteSpace(child.Properties[Constants.DefaultValueProperty].ToString()))
-				{
-					_defintion.Append($"CONSTRAINT [DF_{child.SchemaName}_{child.Name}] DEFAULT {child.Properties[Constants.DefaultValueProperty]} ,\n");
-				}
-				else
-				{
-					if ((bool)child.Properties[Constants.IsNullableProperty])
-					{
-						_defintion.Append("NULL ,\n");
-					}
-					else
-						_defintion.Append("NOT NULL ,\n");
-				}
-			}
-		}
-
-		private void SetPrimaryUniqueKeys(DbObject obj, bool keyType)
-		{
-			string search = keyType ? "PRIMARY" : "UNIQUE";
-			string name = keyType ? "PRIMARY KEY" : "UNIQUE";
+        private void SetPrimaryUniqueKeys(DbObject obj, bool keyType)
+        {
+            string search = keyType ? "PRIMARY" : "UNIQUE";
+            string name = keyType ? "PRIMARY KEY" : "UNIQUE";
 
 
-			IEnumerable<DbObject> matches = obj.Children.Where(key => key.Type == MetadataType.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
-			foreach (var match in matches)
-			{
-				_defintion.Append($"CONSTRAINT [{match.Name}] {name} \n(\n");
-				IEnumerable<string> columns = match.Properties[Constants.ColumnsProperty].ToString().Split(' ')
-					.Where(s => !string.IsNullOrWhiteSpace(s));
-				foreach (var column in columns)
-				{
-					_defintion.Append($"\t[{column}] ,\n");
-				}
+            IEnumerable<DbObject> matches = obj.Children.Where(key => key.Type == MetadataType.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
+            foreach (var match in matches)
+            {
+                _defintion.Append($"CONSTRAINT [{match.Name}] {name} \n(\n");
+                IEnumerable<string> columns = match.Properties[Constants.ColumnsProperty].ToString().Split(' ')
+                    .Where(s => !string.IsNullOrWhiteSpace(s));
+                foreach (var column in columns)
+                {
+                    _defintion.Append($"\t[{column}] ,\n");
+                }
 
-				_defintion.Append(") ,\n");
-			}
+                _defintion.Append(") ,\n");
+            }
 
-		}
+        }
 
-		private void SetForeingKeyConstraint(DbObject obj)
-		{
-			IEnumerable<DbObject> foreingnKeys = obj.Children.Where(child => child.Type == MetadataType.Key&&child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
-			foreach (var key in foreingnKeys)
-			{
-				_defintion.Append(
-					$"ALTER TABLE [{obj.SchemaName}].[{obj.Name}]  WITH CHECK ADD CONSTRAINT [{key.Name}] FOREIGN KEY([{key.Properties[Constants.ColumnsProperty]}]) REFERENCES [{key.Properties[Constants.ReferenceSchemaNameProperty]}].[{key.Properties[Constants.ReferenceTableNameProperty]}] ([{key.Properties[Constants.ReferenceColumnProperty]}])\n");
-			}
-		}
+        private void SetForeingKeyConstraint(DbObject obj)
+        {
+            IEnumerable<DbObject> foreingnKeys = obj.Children.Where(child => child.Type == MetadataType.Key && child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
+            foreach (var key in foreingnKeys)
+            {
+                _defintion.Append(
+                    $"ALTER TABLE [{obj.SchemaName}].[{obj.Name}]  WITH CHECK ADD CONSTRAINT [{key.Name}] FOREIGN KEY([{key.Properties[Constants.ColumnsProperty]}]) REFERENCES [{key.Properties[Constants.ReferenceSchemaNameProperty]}].[{key.Properties[Constants.ReferenceTableNameProperty]}] ([{key.Properties[Constants.ReferenceColumnProperty]}])\n");
+            }
+        }
 
-		private void SetCheckConstraints(DbObject obj)
-		{
-			IEnumerable<DbObject> constraints = obj.Children.Where(child => child.Type == MetadataType.Constraint);
-			foreach (var constraint in constraints)
-			{
-				_defintion.Append(
-					$"ALTER TABLE [{obj.SchemaName}].[{obj.Name}]  WITH CHECK ADD CONSTRAINT [{constraint.Name}] CHECK {constraint.Properties[Constants.DefinitionProperty]} \n");
-			}
-		}
+        private void SetCheckConstraints(DbObject obj)
+        {
+            IEnumerable<DbObject> constraints = obj.Children.Where(child => child.Type == MetadataType.Constraint);
+            foreach (var constraint in constraints)
+            {
+                _defintion.Append(
+                    $"ALTER TABLE [{obj.SchemaName}].[{obj.Name}]  WITH CHECK ADD CONSTRAINT [{constraint.Name}] CHECK {constraint.Properties[Constants.DefinitionProperty]} \n");
+            }
+        }
 
-
-	}
+        //TODO: UPDATE
+        public string GetDefinition()
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

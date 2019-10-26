@@ -4,19 +4,19 @@ using DBManager.Default.Tree;
 
 namespace DBManager.Default.Providers
 {
-	public abstract class ScriptProvider
-	{
-		public abstract string GetLoadNameScript(MetadataType parentType,MetadataType childType);
+    public interface IScriptProvider
+    {
+        string ProvideNameScript(MetadataType parentType, MetadataType childType);
 
-		public abstract string GetPropertiesScript(DbObject obj);
+        string ProvidePropertiesScript(DbObject obj);
 
-		public abstract string GetDefinitionScript();
+        string ProvideDefinitionScript();
 
-		public abstract IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj);
+        IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj);
 
-		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType);
+        IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType);
 
-		public abstract IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj);
+        IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj);
 
-	}
+    }
 }

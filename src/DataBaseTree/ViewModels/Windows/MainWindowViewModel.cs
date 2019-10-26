@@ -2,63 +2,44 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows;
 using DBManager.Application.View;
-using DBManager.Application.ViewModel.MetadataTree;
+using DBManager.Application.ViewModels.MetadataTree;
+using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
 using DBManager.Default.Printers;
 using DBManager.Default.Tree;
+using DBManager.SqlServer.Printer;
 using Microsoft.Win32;
+using Prism.Commands;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel.Windows
+namespace DBManager.Application.ViewModels.Windows
 {
-    public class TreeWindowViewModel : BindableBase
+    public class MainWindowViewModel : BindableBase
     {
 
+        public TreeViewModel Tree { get; }
+
+        public TreeSearchViewModel TreeSearch { get; }
+
+
+
         #region Fields
-
-        private IEnumerable<TreeRootViewModel> _root;
-
-        private string _searchText;
 
         private IPrinterFactory _printerFactory;
 
         private string _definitionText;
 
-        private MetadataType _searchMask;
-
-        private bool _isFilterEnabled;
-
         private bool _isSaveinInProcess;
 
-        private IEnumerable<MetadataViewModelBase> _searchMatches;
-
-        private IEnumerator<MetadataViewModelBase> _searchEnumerator;
 
         #endregion
 
         #region Properties
 
-        public IEnumerable<TreeRootViewModel> Root
-        {
-            get { return _root; }
-            set { SetProperty(ref _root, value); }
-        }
-
         public ObservableCollection<KeyValuePair<string, object>> ItemProperties { get; }
-
-        public string SearchText
-        {
-            get { return _searchText; }
-            set
-            {
-                SetProperty(ref _searchText, value);
-                _searchMatches = null;
-            }
-        }
 
         public string DefinitionText
         {
@@ -70,45 +51,25 @@ namespace DBManager.Application.ViewModel.Windows
             }
         }
 
-        public bool IsFilterEnabled
-        {
-            get { return _isFilterEnabled; }
-            set
-            {
-                SetProperty(ref _isFilterEnabled, value);
-                _searchMatches = null;
-            }
-        }
-
-        public MetadataType SearchMask
-        {
-            get { return _searchMask; }
-            set
-            {
-                SetProperty(ref _searchMask, value);
-                _searchMatches = null;
-            }
-        }
 
         #endregion
 
-        public TreeWindowViewModel()
+        public MainWindowViewModel()
         {
             ItemProperties = new ObservableCollection<KeyValuePair<string, object>>();
-            _searchMask = MetadataType.All;
         }
 
         #region Commands
 
         #region ConnectCommand
 
-        private RelayCommand _connectCommand;
+        private DelegateCommand _connectCommand;
 
-        public RelayCommand ConnectCommand
+        public DelegateCommand ConnectCommand
         {
             get
             {
-                return _connectCommand ?? (_connectCommand = new RelayCommand(
+                return _connectCommand ?? (_connectCommand = new DelegateCommand(
                            Connect));
             }
         }
@@ -137,13 +98,13 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region RemoveConnectionCommand
 
-        private RelayCommand _removeConnectionCommand;
+        private DelegateCommand _removeConnectionCommand;
 
-        public RelayCommand RemoveConnectionCommand
+        public DelegateCommand RemoveConnectionCommand
         {
             get
             {
-                return _removeConnectionCommand ?? (_removeConnectionCommand = new RelayCommand(
+                return _removeConnectionCommand ?? (_removeConnectionCommand = new DelegateCommand(
                            () => Root = null, CanRemove));
             }
         }
@@ -156,11 +117,11 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region RefreshCommand
 
-        private RelayCommand<MetadataViewModelBase> _refreshCommand;
+        private DelegateCommand<MetadataViewModelBase> _refreshCommand;
 
-        public RelayCommand<MetadataViewModelBase> RefreshCommand
+        public DelegateCommand<MetadataViewModelBase> RefreshCommand
         {
-            get { return _refreshCommand ?? (_refreshCommand = new RelayCommand<MetadataViewModelBase>(Refresh, CanRefresh)); }
+            get { return _refreshCommand ?? (_refreshCommand = new DelegateCommand<MetadataViewModelBase>(Refresh, CanRefresh)); }
         }
 
         private void Refresh(MetadataViewModelBase o)
@@ -183,14 +144,14 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region RestoreConnection
 
-        private RelayCommand _resotreCommand;
+        private DelegateCommand _resotreCommand;
 
-        public RelayCommand RestoreCommand
+        public DelegateCommand RestoreCommand
         {
             get
             {
                 return _resotreCommand ??
-                       (_resotreCommand = new RelayCommand(Restore, CanRestore));
+                       (_resotreCommand = new DelegateCommand(Restore, CanRestore));
             }
         }
 
@@ -208,11 +169,11 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region LoadPropertiesCommand
 
-        private RelayCommand<MetadataViewModelBase> _loadPropertiesCommand;
+        private DelegateCommand<MetadataViewModelBase> _loadPropertiesCommand;
 
-        public RelayCommand<MetadataViewModelBase> LoadPropertiesCommand
+        public DelegateCommand<MetadataViewModelBase> LoadPropertiesCommand
         {
-            get { return _loadPropertiesCommand ?? (_loadPropertiesCommand = new RelayCommand<MetadataViewModelBase>(LoadProperties, CanLoadProperties)); }
+            get { return _loadPropertiesCommand ?? (_loadPropertiesCommand = new DelegateCommand<MetadataViewModelBase>(LoadProperties, CanLoadProperties)); }
         }
 
         private async void LoadProperties(MetadataViewModelBase obj)
@@ -237,11 +198,11 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region ShowDefinitionCommand
 
-        private RelayCommand<MetadataViewModelBase> _showDefinitionCommandCommand;
+        private DelegateCommand<MetadataViewModelBase> _showDefinitionCommandCommand;
 
-        public RelayCommand<MetadataViewModelBase> ShowDefinitionCommand
+        public DelegateCommand<MetadataViewModelBase> ShowDefinitionCommand
         {
-            get { return _showDefinitionCommandCommand ?? (_showDefinitionCommandCommand = new RelayCommand<MetadataViewModelBase>(ShowDefinition, CanShowDefinition)); }
+            get { return _showDefinitionCommandCommand ?? (_showDefinitionCommandCommand = new DelegateCommand<MetadataViewModelBase>(ShowDefinition, CanShowDefinition)); }
         }
 
         private async void ShowDefinition(MetadataViewModelBase obj)
@@ -302,14 +263,7 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region ShowPropertiesCommand
 
-        private RelayCommand<MetadataViewModelBase> _showPropertiesCommand;
-
-        public RelayCommand<MetadataViewModelBase> ShowPropertiesCommand
-        {
-            get { return _showPropertiesCommand ?? (_showPropertiesCommand = new RelayCommand<MetadataViewModelBase>(ShowProperties, CanShowProperties)); }
-        }
-
-        private void ShowProperties(MetadataViewModelBase obj)
+       private void ShowProperties(MetadataViewModelBase obj)
         {
             ItemProperties.Clear();
             if (obj.Model.IsPropertyLoaded)
@@ -325,80 +279,13 @@ namespace DBManager.Application.ViewModel.Windows
 
         #endregion
 
-        #region SearchCommand
-
-        private RelayCommand _searchCommand;
-
-        public RelayCommand SearchCommand
-        {
-            get { return _searchCommand ?? (_searchCommand = new RelayCommand(Search, () => (Root != null) && !string.IsNullOrWhiteSpace(_searchText))); }
-        }
-
-        private void Search()
-        {
-            if (_searchMatches == null)
-            {
-                List<MetadataViewModelBase> matches = new List<MetadataViewModelBase>();
-
-                matches.AddRange(IsFilterEnabled
-                    ? FindMatchesNode(Root.First(), SearchText, SearchMask)
-                    : FindMatchesNode(Root.First(), SearchText, MetadataType.All));
-
-                _searchMatches = matches;
-                _searchEnumerator = _searchMatches.GetEnumerator();
-
-            }
-
-            if (!_searchMatches.Any())
-                MessageBox.Show("No matches were found!", "Search", MessageBoxButton.OK, MessageBoxImage.Warning);
-            else
-            {
-                if (!_searchEnumerator.MoveNext())
-                {
-                    _searchEnumerator.Reset();
-                    _searchEnumerator.MoveNext();
-                }
-
-                if (_searchEnumerator.Current != null)
-                    _searchEnumerator.Current.IsSelected = true;
-            }
-        }
-
-        private bool Filter(object rootViewItem)
-        {
-            if (_searchMatches == null)
-                return true;
-            return _searchMatches.Any(s => s.Root == rootViewItem);
-        }
-
-        private IEnumerable<MetadataViewModelBase> FindMatchesNode(MetadataViewModelBase node, string text, MetadataType mask)
-        {
-            if (node.Name.Contains(text) && !(node is CategoryViewModel) && mask.HasFlag(node.Type))
-                yield return node;
-
-            if (node.Children.Count != 0 && !node.HasFakeChild)
-            {
-                foreach (var treeViewItemViewModelBase in node.Children)
-                {
-                    var treeViewItem = (MetadataViewModelBase)treeViewItemViewModelBase;
-
-                    foreach (MetadataViewModelBase res in FindMatchesNode(treeViewItem, text, mask))
-                    {
-                        yield return res;
-                    }
-                }
-            }
-        }
-
-        #endregion
-
         #region SaveCommand
 
-        private RelayCommand _saveCommand;
+        private DelegateCommand _saveCommand;
 
-        public RelayCommand SaveCommand
+        public DelegateCommand SaveCommand
         {
-            get { return _saveCommand ?? (_saveCommand = new RelayCommand(SaveExecute, () => Root != null && !_isSaveinInProcess)); }
+            get { return _saveCommand ?? (_saveCommand = new DelegateCommand(SaveExecute, () => Root != null && !_isSaveinInProcess)); }
 
         }
 
@@ -436,11 +323,11 @@ namespace DBManager.Application.ViewModel.Windows
 
         #region OpenCommand
 
-        private RelayCommand _openCommand;
+        private DelegateCommand _openCommand;
 
-        public RelayCommand OpenCommand
+        public DelegateCommand OpenCommand
         {
-            get { return _openCommand ?? (_openCommand = new RelayCommand(Open)); }
+            get { return _openCommand ?? (_openCommand = new DelegateCommand(Open)); }
         }
 
         private void Open()

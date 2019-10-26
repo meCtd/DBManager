@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "trigger")]
-	public abstract class Trigger : DbObject
+	public class Trigger : DbObject
 	{
 		public override bool CanHaveDefinition => true;
 

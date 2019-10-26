@@ -2,234 +2,238 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.Default.Tree
 {
-	[DataContract(Name = "db-object", IsReference = true)]
-	[KnownType(typeof(DBNull))]
-	public abstract class DbObject
-	{
-		#region Fields
+    [DataContract(Name = "db-object", IsReference = true)]
+    [KnownType(typeof(DBNull))]
+    public abstract class DbObject
+    {
+        #region Fields
 
-		[DataMember(Name = "Children")]
-		private List<KeyValuePair<MetadataType, List<DbObject>>> _childrenList;
+        [DataMember(Name = "Children")]
+        private List<KeyValuePair<MetadataType, List<DbObject>>> _children;
 
-		[DataMember(Name = "Properties")]
-		private List<KeyValuePair<string, object>> _propertyList;
+        [DataMember(Name = "Properties")]
+        private List<KeyValuePair<string, object>> _properties;
 
+        private Dictionary<MetadataType, List<DbObject>> _childrenMap;
 
-		private Dictionary<MetadataType, List<DbObject>> _childrenMap;
+        private FullName _fullName;
 
-		private FullName _fullName;
+        private string _databaseName;
 
-		private string _databaseName;
+        private string _schemaName;
 
-		private string _schemaName;
+        #endregion
 
-		#endregion
+        #region Properties
 
-		#region Properties
+        public abstract MetadataType Type { get; }
 
-		public abstract MetadataType Type { get; }
+        public abstract bool CanHaveDefinition { get; }
 
-		public abstract DialectType Dialect { get; }
+        public string Definition { get; set; }
 
-		public abstract bool CanHaveDefinition { get; }
+        [DataMember(Name = "name")]
+        public string Name { get; private set; }
 
-		public string Definition { get; set; }
+        [DataMember(Name = "is-property-loaded")]
+        public bool IsPropertyLoaded { get; set; }
 
-		[DataMember(Name = "name")]
-		public string Name { get; private set; }
+        public FullName FullName => _fullName ?? (_fullName = GetName());
 
-		[DataMember(Name = "is-property-loaded")]
-		public bool IsPropertyLoaded { get; set; }
+        [DataMember(Name = "parent")]
+        public DbObject Parent { get; private set; }
 
-		public FullName FullName => _fullName ?? (_fullName = LoadName());
+        public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(MetadataType.Schema));
 
-		[DataMember(Name = "parent")]
-		public DbObject Parent { get; private set; }
+        public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(MetadataType.Database));
 
-		public string SchemaName => _schemaName ?? (_schemaName = GetBaseName(MetadataType.Schema));
+        public virtual IReadOnlyList<DbObject> Children => _childrenMap.Values.SelectMany(x => x).ToList();
 
-		public string DataBaseName => _databaseName ?? (_databaseName = GetBaseName(MetadataType.Database));
+        public Dictionary<string, object> Properties { get; private set; }
 
-		public virtual IReadOnlyList<DbObject> Children => _childrenMap.Values.SelectMany(x => x).ToList();
+        #endregion
 
-		public Dictionary<string, object> Properties { get; private set; }
+        protected DbObject(string name)
+        {
+            Name = name;
+            Properties = new Dictionary<string, object>();
+            _childrenMap = new Dictionary<MetadataType, List<DbObject>>();
+        }
 
-		#endregion
+        #region Methods
 
-		protected DbObject(string name)
-		{
-			Name = name;
-			Properties = new Dictionary<string, object>();
-			_childrenMap = new Dictionary<MetadataType, List<DbObject>>();
-		}
+        #region Private
 
-		#region Methods
+        private void SetParent(DbObject dbObject)
+        {
+            dbObject.Parent = this;
+        }
 
-		#region Private
+        private FullName GetName()
+        {
+            FullName fullName = new FullName(this);
+            DbObject parent = Parent;
+            while (parent != null)
+            {
+                fullName.AddParent(parent);
+                parent = parent.Parent;
+            }
 
-		private void SetParent(DbObject dbObject)
-		{
-			dbObject.Parent = this;
-		}
+            return fullName;
+        }
 
-		private FullName LoadName()
-		{
-			FullName fullName = new FullName(this);
-			DbObject parent = Parent;
-			while (parent != null && parent.Type != MetadataType.Server)
-			{
-				fullName.AddParent(parent);
-				parent = parent.Parent;
-			}
+        private string GetBaseName(MetadataType type)
+        {
+            if (Type == type)
+                return Name;
 
-			return fullName;
-		}
+            foreach (var chunk in FullName)
+            {
+                if (chunk.Type == type)
+                {
+                    return chunk.Name;
+                }
+            }
 
-		private string GetBaseName(MetadataType type)
-		{
-			if (Type == type)
-				return this.Name;
+            return string.Empty;
+        }
 
-			foreach (var chunc in FullName)
-			{
-				if (chunc.Type == type)
-				{
-					return chunc.Name;
-				}
-			}
-			return null;
-		}
+        #endregion
 
-		#endregion
+        #region Public
 
-		#region Public
+        #region Actions with childs
 
-		#region Actions with childs
+        public void DeleteProperties()
+        {
+            Properties.Clear();
+        }
 
-		public void DeleteProperties()
-		{
-			Properties.Clear();
-		}
+        public void DeleteChildren()
+        {
+            _childrenMap.Clear();
+        }
 
-		public void DeleteChildrens()
-		{
-			_childrenMap.Clear();
-		}
+        public void DeleteChildren(MetadataType type)
+        {
+            if (_childrenMap.ContainsKey(type))
+                _childrenMap.Remove(type);
+        }
 
-		public void DeleteChildrens(MetadataType type)
-		{
-			if (_childrenMap.ContainsKey(type))
-				_childrenMap.Remove(type);
-		}
+        public virtual bool AddChild(DbObject obj)
+        {
+            var items = _childrenMap.ContainsKey(obj.Type) ? _childrenMap[obj.Type] : (_childrenMap[obj.Type] = new List<DbObject>());
+            items.Add(obj);
 
-		public virtual bool AddChild(DbObject obj)
-		{
-			List<DbObject> items = _childrenMap.ContainsKey(obj.Type) ? _childrenMap[obj.Type] : (_childrenMap[obj.Type] = new List<DbObject>());
-			items.Add(obj);
-			SetParent(obj);
+            SetParent(obj);
 
-			return true;
-		}
+            return true;
+        }
 
-		public virtual bool RemoveChild(DbObject obj)
-		{
-			bool result = _childrenMap[obj.Type].Remove(obj);
+        public virtual bool RemoveChild(DbObject obj)
+        {
+            bool result = _childrenMap[obj.Type].Remove(obj);
 
-			if (result)
-			{
-				obj.Parent = null;
+            if (result)
+            {
+                obj.Parent = null;
 
-			}
-			return result;
-		}
+            }
+            return result;
+        }
 
-		public virtual bool ReplaceChild(DbObject oldChild, DbObject newChild)
-		{
-			if (!CanBeChild(oldChild) || !CanBeChild(newChild))
-				return false;
+        //REMOVE METHOD IF NOT USED
+        public virtual bool ReplaceChild(DbObject oldChild, DbObject newChild, IMetadataHierarchy hierarchy)
+        {
+            //TODO: CHANGE FROM HIERARCHY
+            //if (!CanBeChild(oldChild) || !CanBeChild(newChild))
+            //    return false;
 
-			if (oldChild.Type != newChild.Type)
-				return false;
+            if (oldChild.Type != newChild.Type)
+                return false;
 
-			int index = _childrenMap[oldChild.Type].FindIndex((o) => o.Equals(oldChild));
+            int index = _childrenMap[oldChild.Type].FindIndex((o) => o.Equals(oldChild));
 
-			if (index == -1)
-				return false;
+            if (index == -1)
+                return false;
 
-			_childrenMap[oldChild.Type][index] = newChild;
+            _childrenMap[oldChild.Type][index] = newChild;
 
-			oldChild.Parent = null;
-			SetParent(newChild);
+            oldChild.Parent = null;
+            SetParent(newChild);
 
-			return true;
-		}
+            return true;
+        }
 
-		public bool? IsChildrenLoaded(MetadataType? childType)
-		{
-			if (!HierarhyOld.HierarchyObject.IsPossibleChilds(Type))
-				return true;
+        public bool? IsChildrenLoaded(MetadataType? childType, IMetadataHierarchy hierarchy)
+        {
+            var childTypes = hierarchy.Structure[Type].ChildrenTypes.ToArray();
 
-			if (childType == null)
-			{
-				if (_childrenMap.Count == 0)
-					return false;
+            if (!childTypes.Any())
+                return true;
 
-				if (HierarhyOld.HierarchyObject.GetChildTypes(Type).Any(type => !_childrenMap.ContainsKey(type)))
-				{
-					return null;
-				}
+            if (childType == null)
+            {
+                if (_childrenMap.Count == 0)
+                    return false;
 
-				return true;
-			}
-			else
-				return _childrenMap.ContainsKey(childType.Value);
-		}
+                if (childTypes.Any(type => !_childrenMap.ContainsKey(type)))
+                {
+                    return null;
+                }
 
-		#endregion
+                return true;
+            }
+            else
+                return _childrenMap.ContainsKey(childType.Value);
+        }
 
-		public void UpdateFullName()
-		{
-			_fullName = LoadName();
-		}
+        #endregion
 
-		public override string ToString()
-		{
-			return Name;
-		}
+        public void UpdateFullName()
+        {
+            _fullName = GetName();
+        }
 
-		[OnSerializing]
-		public void Save(StreamingContext context)
-		{
-			_childrenList = _childrenMap.ToList();
-			_propertyList = Properties.ToList();
-		}
+        public override string ToString()
+        {
+            return Name;
+        }
 
-		[OnDeserialized]
-		public void Update(StreamingContext context)
-		{
-			_childrenMap = new Dictionary<MetadataType, List<DbObject>>();
-			Properties = new Dictionary<string, object>();
+        [OnSerializing]
+        public void Save(StreamingContext context)
+        {
+            _children = _childrenMap.ToList();
+            _properties = Properties.ToList();
+        }
 
-			if (_childrenList != null)
-				foreach (var childType in _childrenList)
-				{
-					_childrenMap[childType.Key] = childType.Value;
+        [OnDeserialized]
+        public void Update(StreamingContext context)
+        {
+            _childrenMap = new Dictionary<MetadataType, List<DbObject>>();
+            Properties = new Dictionary<string, object>();
 
-				}
+            if (_children != null)
+                foreach (var childType in _children)
+                {
+                    _childrenMap[childType.Key] = childType.Value;
 
-			if (_propertyList != null)
+                }
 
-				foreach (var property in _propertyList)
-				{
-					Properties[property.Key] = property.Value;
-				}
-		}
+            if (_properties != null)
 
-		#endregion
+                foreach (var property in _properties)
+                {
+                    Properties[property.Key] = property.Value;
+                }
+        }
 
-		#endregion
-	}
+        #endregion
+
+        #endregion
+    }
 }

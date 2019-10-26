@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "index")]
-	public abstract class Index : DbObject
+	public class Index : DbObject
 	{
 		public override MetadataType Type => MetadataType.Index;
 

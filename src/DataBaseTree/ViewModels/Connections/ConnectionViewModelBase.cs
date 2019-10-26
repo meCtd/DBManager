@@ -3,7 +3,7 @@ using System.ComponentModel;
 using DBManager.Default.DataBaseConnection;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel.Connections
+namespace DBManager.Application.ViewModels.Connections
 {
     public abstract class ConnectionViewModelBase : BindableBase, IDataErrorInfo
     {

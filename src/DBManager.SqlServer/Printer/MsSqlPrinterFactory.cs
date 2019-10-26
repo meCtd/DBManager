@@ -11,14 +11,13 @@ namespace DBManager.SqlServer.Printer
 			switch (dbobject.Type)
 			{
 				case MetadataType.None:
-				case MetadataType.Server:
 				case MetadataType.Constraint:
 				case MetadataType.Column:
 				case MetadataType.Parameter:
 				case MetadataType.Key:
 				case MetadataType.Index:
 				case MetadataType.Type:
-				case MetadataType.All:
+				//case MetadataType.All:
 					return false;
 			}
 

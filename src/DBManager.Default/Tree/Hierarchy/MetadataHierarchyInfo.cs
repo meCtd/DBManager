@@ -11,8 +11,8 @@ namespace DBManager.Default.Tree.Hierarchy
 			NeedCategory = needCategory;
 		}
 
-		public MetadataType CurrentType { get; set; }
-		public IEnumerable<MetadataType> ChildrenTypes { get; set; }
-		public bool NeedCategory { get; set; }
+		public MetadataType CurrentType { get; }
+		public IEnumerable<MetadataType> ChildrenTypes { get; }
+		public bool NeedCategory { get; }
 	}
 }

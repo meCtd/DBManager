@@ -2,9 +2,9 @@
 
 namespace DBManager.Default.Tree.Hierarchy
 {
-	public abstract class MetadataHierarchy
-	{
-		public abstract DialectType Dialect { get; }
-		public abstract IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> HierarchyStructure { get; }
-	}
+    public interface IMetadataHierarchy
+    {
+        DialectType Dialect { get; }
+        IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> Structure { get; }
+    }
 }

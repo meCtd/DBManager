@@ -2,7 +2,7 @@
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 
-namespace DBManager.Application.ViewModel.MetadataTree
+namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
 	public class TreeRootViewModel : MetadataViewModelBase
 	{
@@ -23,9 +23,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 		public override DbObject Model { get; }
 
 		public override MetadataType Type => MetadataType.Server;
-
-		public override string Icon => "/Resources/Icons/Server.png";
-
+        
 		public ObjectLoader DbObjectLoader { get; }
 
 		public override TreeRootViewModel Root => this;

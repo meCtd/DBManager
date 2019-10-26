@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using DBManager.Default.Tree;
 
-namespace DBManager.Application.ViewModel.MetadataTree
+namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
 	public class DbObjectViewModel : MetadataViewModelBase
 	{
@@ -16,44 +16,6 @@ namespace DBManager.Application.ViewModel.MetadataTree
 		public override string Name => Model.ToString();
 
 		public override MetadataType Type => Model.Type;
-
-		public override string Icon
-		{
-			get
-			{
-				switch (Type)
-				{
-					case MetadataType.Server:
-						return "/Resources/Icons/Server.png";
-					case MetadataType.Database:
-						return "/Resources/Icons/Database.png";
-					case MetadataType.Schema:
-						return "/Resources/Icons/Schema.png";
-					case MetadataType.Table:
-						return "/Resources/Icons/Table.png";
-					case MetadataType.View:
-						return "/Resources/Icons/View.png";
-					case MetadataType.Function:
-						return "/Resources/Icons/Function.png";
-					case MetadataType.Procedure:
-						return "/Resources/Icons/Procedure.png";
-					case MetadataType.Constraint:
-						return "/Resources/Icons/Constraint.png";
-					case MetadataType.Column:
-						return "/Resources/Icons/Column.png";
-					case MetadataType.Trigger:
-						return "/Resources/Icons/Trigger.png";
-					case MetadataType.Parameter:
-						return "/Resources/Icons/Parameter.png";
-					case MetadataType.Key:
-						return "/Resources/Icons/Key.png";
-					case MetadataType.Index:
-						return "/Resources/Icons/Index.png";
-					default:
-						throw new ArgumentException();
-				}
-			}
-		}
 
 		#endregion
 

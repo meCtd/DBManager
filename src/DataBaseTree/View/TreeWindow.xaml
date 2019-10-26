@@ -7,15 +7,15 @@
         xmlns:viewModel="clr-namespace:DBManager.Application.ViewModel"
         xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
         xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
-        xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModel.MetadataTree"
-        xmlns:windows="clr-namespace:DBManager.Application.ViewModel.Windows"
+        xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
+        xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
         mc:Ignorable="d"
         Title="TreeWindow"
         Height="550"
         Width="750">
 
     <Window.DataContext>
-        <windows:TreeWindowViewModel />
+        <windows:MainWindowViewModel />
     </Window.DataContext>
 
     <Grid>

@@ -1,7 +1,7 @@
 ﻿using System;
 using DBManager.Default.DataBaseConnection;
 
-namespace DBManager.Application.ViewModel.Connections
+namespace DBManager.Application.ViewModels.Connections
 {
     public sealed class MsSqlConnectionViewModel : ConnectionViewModelBase
     {

@@ -6,7 +6,6 @@ namespace DBManager.Default.Tree
 	public enum MetadataType
 	{
 		None = 0,
-		Server = 1 << 0,
 		Database = 1 << 1,
 		Schema = 1 << 2,
 		Table = 1 << 3,

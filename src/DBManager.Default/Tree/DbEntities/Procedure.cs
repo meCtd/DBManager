@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "procedure")]
-	public abstract class Procedure : Routine
+	public class Procedure : Routine
 	{
 		public override MetadataType Type => MetadataType.Procedure;
 

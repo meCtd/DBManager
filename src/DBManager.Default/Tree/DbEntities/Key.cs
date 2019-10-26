@@ -3,7 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "key")]
-	public abstract class Key : DbObject
+	public class Key : DbObject
 	{
 		public override MetadataType Type => MetadataType.Key;
 

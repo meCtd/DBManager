@@ -2,21 +2,20 @@
 using System.Threading;
 using System.Windows.Input;
 using DBManager.Application.Framework.Providers;
-using DBManager.Application.ViewModel.Connections;
+using DBManager.Application.ViewModels.Connections;
 using DBManager.Default;
 using Prism.Commands;
 using Prism.Mvvm;
 
-namespace DBManager.Application.ViewModel.Windows
+namespace DBManager.Application.ViewModels.Windows
 {
     public class ConnectionWindowViewModel : BindableBase
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-
         private ICommand _connectCommand;
-        private  ICommand _testConnectionCommand;
-        private  ICommand _cancelCommand;
+        private ICommand _testConnectionCommand;
+        private ICommand _cancelCommand;
 
         private DialectType _selectedBaseType;
         private ConnectionViewModelBase _connection;
@@ -33,6 +32,8 @@ namespace DBManager.Application.ViewModel.Windows
             }
         }
 
+        public event EventHandler ConnectionSuccess;
+
         public ConnectionViewModelBase Conenction
         {
             get { return _connection; }
@@ -42,14 +43,9 @@ namespace DBManager.Application.ViewModel.Windows
             }
         }
 
-        //TODO: Implement
-        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new DelegateCommand(() =>
-        {
-            _connection.Model
-        }))
+        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new DelegateCommand(() => { }));
 
-        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new DelegateCommand());
-
+        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new DelegateCommand(async () => await Conenction.Model.TestConnectionAsync(_tokenSource.Token)));
 
         public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(_tokenSource.Cancel));
 

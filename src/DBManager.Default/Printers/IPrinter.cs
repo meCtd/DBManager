@@ -4,8 +4,6 @@ namespace DBManager.Default.Printers
 {
 	public interface IPrinter
 	{
-		string GetDefinition(DbObject dbObject);
-		
+		string GetDefinition();
 	}
-	
 }

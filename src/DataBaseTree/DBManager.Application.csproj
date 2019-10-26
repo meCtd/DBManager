@@ -56,19 +56,19 @@
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
-    </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
+    <Reference Include="Prism, Version=7.2.0.1367, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
+      <HintPath>..\packages\Prism.Core.7.2.0.1367\lib\net45\Prism.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net47\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -103,15 +103,18 @@
     <Compile Include="Framework\Interfaces\IModelObject.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
     <Compile Include="Framework\WindowManager.cs" />
-    <Compile Include="ViewModel\Connections\ConnectionViewModelBase.cs" />
-    <Compile Include="ViewModel\Connections\MsSqlConnectionViewModel.cs" />
-    <Compile Include="ViewModel\Windows\ConnectionWindowViewModel.cs" />
-    <Compile Include="ViewModel\MetadataTree\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\MetadataTree\DbObjectViewModel.cs" />
-    <Compile Include="ViewModel\MetadataTree\MetadataViewModelBase.cs" />
-    <Compile Include="ViewModel\MetadataTree\TreeRootViewModel.cs" />
-    <Compile Include="ViewModel\MetadataTree\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModel\Windows\TreeWindowViewModel.cs" />
+    <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
+    <Compile Include="ViewModels\Connections\MsSqlConnectionViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
+    <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\TreeRootViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
     <Compile Include="View\ConnectionWindow.xaml.cs">
       <DependentUpon>ConnectionWindow.xaml</DependentUpon>
     </Compile>

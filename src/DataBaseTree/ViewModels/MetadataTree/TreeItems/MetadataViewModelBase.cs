@@ -1,21 +1,13 @@
 ﻿using System;
 using DBManager.Default.Tree;
 
-namespace DBManager.Application.ViewModel.MetadataTree
+namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
 	public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
 	{
-		#region Fields
-
-		private bool _isBusy;
-
-		#endregion
-
-		#region Properties
+        private bool _isBusy;
 
 		public abstract MetadataType Type { get; }
-
-		public abstract string Icon { get; }
 
 		public abstract DbObject Model { get; }
 
@@ -26,9 +18,7 @@ namespace DBManager.Application.ViewModel.MetadataTree
 			get { return _isBusy; }
 			set { SetProperty(ref _isBusy, value); }
 		}
-
-		#endregion
-
+        
 		protected MetadataViewModelBase(MetadataViewModelBase parent, bool canBeChild) : base(parent, canBeChild)
 		{
 			Root = parent?.Root;
