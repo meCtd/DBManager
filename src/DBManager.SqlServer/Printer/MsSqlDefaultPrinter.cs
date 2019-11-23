@@ -1,22 +1,13 @@
 ﻿using DBManager.Default.Printers;
-using DBManager.Default.Tree;
+using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.SqlServer.Printer
 {
-	public class MsSqlDefaultPrinter : IPrinter
-	{
-
-		public string GetDefinition(DbObject dbObject)
-		{
-			if(!dbObject.CanHaveDefinition)
-				dbObject.Definition = $"CREATE {dbObject.Type.ToString().ToUpper()} [{dbObject.Name}]";
-			return dbObject.Definition;
-		}
-
-        //TODO:REWRITE PRINTER STRUCTURE
-        public string GetDefinition()
+    public class MsSqlDefaultPrinter : IPrinter
+    {
+        public string GetDefinition(DefinitionObject obj)
         {
-            throw new System.NotImplementedException();
+            return $"CREATE {obj.Type.ToString().ToUpper()} {SqlServerNormalizer.Instance.Quote(obj.Name)}";
         }
     }
 }

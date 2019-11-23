@@ -9,7 +9,7 @@ using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.Windows
 {
-    public class ConnectionWindowViewModel : BindableBase
+    public class ConnectionWindowViewModel : ViewModelBase
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 

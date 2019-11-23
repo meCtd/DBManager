@@ -8,8 +8,6 @@ namespace DBManager.Default.Tree.DbEntities
 	{
 		public override MetadataType Type => MetadataType.Type;
 
-		public override bool CanHaveDefinition => false;
-
 		public DbType(string name, int? length, int? precision, int? scale) : base(name)
 		{
 			Length = length;

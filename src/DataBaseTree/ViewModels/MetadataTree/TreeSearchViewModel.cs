@@ -4,7 +4,7 @@ using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.MetadataTree
 {
-    public class TreeSearchViewModel : BindableBase
+    public class TreeSearchViewModel : ViewModelBase
     {
         private readonly TreeViewModel _tree;
 

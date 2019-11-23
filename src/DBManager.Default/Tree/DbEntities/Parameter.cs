@@ -7,8 +7,6 @@ namespace DBManager.Default.Tree.DbEntities
     {
         public override MetadataType Type => MetadataType.Parameter;
 
-        public override bool CanHaveDefinition => false;
-
         public Parameter(string name, DbType parameterType) : base(name, parameterType)
         {
         }

@@ -7,8 +7,6 @@ namespace DBManager.Default.Tree.DbEntities
 	{
 		public override MetadataType Type => MetadataType.Index;
 
-		public override bool CanHaveDefinition => false;
-
 		public Index(string name) : base(name)
 		{
 		}

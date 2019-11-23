@@ -1,43 +1,59 @@
-﻿using System;
+﻿using System.Windows.Input;
 using DBManager.Default.Tree;
+using Prism.Commands;
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
-	public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
-	{
+    public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
+    {
         private bool _isBusy;
 
-		public abstract MetadataType Type { get; }
+        public ICommand _refreshCommand;
 
-		public abstract DbObject Model { get; }
+        public abstract string Name { get; }
 
-		public virtual TreeRootViewModel Root { get; }
+        public abstract MetadataType Type { get; }
 
-		public bool IsBusy
-		{
-			get { return _isBusy; }
-			set { SetProperty(ref _isBusy, value); }
-		}
-        
-		protected MetadataViewModelBase(MetadataViewModelBase parent, bool canBeChild) : base(parent, canBeChild)
-		{
-			Root = parent?.Root;
-		}
-		
-		public virtual async void RefreshTreeItem()
-		{
-			
-			if (Model.IsPropertyLoaded)
-			{
-				Model.DeleteProperties();
-				await Root.LoadProperties(this);
-			}
-			if (HasFakeChild)
-				return;
-			Model.DeleteChildrens();
-			Children.Clear();
-			LoadChildren();
-			OnTreeChanged(this, EventArgs.Empty);
-		}
-	}
+        public MetadataViewModelBase MetadataParent => Parent as MetadataViewModelBase;
+        public DbObjectViewModel ObjectParent  => Parent as DbObjectViewModel;
+
+        public bool IsBusy
+        {
+            get { return _isBusy; }
+            set { SetProperty(ref _isBusy, value); }
+        }
+
+        public ICommand RefreshCommand =>
+            _refreshCommand ?? (_refreshCommand = new DelegateCommand(() => LoadChildrenInternal(true)));
+
+        protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
+        {
+            ExpandChanged += (sender, args) =>
+            {
+                if (args.New)
+                {
+                    LoadChildrenInternal();
+                }
+            };
+        }
+
+        public abstract void RemoveChildren();
+        public abstract void LoadChildren();
+
+        protected void LoadChildrenInternal(bool reload = false)
+        {
+            try
+            {
+                IsBusy = true;
+                if (reload)
+                    RemoveChildren();
+
+                LoadChildren();
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+    }
 }

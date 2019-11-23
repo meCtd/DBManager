@@ -3,9 +3,7 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "table")]
-	[KnownType(typeof(Constraint))]
-	[KnownType(typeof(Key))]
-	public class Table : TableData
+	public class Table : DataObject
 	{
 		public override MetadataType Type => MetadataType.Table;
 

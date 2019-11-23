@@ -7,8 +7,6 @@ namespace DBManager.Default.Tree.DbEntities
 	{
 		public override MetadataType Type => MetadataType.Constraint;
 
-		public override bool CanHaveDefinition => false;
-
 		public Constraint(string name) : base(name)
 		{
 		}

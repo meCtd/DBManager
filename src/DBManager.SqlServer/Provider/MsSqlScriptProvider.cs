@@ -138,7 +138,7 @@ namespace DBManager.SqlServer.Provider
                             $"is_replicated AS '{Constants.IsReplicatedProperty}', " +
                             $"has_replication_filter AS '{Constants.HasReplicationFilterProperty}', " +
                             $"is_filetable AS '{Constants.IsFileTableProperty}' " +
-                            $"FROM sys.tables" +
+                            "FROM sys.tables" +
                             $" WHERE name = {Constants.NameParameter} AND schema_id = Schema_id({Constants.SchemaNameParameter})");
 
 
@@ -193,9 +193,9 @@ namespace DBManager.SqlServer.Provider
                             $"col.is_xml_document as  '{Constants.IsXmlPaddedProperty}', " +
                             $"col.collation_name AS '{Constants.CollationNameProperty}', " +
                             $"col.column_id AS '{Constants.ColumnIdProperty}' " +
-                            $"FROM sys.columns AS col " +
-                            $"JOIN INFORMATION_SCHEMA.COLUMNS AS inf on inf.COLUMN_NAME=col.name and col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) " +
-                            $"LEFT JOIN sys.identity_columns AS id ON col.object_id=id.object_id  " +
+                            "FROM sys.columns AS col " +
+                            "JOIN INFORMATION_SCHEMA.COLUMNS AS inf on inf.COLUMN_NAME=col.name and col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) " +
+                            "LEFT JOIN sys.identity_columns AS id ON col.object_id=id.object_id  " +
                             $"WHERE col.name={Constants.NameParameter} AND col.object_id=OBJECT_ID({Constants.FullParentNameParameter})");
 
                 case MetadataType.Function:
@@ -253,7 +253,7 @@ namespace DBManager.SqlServer.Provider
                             $"ks.[{Constants.DeleteReferentialActionProperty}], " +
                             $"ks.[{Constants.UpdateReferentialActionProperty}], " +
                             $"ks.[{Constants.IndexIdProperty}] " +
-                            $"FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
+                            "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
                             $"JOIN (SELECT name AS '{Constants.NameProperty}', " +
                             $"type_desc AS '{Constants.TypeProperty}', " +
                             $"create_date AS '{Constants.CreationDateProperty}', " +
@@ -264,19 +264,19 @@ namespace DBManager.SqlServer.Provider
                             $"NULL AS '{Constants.DeleteReferentialActionProperty}', " +
                             $"unique_index_id AS '{Constants.IndexIdProperty}', " +
                             $"NULL AS '{Constants.UpdateReferentialActionProperty}' " +
-                            $"FROM sys.key_constraints " +
-                            $"UNION SELECT name, " +
-                            $"type_desc, " +
-                            $"create_date, " +
-                            $"modify_date, " +
-                            $"is_system_named, " +
-                            $"is_published, " +
-                            $"is_ms_shipped, " +
-                            $"delete_referential_action_desc, " +
-                            $"key_index_id, " +
-                            $"update_referential_action_desc " +
+                            "FROM sys.key_constraints " +
+                            "UNION SELECT name, " +
+                            "type_desc, " +
+                            "create_date, " +
+                            "modify_date, " +
+                            "is_system_named, " +
+                            "is_published, " +
+                            "is_ms_shipped, " +
+                            "delete_referential_action_desc, " +
+                            "key_index_id, " +
+                            "update_referential_action_desc " +
                             $"FROM sys.foreign_keys ) AS ks ON inf.CONSTRAINT_NAME=ks.[{Constants.NameProperty}]  " +
-                            $"LEFT JOIN sys.foreign_key_columns AS ref ON OBJECT_ID(inf.TABLE_SCHEMA+'.'+inf.CONSTRAINT_NAME)=ref.constraint_object_id  " +
+                            "LEFT JOIN sys.foreign_key_columns AS ref ON OBJECT_ID(inf.TABLE_SCHEMA+'.'+inf.CONSTRAINT_NAME)=ref.constraint_object_id  " +
                             $"WHERE inf.CONSTRAINT_NAME ={Constants.NameParameter} AND inf.CONSTRAINT_SCHEMA={Constants.SchemaNameParameter} AND inf.CONSTRAINT_CATALOG={Constants.DatabaseNameParameter}";
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -285,7 +285,7 @@ namespace DBManager.SqlServer.Provider
 
         public IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj)
         {
-            yield return new SqlParameter(Constants.NameParameter, $"{obj.SchemaName}.{obj.Name}");
+            yield return new SqlParameter(Constants.NameParameter, $"{obj.FullName.Schema}.{obj.Name}");
         }
 
         public IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType)
@@ -296,20 +296,20 @@ namespace DBManager.SqlServer.Provider
 
                 case MetadataType.Table:
                     parameters.Add(new SqlParameter(Constants.TypeParameter, "BASE TABLE"));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     break;
 
                 case MetadataType.View:
                 case MetadataType.Function:
                 case MetadataType.Procedure:
                     parameters.Add(new SqlParameter(Constants.TypeParameter, childType.ToString().ToUpper()));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     break;
 
                 case MetadataType.Column:
                 case MetadataType.Constraint:
                 case MetadataType.Key:
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
                     break;
 
@@ -329,23 +329,23 @@ namespace DBManager.SqlServer.Provider
             switch (obj.Type)
             {
                 case MetadataType.Database:
-                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
+                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.FullName.Schema));
                     break;
 
                 case MetadataType.Schema:
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     break;
 
                 case MetadataType.Table:
                 case MetadataType.View:
                     parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     break;
 
                 case MetadataType.Function:
                 case MetadataType.Procedure:
                     parameters.Add(new SqlParameter(Constants.TypeParameter, obj.Type.ToString().ToUpper()));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
                     parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
                     break;
 
@@ -365,8 +365,8 @@ namespace DBManager.SqlServer.Provider
 
                 case MetadataType.Key:
                     parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.SchemaName));
-                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.DataBaseName));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
+                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.FullName.Database));
                     break;
 
 

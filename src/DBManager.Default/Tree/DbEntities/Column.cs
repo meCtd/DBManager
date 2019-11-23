@@ -7,8 +7,6 @@ namespace DBManager.Default.Tree.DbEntities
     {
         public override MetadataType Type => MetadataType.Column;
 
-        public override bool CanHaveDefinition => false;
-
         public Column(string name, DbType columnType) : base(name, columnType)
         {
         }

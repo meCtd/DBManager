@@ -3,16 +3,12 @@
 namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "view")]
-	public class View : TableData
+	public class View : DataObject
 	{
 		public override MetadataType Type => MetadataType.View;
-
-		public override bool CanHaveDefinition => true;
 
 		public View(string name) : base(name)
 		{
 		}
-
-		
 	}
 }

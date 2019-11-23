@@ -7,8 +7,6 @@ namespace DBManager.Default.Tree.DbEntities
 	{
 		public override MetadataType Type => MetadataType.Key;
 
-		public override bool CanHaveDefinition => false;
-
 		public Key(string name) : base(name)
 		{
 		}

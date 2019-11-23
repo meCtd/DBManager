@@ -4,7 +4,7 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
-	public class TreeRootViewModel : MetadataViewModelBase
+	public class ServerViewModel : MetadataViewModelBase
 	{
 		#region Fields
 
@@ -19,26 +19,12 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 			get { return _isConnected; }
 			set { SetProperty(ref _isConnected, value); }
 		}
-
-		public override DbObject Model { get; }
-
-		public override MetadataType Type => MetadataType.Server;
         
-		public ObjectLoader DbObjectLoader { get; }
-
-		public override TreeRootViewModel Root => this;
-
-		public bool IsLoadingInProcess
-		{
-			get { return _isLoadingInProcess; }
-			set { SetProperty(ref _isLoadingInProcess, value); }
-		}
 
 		public bool IsDefaultDatabase { get; }
 
-		public override string Name => Model.Name;
 
-		public TreeRootViewModel(ObjectLoader objectLoader) : base(null, true)
+		public ServerViewModel(ObjectLoader objectLoader) : base(null, true)
 		{
 			DbObjectLoader = objectLoader;
 			Model = new Server(DbObjectLoader.Connection.Server);
@@ -46,7 +32,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 			IsConnected = true;
 		}
 
-		public TreeRootViewModel(DbObject model, ObjectLoader objectLoader) : base(null, true)
+		public ServerViewModel(DbObject model, ObjectLoader objectLoader) : base(null, true)
 		{
 			DbObjectLoader = objectLoader;
 			Model = model;

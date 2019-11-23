@@ -5,7 +5,7 @@ using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.Connections
 {
-    public abstract class ConnectionViewModelBase : BindableBase, IDataErrorInfo
+    public abstract class ConnectionViewModelBase : ViewModelBase, IDataErrorInfo
     {
         protected const string IsRequired = "Field is required";
         protected const string NotValid = "Value is not valid";

@@ -50,6 +50,8 @@
     <Compile Include="Printer\MsSqlTablePrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\MsSqlScriptProvider.cs" />
+    <Compile Include="SqlServerComponent.cs" />
+    <Compile Include="SqlServerNormalizer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">

@@ -17,7 +17,7 @@ using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.Windows
 {
-    public class MainWindowViewModel : BindableBase
+    public class MainWindowViewModel : ViewModelBase
     {
 
         public TreeViewModel Tree { get; }
@@ -83,11 +83,11 @@ namespace DBManager.Application.ViewModels.Windows
                 switch (data.SelectedBaseType)
                 {
                     case DialectType.MsSql:
-                        TreeRootViewModel root =
-                            new TreeRootViewModel(new MsSqlObjectLoader(data.ConnectionData.Connection));
+                        ServerViewModel root =
+                            new ServerViewModel(new MsSqlObjectLoader(data.ConnectionData.Connection));
                         root.TreeChanged += (sender, e) => _searchMatches = null;
 
-                        Root = new TreeRootViewModel[] { root };
+                        Root = new ServerViewModel[] { root };
                         _printerFactory = new MsSqlPrinterFactory();
                         break;
                 }
@@ -346,7 +346,7 @@ namespace DBManager.Application.ViewModels.Windows
                     {
                         DataContractSerializer ser = new DataContractSerializer(typeof(SaveData));
                         SaveData save = (SaveData)ser.ReadObject(fs);
-                        Root = new[] { new TreeRootViewModel(save.Root, save.ObjectLoader) };
+                        Root = new[] { new ServerViewModel(save.Root, save.ObjectLoader) };
                     }
                     catch (Exception ex)
                     {

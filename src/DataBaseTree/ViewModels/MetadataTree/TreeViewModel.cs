@@ -4,7 +4,7 @@ using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.MetadataTree
 {
-    public class TreeViewModel : BindableBase
+    public class TreeViewModel : ViewModelBase
     {
         private TreeViewItemViewModelBase _selectedItem;
 

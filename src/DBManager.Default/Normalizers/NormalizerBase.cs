@@ -8,6 +8,6 @@ namespace DBManager.Default.Normalizers
 
         public abstract string ParameterPrefix { get; }
 
-        public abstract string Normalize(FullName fullName);
+        public abstract string Quote(string name);
     }
 }
