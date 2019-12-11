@@ -485,5 +485,14 @@ namespace DataBaseTree.ViewModel
         #endregion
 
         #endregion
+
+        private RelayCommand _infoCommand;
+
+        public RelayCommand InfoCommand => _infoCommand ?? (_infoCommand = new RelayCommand(() =>
+        {
+            MessageBox.Show(
+                "DBManager\n\nDeveloped by Viktor Herman and Vladislav Luhanskuy\nManaged by Pudovkina Larisa",
+                "About", MessageBoxButton.OK, MessageBoxImage.Information);
+        }));
     }
 }

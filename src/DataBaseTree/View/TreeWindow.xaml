@@ -22,7 +22,7 @@
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"
-                              MinWidth="230" />
+                              MinWidth="240" />
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="1.2*" />
             <ColumnDefinition Width="Auto" />
@@ -90,8 +90,14 @@
                 <MenuItem Style="{StaticResource TreeItemStyle}"
                           ToolTip="Load tree from file"
                           Command="{Binding OpenCommand}"
-                          Icon="/Resources/Icons/LoadFile.png">
-                </MenuItem>
+                          Icon="/Resources/Icons/LoadFile.png"/>
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                <MenuItem Style="{StaticResource TreeItemStyle}"
+                          ToolTip="Load tree from file"
+                          Command="{Binding InfoCommand}"
+                          Icon="/Resources/Icons/Info.png" />
+
             </Menu>
 
             <Grid DockPanel.Dock="Bottom">
