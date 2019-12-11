@@ -43,13 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\MsSqlServer.cs" />
-    <Compile Include="Metadata\MsSqlHierarchy.cs" />
-    <Compile Include="Metadata\MsSqlMetadataTypeFactory.cs" />
+    <Compile Include="Metadata\SqlServerHierarchy.cs" />
+    <Compile Include="Metadata\SqlServerMetadataTypeFactory.cs" />
     <Compile Include="Printer\MsSqlDefaultPrinter.cs" />
-    <Compile Include="Printer\MsSqlPrinterFactory.cs" />
+    <Compile Include="Printer\SqlServerPrinterFactory.cs" />
     <Compile Include="Printer\MsSqlTablePrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Provider\MsSqlScriptProvider.cs" />
+    <Compile Include="Provider\SqlServerScriptProvider.cs" />
     <Compile Include="SqlServerComponent.cs" />
     <Compile Include="SqlServerNormalizer.cs" />
   </ItemGroup>

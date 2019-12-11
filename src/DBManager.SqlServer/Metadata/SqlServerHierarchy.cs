@@ -5,15 +5,8 @@ using DBManager.Default.Tree.Hierarchy;
 
 namespace DBManager.SqlServer.Metadata
 {
-	class MsSqlHierarchy : IMetadataHierarchy
+	internal class SqlServerHierarchy : IMetadataHierarchy
 	{
-		#region Singleton
-		private static readonly MsSqlHierarchy _instance;
-		public static MsSqlHierarchy Instance = _instance ?? (_instance = new MsSqlHierarchy());
-
-		private MsSqlHierarchy() { }
-		#endregion
-
 		public DialectType Dialect => DialectType.MsSql;
 
 		private Dictionary<MetadataType, MetadataHierarchyInfo> _structure = new Dictionary<MetadataType, MetadataHierarchyInfo>

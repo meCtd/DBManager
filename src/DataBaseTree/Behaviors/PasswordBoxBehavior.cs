@@ -7,7 +7,7 @@ namespace DBManager.Application.Behaviors
     public class PasswordBoxBehavior : Behavior<PasswordBox>
     {
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register("Password", typeof(string), typeof(PasswordBoxBehavior), new PropertyMetadata(PasswordChangedCallback));
+            DependencyProperty.Register(nameof(Password), typeof(string), typeof(PasswordBoxBehavior), new PropertyMetadata(PasswordChangedCallback));
 
         private static void PasswordChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

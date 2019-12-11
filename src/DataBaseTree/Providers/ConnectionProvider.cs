@@ -1,28 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using DBManager.Application.Providers.Abstract;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.SqlServer.Connection;
 
-namespace DBManager.Application.Framework.Providers
+namespace DBManager.Application.Providers
 {
-    public class ConnectionProvider
+    public class ConnectionProvider : IConnectionProvider
     {
-        private static ConnectionProvider _instance;
-
-        public static ConnectionProvider Instance => _instance ?? (_instance = new ConnectionProvider());
-
-        private ConnectionProvider()
-        {
-        }
-
         private static readonly Dictionary<DialectType, ConnectionData> _connectionCreator = new Dictionary<DialectType, ConnectionData>
         {
             [DialectType.MsSql] = new MsSqlServer()
         };
 
 
-        public ConnectionData CreateConnectionData(DialectType dialect)
+        public ConnectionData ProvideConnection(DialectType dialect)
         {
             if (_connectionCreator.TryGetValue(dialect, out var result))
             {

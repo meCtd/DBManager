@@ -95,7 +95,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Framework\Providers\ConnectionProvider.cs" />
+    <Compile Include="Providers\Abstract\IComponentProvider.cs" />
+    <Compile Include="Providers\Abstract\IConnectionProvider.cs" />
+    <Compile Include="Providers\ComponentProvider.cs" />
+    <Compile Include="Providers\ConnectionProvider.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
@@ -104,11 +107,11 @@
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
-    <Compile Include="Framework\WindowManager.cs" />
+    <Compile Include="Utils\SharedResourceDictionary.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModels\Connections\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
-    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\General\ViewModelBase.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
@@ -118,10 +121,10 @@
     <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
-    <Compile Include="View\ConnectionWindow.xaml.cs">
+    <Compile Include="View\Windows\ConnectionWindow.xaml.cs">
       <DependentUpon>ConnectionWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TreeWindow.xaml.cs">
+    <Compile Include="View\Windows\TreeWindow.xaml.cs">
       <DependentUpon>TreeWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -163,15 +166,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ConnectionTemplates.xaml">
+    <Page Include="View\Templates\ConnectionTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ConnectionWindow.xaml">
+    <Page Include="View\Windows\ConnectionWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TreeWindow.xaml">
+    <Page Include="View\Windows\TreeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

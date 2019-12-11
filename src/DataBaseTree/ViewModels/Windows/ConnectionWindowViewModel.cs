@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Windows.Input;
-using DBManager.Application.Framework.Providers;
+using DBManager.Application.Providers;
 using DBManager.Application.ViewModels.Connections;
+using DBManager.Application.ViewModels.General;
 using DBManager.Default;
 using Prism.Commands;
 using Prism.Mvvm;

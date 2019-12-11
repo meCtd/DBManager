@@ -4,7 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
-        x:Class="DBManager.Application.View.ConnectionWindow"
+        x:Class="DBManager.Application.View.Windows.ConnectionWindow"
         mc:Ignorable="d"
         Title="ConnectionWindow"
         Height="350"

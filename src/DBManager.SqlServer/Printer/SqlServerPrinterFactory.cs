@@ -4,7 +4,7 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.SqlServer.Printer
 {
-    public class MsSqlPrinterFactory : IPrinter
+    public class SqlServerPrinterFactory : IPrinter
     {
         public string GetDefinition(DefinitionObject obj)
         {

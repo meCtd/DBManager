@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace DBManager.Application.View
+namespace DBManager.Application.View.Windows
 {
 	/// <summary>
 	/// Логика взаимодействия для TreeWindow.xaml

@@ -5,6 +5,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Windows;
 using DBManager.Application.View;
+using DBManager.Application.View.Windows;
+using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
@@ -27,8 +29,6 @@ namespace DBManager.Application.ViewModels.Windows
 
 
         #region Fields
-
-        private IPrinterFactory _printerFactory;
 
         private string _definitionText;
 
@@ -88,7 +88,7 @@ namespace DBManager.Application.ViewModels.Windows
                         root.TreeChanged += (sender, e) => _searchMatches = null;
 
                         Root = new ServerViewModel[] { root };
-                        _printerFactory = new MsSqlPrinterFactory();
+                        _printerFactory = new SqlServerPrinterFactory();
                         break;
                 }
             }
@@ -126,18 +126,10 @@ namespace DBManager.Application.ViewModels.Windows
 
         private void Refresh(MetadataViewModelBase o)
         {
-            o.RefreshTreeItem();
-            if (o.Model.IsPropertyLoaded)
-                ShowProperties(o);
-            o.Model.Definition = string.Empty;
         }
 
         private bool CanRefresh(MetadataViewModelBase o)
         {
-            if (o == null)
-                return false;
-
-            return !o.Root.IsLoadingInProcess && !o.IsBusy && o.Root.IsConnected;
         }
 
         #endregion
@@ -263,7 +255,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         #region ShowPropertiesCommand
 
-       private void ShowProperties(MetadataViewModelBase obj)
+        private void ShowProperties(MetadataViewModelBase obj)
         {
             ItemProperties.Clear();
             if (obj.Model.IsPropertyLoaded)
@@ -359,7 +351,7 @@ namespace DBManager.Application.ViewModels.Windows
             switch (Root.First().DbObjectLoader.Connection.Type)
             {
                 case DialectType.MsSql:
-                    _printerFactory = new MsSqlPrinterFactory();
+                    _printerFactory = new SqlServerPrinterFactory();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

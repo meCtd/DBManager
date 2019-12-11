@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
+using DBManager.Application.ViewModels.General;
 using Framework.EventArguments;
 using Prism.Mvvm;
 

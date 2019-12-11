@@ -1,17 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using DBManager.Default.Tree;
 
 namespace DBManager.Default.Loaders
 {
     public interface IObjectLoader
     {
+        Task LoadChildrenAsync(DbObject obj, CancellationToken token);
 
-        bool IsOnline { get; set; }
+        Task LoadChildrenAsync(DbObject obj, MetadataType childType, CancellationToken token);
 
-        Task LoadChildrenAsync(DbObject obj);
-
-        Task LoadChildrenAsync(DbObject obj, MetadataType childType);
-
-        Task LoadPropertiesAsync(DbObject obj);
+        Task LoadPropertiesAsync(DbObject obj, CancellationToken token);
     }
 }

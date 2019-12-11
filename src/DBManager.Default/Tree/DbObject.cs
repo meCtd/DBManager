@@ -55,17 +55,14 @@ namespace DBManager.Default.Tree
             Properties.Clear();
         }
 
-        public bool AddChild(DbObject obj)
+        public void AddChild(DbObject obj)
         {
-            var items = _childrenMap.ContainsKey(obj.Type) 
-                ? _childrenMap[obj.Type] 
+            var items = _childrenMap.ContainsKey(obj.Type)
+                ? _childrenMap[obj.Type]
                 : (_childrenMap[obj.Type] = new List<DbObject>());
 
             items.Add(obj);
-
             obj.Parent = this;
-
-            return true;
         }
 
         public bool? IsChildrenLoaded(MetadataType? childType, IMetadataHierarchy hierarchy)

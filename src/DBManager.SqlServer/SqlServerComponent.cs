@@ -1,6 +1,7 @@
 ﻿using System.Data.Common;
 using System.Data.SqlClient;
 using DBManager.Default;
+using DBManager.Default.MetadataFactory;
 using DBManager.Default.Normalizers;
 using DBManager.Default.Printers;
 using DBManager.Default.Providers;
@@ -13,13 +14,19 @@ namespace DBManager.SqlServer
 {
     public class SqlServerComponent : IDialectComponent
     {
-        public IPrinter Printer { get; } = new MsSqlPrinterFactory();
+        internal static NormalizerBase SqlNormalizer = new SqlServerNormalizer();
 
-        public IScriptProvider ScriptProvider { get; } = new MsSqlScriptProvider();
 
-        public IMetadataHierarchy Hierarchy { get; } = MsSqlHierarchy.Instance;
 
-        public NormalizerBase Normalizer { get; } = SqlServerNormalizer.Instance;
+        public IPrinter Printer { get; } = new SqlServerPrinterFactory();
+
+        public IScriptProvider ScriptProvider { get; } = new SqlServerScriptProvider();
+
+        public IMetadataHierarchy Hierarchy { get; } = new SqlServerHierarchy();
+
+        public IMetadataFactory ObjectFactory { get; } = new SqlServerMetadataTypeFactory();
+
+        public NormalizerBase Normalizer { get; } = SqlNormalizer;
 
         public DbCommand CreateCommand()
         {

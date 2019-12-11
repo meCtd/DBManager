@@ -44,6 +44,8 @@
     <Compile Include="EventArguments\ValueChangedEventArgs.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\Abstract\IAsyncAwaiter.cs" />
+    <Compile Include="Utils\AsyncAwaiter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

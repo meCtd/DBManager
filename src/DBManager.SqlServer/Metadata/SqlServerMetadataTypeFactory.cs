@@ -1,37 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Common;
+using DBManager.Default;
+using DBManager.Default.MetadataFactory;
+using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 
-namespace DBManager.Default.Tree
+namespace DBManager.SqlServer.Metadata
 {
-
-
-
-
-    public class MetadataTypeFactoryOld
+    internal class SqlServerMetadataTypeFactory : IMetadataFactory
     {
-        #region Fields
+        public DialectType Dialect => DialectType.MsSql;
 
-        private static MetadataTypeFactoryOld _instance;
-
-        private Dictionary<MetadataType, Func<DbDataReader, DbObject>> _creator;
-
-        protected IReadOnlyDictionary<MetadataType, Func<DbDataReader, DbObject>> _objectCreator =>
-            _creator ?? (_creator = SetCreator());
-
-        #endregion
-
-        public static MetadataTypeFactoryOld ObjectCreator => _instance ?? (_instance = new MetadataTypeFactoryOld());
-
-        private MetadataTypeFactoryOld()
-        {
-
-        }
-
-        protected virtual Dictionary<MetadataType, Func<DbDataReader, DbObject>> SetCreator()
-        {
-            Dictionary<MetadataType, Func<DbDataReader, DbObject>> dictionary = new Dictionary<MetadataType, Func<DbDataReader, DbObject>>
+        private static readonly Dictionary<MetadataType, Func<DbDataReader, DbObject>> _dictionary =
+            new Dictionary<MetadataType, Func<DbDataReader, DbObject>>()
             {
                 [MetadataType.Database] = (s) => new Database(s.GetString(s.GetOrdinal(Constants.NameProperty))),
                 [MetadataType.Schema] = (s) => new Schema(s.GetString(s.GetOrdinal(Constants.NameProperty))),
@@ -57,7 +39,8 @@ namespace DBManager.Default.Tree
                     if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
                         length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
 
-                    return new Column((s.GetString(s.GetOrdinal(Constants.NameProperty))), new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
+                    return new Column((s.GetString(s.GetOrdinal(Constants.NameProperty))),
+                        new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
                 },
                 [MetadataType.Parameter] = (s) =>
                 {
@@ -73,16 +56,17 @@ namespace DBManager.Default.Tree
                     if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
                         length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
 
-                    return new Parameter((s.GetString(s.GetOrdinal(Constants.NameProperty))), new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
-                },
-
+                    return new Parameter((s.GetString(s.GetOrdinal(Constants.NameProperty))),
+                        new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
+                }
             };
-            return dictionary;
-        }
 
         public DbObject Create(DbDataReader reader, MetadataType type)
         {
-            return _objectCreator[type](reader);
+            if (!_dictionary.TryGetValue(type,out var func))
+                throw new ArgumentException(nameof(type));
+
+            return func(reader);
         }
     }
 }

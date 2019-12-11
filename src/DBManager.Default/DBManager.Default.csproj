@@ -73,7 +73,6 @@
     <Compile Include="Tree\DbEntities\DataObject.cs" />
     <Compile Include="Tree\DbEntities\Trigger.cs" />
     <Compile Include="Tree\DbEntities\TypeObject.cs" />
-    <Compile Include="Tree\MetadataTypeFactory.cs" />
     <Compile Include="Tree\MetadataType.cs" />
     <Compile Include="Tree\DbObject.cs" />
     <Compile Include="Tree\FullName.cs" />
@@ -86,6 +85,8 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NewFolder1\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

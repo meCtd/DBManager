@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 using DBManager.Default.DataBaseConnection;
@@ -16,127 +17,115 @@ namespace DBManager.Default.Loaders
 
         private readonly IDialectComponent _component;
 
-        public bool IsOnline { get; set; }
-
         public ObjectLoader(IDialectComponent dialectComponent, ConnectionData connection)
         {
             _connection = connection;
             _component = dialectComponent;
         }
 
-        public Task LoadChildrenAsync(DbObject obj)
+        public async Task LoadChildrenAsync(DbObject obj, CancellationToken token)
         {
-            return Task.Run(() =>
+            foreach (var child in _component.Hierarchy.Structure[obj.Type].ChildrenTypes)
             {
-                foreach (var child in _component.Hierarchy.Structure[obj.Type].ChildrenTypes)
-                {
-                    SetChildren(obj, child);
-                }
-            });
+                await LoadChildrenAsync(obj, child, token);
+            }
         }
 
-        public Task LoadChildrenAsync(DbObject obj, MetadataType childType)
+        public Task LoadChildrenAsync(DbObject obj, MetadataType childType, CancellationToken token)
         {
             if (!_component.Hierarchy.Structure[obj.Type].ChildrenTypes.Contains(childType))
                 throw new ArgumentException();
 
-            return Task.Run(() => SetChildren(obj, childType));
+            return LoadChildrenInternal(obj, childType, token);
         }
 
-        public Task LoadPropertiesAsync(DbObject obj)
+        private async Task LoadChildrenInternal(DbObject target, MetadataType childrenType, CancellationToken token)
         {
-            return Task.Run(() => SetObjectProperties(obj));
-        }
+            if (_component.Hierarchy.Structure[target.Type].ChildrenTypes.All(s => s != childrenType))
+            {
+                throw new ArgumentException(nameof(childrenType));
+            }
 
-        private void SetChildren(DbObject target, MetadataType childrenType)
-        {
             using (var connection = _connection.GetConnection())
             {
-                connection.Open();
-
-                List<DbObject> children = new List<DbObject>();
+                await connection.OpenAsync(token);
 
                 var command = _component.CreateCommand();
                 command.Connection = connection;
                 command.CommandText = _component.ScriptProvider.ProvideNameScript(target.Type, childrenType);
 
 
-#warning MB DO NOT LOAD PROPERTIES HERE?
                 foreach (var param in _component.ScriptProvider.GetChildrenLoadParameters(target, childrenType))
                 {
                     command.Parameters.Add(param);
                 }
 
-                using (var reader = command.ExecuteReader())
+                using (var reader = await command.ExecuteReaderAsync(token))
                 {
                     while (reader.Read())
                     {
-                        DbObject child = (MetadataTypeFactoryOld.ObjectCreator.Create(reader, childrenType));
-                        if (!target.AddChild(child))
-                        {
-                            throw new ArgumentException();
-                        }
-                        children.Add(child);
+                        target.AddChild(_component.ObjectFactory.Create(reader, childrenType));
                     }
                 }
 
-                foreach (var child in children)
-                {
-                    if (child.CanHaveDefinition)
-                    {
-                        command = _component.CreateCommand();
-                        command.Connection = connection;
-                        command.CommandText = _component.ScriptProvider.ProvideDefinitionScript();
+                //foreach (var child in children)
+                //{
+                //    if (child.CanHaveDefinition)
+                //    {
+                //        command = _component.CreateCommand();
+                //        command.Connection = connection;
+                //        command.CommandText = _component.ScriptProvider.ProvideDefinitionScript();
 
-                        foreach (var param in _component.ScriptProvider.GetDefinitionParameters(child))
-                        {
-                            command.Parameters.Add(param);
-                        }
+                //        foreach (var param in _component.ScriptProvider.GetDefinitionParameters(child))
+                //        {
+                //            command.Parameters.Add(param);
+                //        }
 
-                        using (var descReader = command.ExecuteReader())
-                        {
+                //        using (var descReader = command.ExecuteReader())
+                //        {
 
-                            StringBuilder defText = new StringBuilder();
-                            while (descReader.Read())
-                            {
-                                defText.Append(descReader.GetString(0));
-                            }
+                //            StringBuilder defText = new StringBuilder();
+                //            while (descReader.Read())
+                //            {
+                //                defText.Append(descReader.GetString(0));
+                //            }
 
-                            child.Definition = defText.ToString();
-                        }
-                    }
-                }
+                //            child.Definition = defText.ToString();
+                //        }
+                //    }
+                //}
 
             }
         }
 
-        private void SetObjectProperties(DbObject obj)
+        public async Task LoadPropertiesAsync(DbObject obj, CancellationToken token)
         {
-            if (!(_connection.GetConnection() is SqlConnection))
-                throw new InvalidCastException();
-            using (SqlConnection connection = (SqlConnection)_connection.GetConnection())
+            using (var connection = _connection.GetConnection())
             {
-                connection.Open();
+                await connection.OpenAsync(token);
 
                 string query = _component.ScriptProvider.ProvidePropertiesScript(obj);
-                SqlCommand command = new SqlCommand(query, connection);
+
+                var command = _component.CreateCommand();
+                command.Connection = connection;
+                command.CommandText = query;
 
                 foreach (var param in _component.ScriptProvider.GetLoadPropertiesParameters(obj))
                 {
                     command.Parameters.Add(param);
                 }
 
-                SqlDataReader reader = command.ExecuteReader();
-
-                reader.Read();
-                for (int i = 0; i < reader.FieldCount; i++)
+                using (var reader = await command.ExecuteReaderAsync(token))
                 {
-                    if (reader.HasRows)
-                        obj.Properties.Add(reader.GetName(i), reader.GetValue(i));
+                    reader.Read();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        if (reader.HasRows)
+                            obj.Properties.Add(reader.GetName(i), reader.GetValue(i));
+                    }
                 }
-            }
 
-            obj.IsPropertyLoaded = true;
+            }
         }
     }
 }

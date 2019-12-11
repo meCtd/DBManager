@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using Prism.Mvvm;
 
