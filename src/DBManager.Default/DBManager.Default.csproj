@@ -61,6 +61,7 @@
     <Compile Include="Tree\DbEntities\Database.cs" />
     <Compile Include="Tree\DbEntities\DbType.cs" />
     <Compile Include="Tree\DbEntities\DefinitionObject.cs" />
+    <Compile Include="Tree\DbEntities\Server.cs" />
     <Compile Include="Tree\DbEntities\View.cs" />
     <Compile Include="Tree\DbEntities\Function.cs" />
     <Compile Include="Tree\DbEntities\Index.cs" />
@@ -85,8 +86,6 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NewFolder1\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

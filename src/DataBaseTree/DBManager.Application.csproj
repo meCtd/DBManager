@@ -116,7 +116,6 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
-    <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
     <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
