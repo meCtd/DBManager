@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace DBManager.Application.Convertors
 {
-	public class EnumToDescriptionConverter : ConverterBase<EnumToDescriptionConverter>
+	public class EnumToDescriptionConverter : ConverterBase
 	{
 		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{

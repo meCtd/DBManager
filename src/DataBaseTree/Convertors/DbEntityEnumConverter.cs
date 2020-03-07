@@ -5,19 +5,19 @@ using DBManager.Default.Tree;
 
 namespace DBManager.Application.Convertors
 {
-	public class DbEntityEnumConverter : IValueConverter
+	public class DbEntityEnumConverter : ConverterBase
 	{
-		private MetadataType targetValue;
+		private MetadataType _targetValue;
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			targetValue = (MetadataType)value;
-			return targetValue.HasFlag((MetadataType)parameter);
+			_targetValue = (MetadataType)value;
+			return _targetValue.HasFlag((MetadataType)parameter);
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return targetValue ^= (MetadataType)parameter;
+			return _targetValue ^= (MetadataType)parameter;
 		}
 
 	}

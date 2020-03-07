@@ -7,13 +7,13 @@ namespace DBManager.Application.ViewModels.Connections
     {
         public bool IntegratedSecurity
         {
-            get { return bool.Parse(Model.Properties[ConnectionProperty.IntegratedSecurity]); }
+            get { return (bool) Model.Properties[ConnectionProperty.IntegratedSecurity]; }
             set
             {
                 if (IntegratedSecurity.Equals(value))
                     return;
 
-                Model.Properties[ConnectionProperty.IntegratedSecurity] = value.ToString();
+                Model.Properties[ConnectionProperty.IntegratedSecurity] = value;
 
                 if (value)
                 {

@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Windows;
 using DBManager.Default;
 using DBManager.Default.Tree;
+
 using Ninject;
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
@@ -21,7 +18,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         #endregion
 
-        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, Kernel.Get<IDialectComponent>().Hierarchy.Structure[model.Type].NeedCategory)
+        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, Resolver.Get<IDialectComponent>().Hierarchy.Structure[model.Type].NeedCategory)
         {
             Model = model;
         }

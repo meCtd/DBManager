@@ -20,6 +20,7 @@ namespace DBManager.Default
         NormalizerBase Normalizer { get; }
 
         DbCommand CreateCommand();
+
         DbParameter CreateParameter();
     }
 }

@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using DBManager.Application.ViewModels.General;
 using DBManager.Default.DataBaseConnection;
-using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.Connections
 {
@@ -35,7 +34,7 @@ namespace DBManager.Application.ViewModels.Connections
             set
             {
                 Model.Server = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -45,7 +44,7 @@ namespace DBManager.Application.ViewModels.Connections
             set
             {
                 Model.Port = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -55,7 +54,7 @@ namespace DBManager.Application.ViewModels.Connections
             set
             {
                 Model.InitialCatalog = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -65,7 +64,7 @@ namespace DBManager.Application.ViewModels.Connections
             set
             {
                 Model.UserId = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 
@@ -75,7 +74,7 @@ namespace DBManager.Application.ViewModels.Connections
             set
             {
                 Model.Password = value;
-                RaisePropertyChanged();
+                OnPropertyChanged();
             }
         }
 

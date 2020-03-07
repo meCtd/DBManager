@@ -5,13 +5,11 @@ using System.Windows.Markup;
 
 namespace DBManager.Application.Convertors
 {
-    public abstract class ConverterBase<TConverterType> : MarkupExtension, IValueConverter where TConverterType : class, new()
+    public abstract class ConverterBase : MarkupExtension, IValueConverter
     {
-        private static TConverterType _instance;
-
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return _instance ?? (_instance = new TConverterType());
+            return this;
         }
 
         public abstract object Convert(object value, Type targetType, object parameter, CultureInfo culture);

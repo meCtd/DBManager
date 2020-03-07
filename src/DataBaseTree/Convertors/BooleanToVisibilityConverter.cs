@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace DBManager.Application.Convertors
 {
-    public class BooleanToVisibilityConverter : ConverterBase<BooleanToVisibilityConverter>
+    public class BooleanToVisibilityConverter : ConverterBase
     {
         public override object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {

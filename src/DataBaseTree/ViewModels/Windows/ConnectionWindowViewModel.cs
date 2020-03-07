@@ -2,11 +2,13 @@
 using System.Threading;
 using System.Windows.Input;
 using DBManager.Application.Providers;
+using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
 using DBManager.Default;
-using Prism.Commands;
-using Prism.Mvvm;
+
+using Ninject;
+
 
 namespace DBManager.Application.ViewModels.Windows
 {
@@ -28,33 +30,41 @@ namespace DBManager.Application.ViewModels.Windows
             {
                 if (SetProperty(ref _selectedBaseType, value))
                 {
-                    Conenction = CreateViewModel(SelectedBaseType);
+                    Connection = CreateViewModel(SelectedBaseType);
                 }
             }
         }
 
-        public event EventHandler ConnectionSuccess;
-
-        public ConnectionViewModelBase Conenction
+        public ConnectionWindowViewModel()
         {
-            get { return _connection; }
+            SelectedBaseType = DialectType.MsSql;
+        }
+
+        public ConnectionViewModelBase Connection
+        {
+            get => _connection;
             set
             {
                 SetProperty(ref _connection, value);
             }
         }
 
-        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new DelegateCommand(() => { }));
+        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => Connect()));
 
-        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new DelegateCommand(async () => await Conenction.Model.TestConnectionAsync(_tokenSource.Token)));
+        private void Connect()
+        {
+            throw new NotImplementedException();
+        }
 
-        public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new DelegateCommand(_tokenSource.Cancel));
+        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new RelayCommand(async (s) => await Connection.Model.TestConnectionAsync(_tokenSource.Token)));
+
+        public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel()));
 
         private ConnectionViewModelBase CreateViewModel(DialectType type)
         {
-            var model = ConnectionProvider.Instance.CreateConnectionData(type);
+            var model = Resolver.Get<ConnectionProvider>().ProvideConnection(type);
 
-            switch (model.Type)
+            switch (type)
             {
                 case DialectType.MsSql:
                     return new MsSqlConnectionViewModel(model);
@@ -62,6 +72,8 @@ namespace DBManager.Application.ViewModels.Windows
                     throw new ArgumentOutOfRangeException();
             }
         }
+
+
     }
 }
 

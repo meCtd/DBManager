@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace DBManager.Application.Convertors
 {
-    public class EnumToItemsSourceConverter : ConverterBase<EnumToItemsSourceConverter>
+    public class EnumToItemsSourceConverter : ConverterBase
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

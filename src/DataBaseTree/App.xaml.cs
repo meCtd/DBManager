@@ -19,7 +19,7 @@ namespace DBManager.Application
 
         private void RegisterComponents()
         {
-            var kernel = ViewModelBase.Kernel;
+            var kernel = ViewModelBase.Resolver;
 
             kernel.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
             kernel.Bind<IComponentProvider>().To<ComponentProvider>().InSingletonScope();

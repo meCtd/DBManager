@@ -26,5 +26,13 @@ namespace Framework.Extensions
                 ? result
                 : defaultValue;
         }
+
+        public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key,
+            TValue defaultValue)
+        {
+            return dictionary.TryGetValue(key, out var result)
+                ? result
+                : defaultValue;
+        }
     }
 }

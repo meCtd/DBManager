@@ -1,4 +1,5 @@
-﻿using System.Data.Common;
+﻿using System.Collections.Generic;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Runtime.Serialization;
 using DBManager.Default;
@@ -21,8 +22,7 @@ namespace DBManager.SqlServer.Connection
         {
             get
             {
-                bool integratedSecurity =
-                    bool.Parse(Properties.GetValueOrDefault(ConnectionProperty.IntegratedSecurity, false.ToString()));
+                bool integratedSecurity = (bool)Properties.GetValueOrDefault(ConnectionProperty.IntegratedSecurity, false);
 
                 var builder = new SqlConnectionStringBuilder
                 {
@@ -46,6 +46,12 @@ namespace DBManager.SqlServer.Connection
                 return builder.ToString();
             }
 
+        }
+
+
+        protected override IEnumerable<KeyValuePair<ConnectionProperty, object>> RegisterProperties()
+        {
+            yield return new KeyValuePair<ConnectionProperty, object>(ConnectionProperty.IntegratedSecurity, false);
         }
 
         public override DbConnection GetConnection()

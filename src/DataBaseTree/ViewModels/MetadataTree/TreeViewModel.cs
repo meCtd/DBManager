@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
-using Prism.Mvvm;
 
 namespace DBManager.Application.ViewModels.MetadataTree
 {
@@ -9,12 +11,21 @@ namespace DBManager.Application.ViewModels.MetadataTree
     {
         private TreeViewItemViewModelBase _selectedItem;
 
-        public IEnumerable<TreeViewItemViewModelBase> RootItems { get; }
+        public ObservableCollection<TreeViewItemViewModelBase> RootItems { get; } 
+        
+        public ICollectionView TreeView { get; }
 
         public TreeViewItemViewModelBase SelectedItem
         {
             get { return _selectedItem; }
             set { SetProperty(ref _selectedItem, value); }
+        }
+
+        public TreeViewModel()
+        {
+            RootItems = new ObservableCollection<TreeViewItemViewModelBase>();
+
+            TreeView= new ListCollectionView(RootItems);
         }
     }
 }

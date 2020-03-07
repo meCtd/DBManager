@@ -14,9 +14,7 @@ namespace DBManager.SqlServer
 {
     public class SqlServerComponent : IDialectComponent
     {
-        internal static NormalizerBase SqlNormalizer = new SqlServerNormalizer();
-
-
+        internal static readonly NormalizerBase SqlNormalizer = new SqlServerNormalizer();
 
         public IPrinter Printer { get; } = new SqlServerPrinterFactory();
 

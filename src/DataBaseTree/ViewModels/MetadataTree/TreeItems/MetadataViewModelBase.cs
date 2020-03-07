@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
+using DBManager.Application.Utils;
 using DBManager.Default.Tree;
-using Prism.Commands;
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
@@ -24,7 +24,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         }
 
         public ICommand RefreshCommand =>
-            _refreshCommand ?? (_refreshCommand = new DelegateCommand(() => LoadChildrenInternal(true)));
+            _refreshCommand ?? (_refreshCommand = new RelayCommand((s) => LoadChildrenInternal(true)));
 
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Windows.Input;
+using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
-using Prism.Commands;
-using Prism.Mvvm;
+
 
 namespace DBManager.Application.ViewModels.MetadataTree
 {
@@ -25,7 +25,7 @@ namespace DBManager.Application.ViewModels.MetadataTree
         }
 
         public ICommand SearchCommand =>
-            _searchCommand ?? (_searchCommand = new DelegateCommand(SearchExecute, SearchCanExecute));
+            _searchCommand ?? (_searchCommand = new RelayCommand(s => SearchExecute(), s => SearchCanExecute()));
 
 
         private void SearchExecute()

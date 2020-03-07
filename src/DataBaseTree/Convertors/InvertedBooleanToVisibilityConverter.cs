@@ -4,7 +4,7 @@ using System.Windows;
 
 namespace DBManager.Application.Convertors
 {
-    public class InvertedBooleanToVisibilityConverter : ConverterBase<InvertedBooleanToVisibilityConverter>
+    public class InvertedBooleanToVisibilityConverter : ConverterBase
     {
         public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
