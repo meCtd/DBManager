@@ -1,0 +1,54 @@
+﻿<Window x:Class="DBManager.Application.View.Windows.ContentWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:general="clr-namespace:DBManager.Application.ViewModels.General"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+        xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance Type=general:WindowViewModelBase}"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        SizeToContent="WidthAndHeight"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True"
+        ShowInTaskbar="False"
+        Title="{Binding Header}">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Templates/ConenctionWindowTemplate.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel>
+
+        <DockPanel DockPanel.Dock="Top"
+                   Background="Transparent"
+                   Height="25"
+                   LastChildFill="True">
+
+            <TextBlock Text="{Binding Header}"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+
+            <Button DockPanel.Dock="Right"
+                    Visibility="{Binding CanUserCloseWindow,Converter={convertors:BooleanToVisibilityConverter}}"
+                    Width="25" />
+
+            <i:Interaction.Behaviors>
+                <behaviors:WindowDragBehaviour />
+            </i:Interaction.Behaviors>
+        </DockPanel>
+
+        <Border DockPanel.Dock="Top"
+                BorderBrush="Black"
+                BorderThickness="0,1,0,0" />
+
+        <ContentPresenter Content="{Binding}" />
+    </DockPanel>
+</Window>

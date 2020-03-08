@@ -10,10 +10,8 @@
         <StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
-
                     <ColumnDefinition />
                     <ColumnDefinition Width="Auto" />
-
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
@@ -51,11 +49,9 @@
                 <TextBlock Text="Password" />
 
                 <PasswordBox>
-
                     <i:Interaction.Behaviors>
                         <behaviors:PasswordBoxBehavior Password="{Binding Path=Password,Mode=TwoWay}" />
                     </i:Interaction.Behaviors>
-
                 </PasswordBox>
 
             </StackPanel>

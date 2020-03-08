@@ -8,6 +8,8 @@ namespace DBManager.Application.ViewModels.General
     {
         string Header { get; }
 
+        bool CanUserCloseWindow { get; }
+
         void SetCloseAction(Action closeAction);
 
         void Close();

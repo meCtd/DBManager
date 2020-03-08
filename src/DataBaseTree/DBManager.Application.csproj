@@ -93,6 +93,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Providers\Abstract\IComponentProvider.cs" />
     <Compile Include="Providers\Abstract\IConnectionProvider.cs" />
     <Compile Include="Providers\ComponentProvider.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\SharedResourceDictionary.cs" />
+    <Compile Include="Utils\WindowManager.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModels\Connections\MsSqlConnectionViewModel.cs" />
     <Compile Include="ViewModels\General\IWindowContext.cs" />
@@ -121,8 +123,8 @@
     <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
-    <Compile Include="View\Windows\ConnectionWindow.xaml.cs">
-      <DependentUpon>ConnectionWindow.xaml</DependentUpon>
+    <Compile Include="View\Windows\ContentWindow.xaml.cs">
+      <DependentUpon>ContentWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Windows\TreeWindow.xaml.cs">
       <DependentUpon>TreeWindow.xaml</DependentUpon>
@@ -158,7 +160,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resources\ResourcesControlTemplates.xaml">
+    <Page Include="View\Templates\ConenctionWindowTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\Windows\ConnectionWindow.xaml">
+    <Page Include="View\Windows\ContentWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -174,60 +176,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Database.png" />
-    <Resource Include="Resources\Icons\Schema.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Category.png" />
-    <Resource Include="Resources\Icons\Key.png" />
-    <Resource Include="Resources\Icons\Table.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Trigger.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Column.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Function.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Connect.png" />
-    <Resource Include="Resources\Icons\Disconnect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Server.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\View.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Properties.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Parameter.png" />
-    <Resource Include="Resources\Icons\Procedure.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Constraint.png" />
-    <Resource Include="Resources\Icons\Index.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Restore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\LoadFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Definition.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">
@@ -243,7 +191,9 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="View\Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

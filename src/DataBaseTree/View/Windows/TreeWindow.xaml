@@ -9,6 +9,7 @@
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
         xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="TreeWindow"
         Height="550"
         Width="750">
@@ -37,59 +38,39 @@
             <Menu DockPanel.Dock="Top"
                   Height="25">
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Connect"
-                          Command="{Binding ConnectCommand}"
-                          Icon="/Resources/Icons/Connect.png">
-                </MenuItem>
+                <MenuItem ToolTip="Connect"
+                          Command="{Binding ConnectCommand}"/>
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Disconnect"
+                <MenuItem ToolTip="Disconnect"
                           CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
-                          Command="{Binding Path=DisconnectCommand}"
-                          Icon="/Resources/Icons/Disconnect.png">
-                </MenuItem>
+                          Command="{Binding Path=DisconnectCommand}"/>
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Restore connection"
-                          Command="{Binding Path=RestoreCommand}"
-                          Icon="/Resources/Icons/Restore.png">
-                </MenuItem>
+                <MenuItem ToolTip="Restore connection"
+                          Command="{Binding Path=RestoreCommand}"/>
 
-                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" /> 
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Refresh selected node"
-                          CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
-                          Icon="/Resources/Icons/Refresh.png">
-                </MenuItem>
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Load Properties"
+                <MenuItem ToolTip="Refresh selected node"
+                          CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"/>
+
+                <MenuItem ToolTip="Load Properties"
                           Command="{Binding LoadPropertiesCommand}"
-                          CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
-                          Icon="/Resources/Icons/Properties.png">
-                </MenuItem>
+                          CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"/>
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Show definition"
+                <MenuItem ToolTip="Show definition"
                           Command="{Binding ShowDefinitionCommand}"
                           CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
-                          Icon="/Resources/Icons/Definition.png">
-                </MenuItem>
+                          Icon="/Resources/Icons/Definition.png"/>
 
                 <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Save tree"
+                <MenuItem ToolTip="Save tree"
                           Command="{Binding SaveCommand}"
-                          Icon="/Resources/Icons/Save.png">
-                </MenuItem>
+                />
 
-                <MenuItem Style="{StaticResource TreeItemStyle}"
-                          ToolTip="Load tree from file"
+                <MenuItem ToolTip="Load tree from file"
                           Command="{Binding OpenCommand}"
-                          Icon="/Resources/Icons/LoadFile.png">
-                </MenuItem>
+                          Icon="/Resources/Icons/LoadFile.png"/>
             </Menu>
 
             <Grid DockPanel.Dock="Bottom">

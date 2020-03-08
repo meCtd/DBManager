@@ -12,16 +12,19 @@ using Ninject;
 
 namespace DBManager.Application.ViewModels.Windows
 {
-    public class ConnectionWindowViewModel : ViewModelBase
+    public class ConnectionWindowViewModel : WindowViewModelBase
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+
+        private DialectType _selectedBaseType;
 
         private ICommand _connectCommand;
         private ICommand _testConnectionCommand;
         private ICommand _cancelCommand;
 
-        private DialectType _selectedBaseType;
         private ConnectionViewModelBase _connection;
+
+        private bool _isBusy;
 
         public DialectType SelectedBaseType
         {
@@ -35,21 +38,26 @@ namespace DBManager.Application.ViewModels.Windows
             }
         }
 
+        public ConnectionViewModelBase Connection
+        {
+            get => _connection;
+            set => SetProperty(ref _connection, value);
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
+        }
+
+        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => Connect()));
+
+        public override string Header => "New connection";
+
         public ConnectionWindowViewModel()
         {
             SelectedBaseType = DialectType.MsSql;
         }
-
-        public ConnectionViewModelBase Connection
-        {
-            get => _connection;
-            set
-            {
-                SetProperty(ref _connection, value);
-            }
-        }
-
-        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => Connect()));
 
         private void Connect()
         {

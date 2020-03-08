@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using System.Windows;
+using DBManager.Application.Utils;
+using DBManager.Application.View.Windows;
 using Ninject;
 
 namespace DBManager.Application.ViewModels.General
@@ -28,12 +30,7 @@ namespace DBManager.Application.ViewModels.General
 
             return true;
         }
-
-        protected static void ShowWindow<T>(T windowContext) where T : IWindowContext
-        {
-
-        }
-
+        
 
         public virtual void Dispose()
         {

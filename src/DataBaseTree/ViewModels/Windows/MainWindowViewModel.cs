@@ -4,6 +4,7 @@ using DBManager.Application.Utils;
 using DBManager.Application.View.Windows;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
+using Ninject;
 
 namespace DBManager.Application.ViewModels.Windows
 {
@@ -12,7 +13,6 @@ namespace DBManager.Application.ViewModels.Windows
         public TreeViewModel Tree { get; } = new TreeViewModel();
 
         public TreeSearchViewModel TreeSearch { get; }
-
 
         private string _definitionText;
 
@@ -25,12 +25,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         private void Connect()
         {
-            var window = new ConnectionWindow();
-            var data = (ConnectionWindowViewModel)window.DataContext;
-
-            if (window.ShowDialog() == true)
-            {
-            }
+            Resolver.Get<IWindowManager>().ShowWindow(new ConnectionWindowViewModel());
         }
 
 

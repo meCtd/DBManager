@@ -12,11 +12,9 @@ namespace DBManager.Application.ViewModels.General
 
         private string _header;
 
-        public string Header
-        {
-            get => _header;
-            set => SetProperty(ref _header, value);
-        }
+        public abstract string Header { get; }
+
+        public virtual bool CanUserCloseWindow { get; } = false;
 
         public void Close()
         {
