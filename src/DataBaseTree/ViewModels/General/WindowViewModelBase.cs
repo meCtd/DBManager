@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using DBManager.Application.Utils;
 
 
 namespace DBManager.Application.ViewModels.General
@@ -10,11 +11,11 @@ namespace DBManager.Application.ViewModels.General
 
         private ICommand _closeCommand;
 
-        private string _header;
-
         public abstract string Header { get; }
 
         public virtual bool CanUserCloseWindow { get; } = false;
+
+        public ICommand CloseCommand => _closeCommand ?? (_closeCommand = new RelayCommand(s => Close()));
 
         public void Close()
         {
@@ -22,12 +23,9 @@ namespace DBManager.Application.ViewModels.General
             _closeAction.Invoke();
         }
 
-        public ICommand CloseCommand { get; }
-
-
         void IWindowContext.SetCloseAction(Action closeAction)
         {
             _closeAction = closeAction;
         }
-    }
+}
 }

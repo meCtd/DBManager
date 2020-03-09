@@ -24,13 +24,22 @@ namespace DBManager.SqlServer.Connection
             {
                 bool integratedSecurity = (bool)Properties.GetValueOrDefault(ConnectionProperty.IntegratedSecurity, false);
 
+
+                var port = string.IsNullOrEmpty(Port)
+                    ? string.Empty
+                    : $",{Port}";
+
                 var builder = new SqlConnectionStringBuilder
                 {
                     Pooling = true,
 
-                    DataSource = $"{Server},{(string.IsNullOrEmpty(Port) ? DefaultPort : Port)}",
+                    DataSource = $"{Server} {port}",
 
                     IntegratedSecurity = integratedSecurity,
+
+                    UserID = UserId,
+
+                    Password = Password,
 
                     InitialCatalog = string.IsNullOrWhiteSpace(InitialCatalog) ? DefaultDatabase : InitialCatalog,
 
@@ -45,9 +54,7 @@ namespace DBManager.SqlServer.Connection
 
                 return builder.ToString();
             }
-
         }
-
 
         protected override IEnumerable<KeyValuePair<ConnectionProperty, object>> RegisterProperties()
         {

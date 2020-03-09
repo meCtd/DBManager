@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+using System.Windows;
 using System.Windows.Input;
 using DBManager.Application.Providers;
+using DBManager.Application.Providers.Abstract;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
@@ -32,9 +34,8 @@ namespace DBManager.Application.ViewModels.Windows
             set
             {
                 if (SetProperty(ref _selectedBaseType, value))
-                {
                     Connection = CreateViewModel(SelectedBaseType);
-                }
+
             }
         }
 
@@ -50,7 +51,11 @@ namespace DBManager.Application.ViewModels.Windows
             set => SetProperty(ref _isBusy, value);
         }
 
-        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => Connect()));
+        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new RelayCommand(s => ConnectAsync(TestConnection), CanConnect));
+
+        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => ConnectAsync(Connect), CanConnect));
+
+        public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel(), s => !IsBusy));
 
         public override string Header => "New connection";
 
@@ -59,14 +64,56 @@ namespace DBManager.Application.ViewModels.Windows
             SelectedBaseType = DialectType.MsSql;
         }
 
-        private void Connect()
+        private void TestConnection(bool connectResult)
         {
-            throw new NotImplementedException();
+            var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
+
+            if (connectResult)
+                MessageBox.Show(currentWindow, "Connection success!", "Connection", MessageBoxButton.OK, MessageBoxImage.Information);
+
+            else
+                MessageBox.Show(currentWindow, "Connection failed!", "Connection", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
 
-        public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new RelayCommand(async (s) => await Connection.Model.TestConnectionAsync(_tokenSource.Token)));
+        private void Connect(bool connectionResult)
+        {
+            IsBusy = true;
 
-        public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel()));
+            if (connectionResult)
+            {
+                Resolver.Bind<IDialectComponent>()
+                    .ToMethod((s) => Resolver.Get<IComponentProvider>().ProvideComponent(SelectedBaseType));
+                    //.Named(); if many dialects supported
+
+                Close();
+            }
+        }
+
+        private bool CanConnect(object s)
+        {
+            return Connection.IsValid && !IsBusy;
+        }
+
+        private async void ConnectAsync(Action<bool> onConnect)
+        {
+            var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
+            try
+            {
+                IsBusy = true;
+
+                onConnect(await Connection.Model.TestConnectionAsync(_tokenSource.Token));
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(currentWindow, e.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
 
         private ConnectionViewModelBase CreateViewModel(DialectType type)
         {
@@ -81,7 +128,11 @@ namespace DBManager.Application.ViewModels.Windows
             }
         }
 
-
+        public override void Dispose()
+        {
+            _tokenSource.Dispose();
+            base.Dispose();
+        }
     }
 }
 

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
@@ -6,13 +7,20 @@ namespace DBManager.Application.Behaviors
 {
     public class PasswordBoxBehavior : Behavior<PasswordBox>
     {
-        public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.Register(nameof(Password), typeof(string), typeof(PasswordBoxBehavior), new PropertyMetadata(PasswordChangedCallback));
+        private bool _isSuspended;
 
-        private static void PasswordChangedCallback(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        public static readonly DependencyProperty PasswordProperty =
+            DependencyProperty.Register(nameof(Password), typeof(string), typeof(PasswordBoxBehavior), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, PasswordChanged));
+
+        private static void PasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var passwordBox = ((PasswordBoxBehavior)d).AssociatedObject;
-            passwordBox.Password = e.NewValue.ToString();
+            var behaviour = (PasswordBoxBehavior)d;
+
+            if (behaviour._isSuspended)
+                return;
+
+            behaviour.AssociatedObject.Password = (string)e.NewValue;
+            UpdateCaret(behaviour.AssociatedObject);
         }
 
         public string Password
@@ -33,9 +41,23 @@ namespace DBManager.Application.Behaviors
 
         private void PasswordValueChanged(object sender, RoutedEventArgs e)
         {
-            Password = AssociatedObject.Password;
+            try
+            {
+                _isSuspended = true;
+
+                Password = AssociatedObject.Password;
+            }
+            finally
+            {
+                _isSuspended = false;
+            }
         }
 
+        private static void UpdateCaret(PasswordBox passwordBox)
+        {
+            passwordBox.GetType().GetMethod("Select", BindingFlags.Instance | BindingFlags.NonPublic)
+                .Invoke(passwordBox, new object[] { passwordBox.Password.Length, 1 });
+        }
     }
 }
 

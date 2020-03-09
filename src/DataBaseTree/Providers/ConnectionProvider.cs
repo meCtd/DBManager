@@ -9,9 +9,9 @@ namespace DBManager.Application.Providers
 {
     public class ConnectionProvider : IConnectionProvider
     {
-        private static readonly Dictionary<DialectType, ConnectionData> _connectionCreator = new Dictionary<DialectType, ConnectionData>
+        private static readonly Dictionary<DialectType, Func<ConnectionData>> _connectionCreator = new Dictionary<DialectType, Func<ConnectionData>>
         {
-            [DialectType.MsSql] = new MsSqlServer()
+            [DialectType.MsSql] = () => new MsSqlServer()
         };
 
 
@@ -19,7 +19,7 @@ namespace DBManager.Application.Providers
         {
             if (_connectionCreator.TryGetValue(dialect, out var result))
             {
-                return result;
+                return result();
             }
 
             throw new NotSupportedException("Dialect is not supported yet!");

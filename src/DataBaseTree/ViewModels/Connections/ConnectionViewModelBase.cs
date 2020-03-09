@@ -11,7 +11,6 @@ namespace DBManager.Application.ViewModels.Connections
         protected const string NotValid = "Value is not valid";
 
         private bool _isValid;
-        private bool _isInProgress;
         private readonly HashSet<string> _invalidColumns = new HashSet<string>();
 
         public ConnectionData Model { get; }
@@ -20,12 +19,6 @@ namespace DBManager.Application.ViewModels.Connections
         {
             get { return _isValid; }
             set { SetProperty(ref _isValid, value); }
-        }
-
-        public bool IsInProgress
-        {
-            get { return _isInProgress; }
-            set { SetProperty(ref _isInProgress, value); }
         }
 
         public string Server
@@ -94,10 +87,10 @@ namespace DBManager.Application.ViewModels.Connections
                     break;
 
                 case nameof(Port):
-                    if (string.IsNullOrEmpty(Password))
+                    if (string.IsNullOrEmpty(Port))
                         return IsRequired;
 
-                    if (!bool.TryParse(Port, out _))
+                    if (!int.TryParse(Port, out _))
                         return NotValid;
                     break;
 

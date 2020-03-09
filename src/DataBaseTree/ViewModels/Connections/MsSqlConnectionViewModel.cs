@@ -7,19 +7,18 @@ namespace DBManager.Application.ViewModels.Connections
     {
         public bool IntegratedSecurity
         {
-            get { return (bool) Model.Properties[ConnectionProperty.IntegratedSecurity]; }
+            get { return (bool)Model.Properties[ConnectionProperty.IntegratedSecurity]; }
             set
             {
-                if (IntegratedSecurity.Equals(value))
-                    return;
-
                 Model.Properties[ConnectionProperty.IntegratedSecurity] = value;
 
-                if (value)
-                {
-                    UserId = Environment.UserName;
-                    Password = string.Empty;
-                }
+                UserId = value
+                    ? Environment.UserName
+                    : string.Empty;
+
+                Password = string.Empty;
+
+                OnPropertyChanged();
             }
         }
 
@@ -29,10 +28,28 @@ namespace DBManager.Application.ViewModels.Connections
 
         protected override string ValidateColumn(string columnName)
         {
-            if (IntegratedSecurity && columnName == nameof(Password))
-                return string.Empty;
+            switch (columnName)
+            {
+                case nameof(Password):
+                {
+                    if (IntegratedSecurity)
+                        return string.Empty;
 
-            return base.ValidateColumn(columnName);
+                    break;
+                }
+                case nameof(Port):
+                {
+                    if (!string.IsNullOrEmpty(Port) && !int.TryParse(Port, out _))
+                        return NotValid;
+
+                    break;
+                }
+
+                default: 
+                    return base.ValidateColumn(columnName);
+            }
+
+            return string.Empty;
         }
     }
 }

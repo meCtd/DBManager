@@ -6,8 +6,6 @@ using System.Runtime.Serialization;
 using System.Threading;
 using System.Threading.Tasks;
 
-using DBManager.Default.DataBaseConnection;
-
 namespace DBManager.Default.DataBaseConnection
 {
     [DataContract(Name = "ConnectionData")]
