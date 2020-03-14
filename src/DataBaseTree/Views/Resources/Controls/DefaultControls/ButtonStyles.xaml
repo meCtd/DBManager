@@ -34,6 +34,7 @@
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
 							<Setter Property="Background" TargetName="border" Value="{StaticResource AlternativeBrush}"/>
+							<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource LowBorderBrush}"/>
 						</Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
