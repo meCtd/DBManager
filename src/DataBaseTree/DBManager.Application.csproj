@@ -159,6 +159,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Resources\Controls\DefaultControls\ScrollBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\TextBoxStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
