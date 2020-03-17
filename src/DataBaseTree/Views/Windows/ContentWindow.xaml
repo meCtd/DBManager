@@ -16,19 +16,14 @@
         AllowsTransparency="True"
         ShowInTaskbar="False"
         BorderThickness="1"
-        BorderBrush="Black"
+        BorderBrush="{StaticResource MainBackgroundColor}"
         Title="{Binding Header}">
 
     <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Templates/ConenctionWindowTemplate.xaml" />
-				<ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
-			</ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+        <ResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
     </Window.Resources>
 
-    <DockPanel>
+    <DockPanel Background="{StaticResource MainBackgroundColor}">
         <DockPanel DockPanel.Dock="Top"
                    Background="Transparent"
                    Height="25"
@@ -50,7 +45,7 @@
         </DockPanel>
 
         <Border DockPanel.Dock="Top"
-                BorderBrush="Black"
+                BorderBrush="{StaticResource AccentLowBrush}"
                 BorderThickness="0,1,0,0" />
 
         <ContentPresenter Content="{Binding}" />

@@ -11,16 +11,22 @@
     <DataTemplate DataType="{x:Type windows:ConnectionWindowViewModel}">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Bottom">
-                <StackPanel 
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
                             Visibility="{Binding IsBusy,Converter={convertors:InvertedBooleanToVisibilityConverter}}">
 
                     <Button Content="Test"
+                            Margin="3"
+                            Width="75"
                             Command="{Binding TestConnectionCommand}" />
 
                     <Button Content="Connect"
+                            Margin="3"
+                             Width="75"
                             Command="{Binding ConnectCommand}" />
 
                     <Button Content="Cancel"
+                            Margin="3"
+                             Width="75"
                             Command="{Binding CloseCommand}" />
 
                 </StackPanel>
