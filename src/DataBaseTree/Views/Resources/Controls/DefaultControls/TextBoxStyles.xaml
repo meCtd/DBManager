@@ -22,23 +22,23 @@
         </Grid>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type TextBox}">
+    <Style x:Key="TextBoxCommonStyle">
         <Setter Property="Validation.ErrorTemplate" Value="{StaticResource TextBoxErrorTemplate}"/>
-        <Setter Property="Background" Value="{StaticResource MainBrush}"/>
-		<Setter Property="BorderBrush" Value="{StaticResource BasicBorderBrush}"/>
-		<Setter Property="Foreground" Value="{StaticResource MarkerBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Control.Background" Value="{StaticResource MainBrush}"/>
+		<Setter Property="Control.BorderBrush" Value="{StaticResource BasicBorderBrush}"/>
+		<Setter Property="Control.Foreground" Value="{StaticResource MarkerBrush}"/>
+		<Setter Property="Control.BorderThickness" Value="1"/>
         <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
-        <Setter Property="HorizontalContentAlignment" Value="Left"/>
-		<Setter Property="VerticalContentAlignment" Value="Center"/>
-		<Setter Property="FocusVisualStyle" Value="{x:Null}"/>
-        <Setter Property="AllowDrop" Value="true"/>
-        <Setter Property="Padding" Value="3, 0"/>
+		<Setter Property="Control.HorizontalContentAlignment" Value="Left"/>
+		<Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Control.FocusVisualStyle" Value="{x:Null}"/>
+		<Setter Property="Control.AllowDrop" Value="true"/>
+		<Setter Property="Control.Padding" Value="3, 0"/>
         <Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst"/>
         <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        <Setter Property="Template">
+		<Setter Property="Control.Template">
 			<Setter.Value>
-				<ControlTemplate TargetType="{x:Type TextBox}">
+				<ControlTemplate>
 					<Border x:Name="border" CornerRadius="3" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="True">
 						<ScrollViewer x:Name="PART_ContentHost" Focusable="false" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Hidden"/>
 					</Border>
@@ -49,7 +49,7 @@
 						<Trigger Property="IsFocused" Value="true">
 							<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource AccentLowBrush}"/>
 						</Trigger>
-						<Trigger Property="IsReadOnly" Value="true">
+						<Trigger Property="TextBox.IsReadOnly" Value="true">
 							<Setter Property="BorderBrush" Value="{StaticResource LowBorderBrush}"/>
 							<Setter Property="Background" Value="{StaticResource AlternativeBrush}"/>
 							<Setter Property="Opacity" Value="0.95"/>
@@ -65,4 +65,6 @@
 		</Setter>
 	</Style>
 
+	<Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource TextBoxCommonStyle}"/>
+	<Style TargetType="{x:Type PasswordBox}" BasedOn="{StaticResource TextBoxCommonStyle}"/>
 </ResourceDictionary>
