@@ -52,7 +52,6 @@ namespace DBManager.Default.Loaders
                 command.Connection = connection;
                 command.CommandText = _component.ScriptProvider.ProvideNameScript(target.Type, childrenType);
 
-
                 foreach (var param in _component.ScriptProvider.GetChildrenLoadParameters(target, childrenType))
                 {
                     command.Parameters.Add(param);

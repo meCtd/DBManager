@@ -40,7 +40,7 @@ namespace DBManager.Application.ViewModels.Windows
             }
         }
 
-        public event EventHandler<ArgumentEventArgs<string>> Conencted;
+        public event EventHandler<ArgumentEventArgs<string>> Connected;
 
         public ConnectionViewModelBase Connection
         {
@@ -143,14 +143,14 @@ namespace DBManager.Application.ViewModels.Windows
                 .WithConstructorArgument(Connection.Model);
             //.Named(); 
 
-            Conencted?.Invoke(this, new ArgumentEventArgs<string>(Connection.Model.GetServerName()));
+            Connected?.Invoke(this, new ArgumentEventArgs<string>(Connection.Model.GetServerName()));
             Close();
         }
 
         public override void Dispose()
         {
             _tokenSource.Dispose();
-            Conencted = null;
+            Connected = null;
             base.Dispose();
         }
     }

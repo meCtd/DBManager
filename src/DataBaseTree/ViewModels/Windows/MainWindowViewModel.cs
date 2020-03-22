@@ -27,7 +27,7 @@ namespace DBManager.Application.ViewModels.Windows
         {
 
             var viewModel = new ConnectionWindowViewModel();
-            viewModel.Conencted += OnNewSourceConnected;
+            viewModel.Connected += OnNewSourceConnected;
 
             Resolver.Get<IWindowManager>().ShowWindow(viewModel);
         }

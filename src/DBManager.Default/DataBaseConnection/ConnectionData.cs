@@ -35,8 +35,6 @@ namespace DBManager.Default.DataBaseConnection
 
         public abstract string ConnectionString { get; }
 
-        public abstract string DefaultPort { get; }
-
         public abstract DbConnection GetConnection();
 
         protected abstract string DefaultDatabase { get; }
@@ -66,7 +64,7 @@ namespace DBManager.Default.DataBaseConnection
             if (!string.IsNullOrEmpty(Port))
                 builder.Append($":{Port}");
 
-            builder.Append(UserId);
+            builder.Append($" ({UserId})");
             return builder.ToString();
         }
 

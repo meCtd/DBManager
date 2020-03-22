@@ -296,20 +296,20 @@ namespace DBManager.SqlServer.Provider
 
                 case MetadataType.Table:
                     parameters.Add(new SqlParameter(Constants.TypeParameter, "BASE TABLE"));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
                     break;
 
                 case MetadataType.View:
                 case MetadataType.Function:
                 case MetadataType.Procedure:
                     parameters.Add(new SqlParameter(Constants.TypeParameter, childType.ToString().ToUpper()));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
                     break;
 
                 case MetadataType.Column:
                 case MetadataType.Constraint:
                 case MetadataType.Key:
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
+                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
                     parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
                     break;
 
