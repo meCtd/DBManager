@@ -1,36 +1,49 @@
-﻿using System;
+﻿using System.Threading;
+using System.Threading.Tasks;
+
 using DBManager.Default;
+using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
 
+using Framework.Extensions;
+
 using Ninject;
+
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public class DbObjectViewModel : MetadataViewModelBase
     {
-        #region Properties
-
         public DbObject Model { get; }
 
-        public override string Name => Model.ToString();
+        public override string ObjectName => Model.ToString();
 
         public override MetadataType Type => Model.Type;
 
-        #endregion
-
-        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, Resolver.Get<IDialectComponent>().Hierarchy.Structure[model.Type].NeedCategory)
+        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, Resolver.Get<IDialectComponent>().Hierarchy.Structure[model.Type].HasChildren)
         {
             Model = model;
         }
 
-        public override void RemoveChildren()
+        protected override void RemoveChildrenFromModel()
         {
             Model.RemoveChildren();
         }
 
-        public override void LoadChildren()
+        protected override async Task LoadChildren()
         {
-            throw new NotImplementedException();
+            var node = Resolver.Get<IDialectComponent>().Hierarchy.Structure[Type];
+
+            if (node.NeedCategory)
+                node.ChildrenTypes.ForEach(type => Children.Add(new CategoryViewModel(Model, this, type)));
+
+            else
+            {
+                var loader = Resolver.Get<IObjectLoader>();
+                await loader.LoadChildrenAsync(Model, CancellationToken.None);
+
+                Model.Children.ForEach(s => Children.Add(new DbObjectViewModel(this, s)));
+            }
         }
     }
 }

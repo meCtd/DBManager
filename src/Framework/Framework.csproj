@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Attributes\HiddenAttribute.cs" />
+    <Compile Include="EventArguments\ArgumentEventArgs.cs" />
     <Compile Include="EventArguments\ValueChangedEventArgs.cs" />
     <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

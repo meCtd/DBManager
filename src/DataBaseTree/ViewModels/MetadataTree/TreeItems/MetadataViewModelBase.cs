@@ -1,30 +1,42 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
+
 using DBManager.Application.Utils;
 using DBManager.Default.Tree;
+
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
     {
+        private const string BusyFormat = "{0} (loading...)";
+
         private bool _isBusy;
 
-        public ICommand _refreshCommand;
+        private bool _wasLoaded;
 
-        public abstract string Name { get; }
+        private ICommand _refreshCommand;
+
+        public string Name => IsBusy
+            ? string.Format(BusyFormat, ObjectName)
+            : ObjectName;
+
+        public abstract string ObjectName { get; }
 
         public abstract MetadataType Type { get; }
-
-        public MetadataViewModelBase MetadataParent => Parent as MetadataViewModelBase;
-        public DbObjectViewModel ObjectParent  => Parent as DbObjectViewModel;
 
         public bool IsBusy
         {
             get { return _isBusy; }
-            set { SetProperty(ref _isBusy, value); }
+            set
+            {
+                if (SetProperty(ref _isBusy, value))
+                    OnPropertyChanged(nameof(Name));
+            }
         }
 
         public ICommand RefreshCommand =>
-            _refreshCommand ?? (_refreshCommand = new RelayCommand((s) => LoadChildrenInternal(true)));
+            _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
 
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {
@@ -37,21 +49,27 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             };
         }
 
-        public abstract void RemoveChildren();
-        public abstract void LoadChildren();
+        protected abstract void RemoveChildrenFromModel();
+        protected abstract Task LoadChildren();
 
-        protected void LoadChildrenInternal(bool reload = false)
+        private void Refresh(object obj)
+        {
+            RemoveChildrenFromModel();
+            Children.Clear();
+        }
+
+        private async void LoadChildrenInternal()
         {
             try
             {
                 IsBusy = true;
-                if (reload)
-                    RemoveChildren();
 
-                LoadChildren();
+                if (!_wasLoaded)
+                    await LoadChildren();
             }
             finally
             {
+                _wasLoaded = true;
                 IsBusy = false;
             }
         }

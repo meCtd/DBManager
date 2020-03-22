@@ -15,26 +15,26 @@ namespace DBManager.SqlServer.Provider
             switch (childType)
             {
                 case MetadataType.Schema:
-                    return $"SELECT SCHEMA_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.SCHEMATA";
+                    return $"SELECT SCHEMA_NAME AS 'Name' FROM INFORMATION_SCHEMA.SCHEMATA";
 
                 case MetadataType.Table:
                 case MetadataType.View:
-                    return $"SELECT TABLE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = {Constants.TypeParameter} AND TABLE_SCHEMA = {Constants.SchemaNameParameter}";
+                    return $"SELECT TABLE_NAME AS 'Name' FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = {Constants.TypeParameter} AND TABLE_SCHEMA = {Constants.SchemaNameParameter}";
 
                 case MetadataType.Function:
                 case MetadataType.Procedure:
-                    return $"SELECT ROUTINE_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = {Constants.TypeParameter} AND ROUTINE_SCHEMA = {Constants.SchemaNameParameter}";
+                    return $"SELECT ROUTINE_NAME AS 'Name' FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = {Constants.TypeParameter} AND ROUTINE_SCHEMA = {Constants.SchemaNameParameter}";
 
                 case MetadataType.Constraint:
                     return
-                        ($"SELECT CONSTRAINT_NAME AS {Constants.NameProperty} FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
+                        ($"SELECT CONSTRAINT_NAME AS Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
                         $"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
 
                 case MetadataType.Column:
                     switch (parentType)
                     {
                         case MetadataType.Table:
-                            return ($"SELECT col.name AS'{Constants.NameProperty}', " +
+                            return ($"SELECT col.name AS'Name', " +
                                     $"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
                                     $"col.max_length AS '{Constants.MaxLengthProperty}', " +
                                     $"col.precision AS '{Constants.PrecisionProperty}', " +
@@ -42,7 +42,7 @@ namespace DBManager.SqlServer.Provider
                                     $"FROM sys.columns AS col " +
                                     $"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
                         case MetadataType.View:
-                            return ($"SELECT col.name AS'{Constants.NameProperty}', " +
+                            return ($"SELECT col.name AS'Name', " +
                                    $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
                                    $"col.max_length AS '{Constants.MaxLengthProperty}', " +
                                    $"col.precision AS '{Constants.PrecisionProperty}', " +
@@ -56,10 +56,10 @@ namespace DBManager.SqlServer.Provider
 
 
                 case MetadataType.Trigger:
-                    return $"SELECT name AS '{Constants.NameProperty}' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
+                    return $"SELECT name AS 'Name' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
 
                 case MetadataType.Parameter:
-                    return ($"SELECT  name AS'{Constants.NameProperty}', " +
+                    return ($"SELECT  name AS'Name', " +
                             $"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
                             $"max_length AS '{Constants.MaxLengthProperty}', " +
                             $"precision AS '{Constants.PrecisionProperty}', " +
@@ -67,14 +67,14 @@ namespace DBManager.SqlServer.Provider
                             $"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
 
                 case MetadataType.Key:
-                    return $"SELECT DISTINCT CONSTRAINT_NAME AS '{Constants.NameProperty}' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
+                    return $"SELECT DISTINCT CONSTRAINT_NAME AS 'Name' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
 
                 case MetadataType.Index:
                     return
-                        $"SELECT name AS '{Constants.NameProperty}' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
+                        $"SELECT name AS 'Name' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
 
                 case MetadataType.Database:
-                    return $"SELECT name  AS '{Constants.NameProperty}' FROM sys.databases";
+                    return $"SELECT name  AS 'Name' FROM sys.databases";
 
                 default:
                     throw new ArgumentException();
@@ -91,23 +91,23 @@ namespace DBManager.SqlServer.Provider
         {
             switch (obj.Type)
             {
-                //case MetadataType.Server:
-                //	return ($"SELECT serv.product AS '{Constants.ProductProperty}', " +
-                //			$"@@VERSION AS '{Constants.ServerVersionProperty}', " +
-                //			$"serv.provider AS '{Constants.ProviderProperty}', " +
-                //			$"serv.data_source AS '{Constants.DataSourceProperty}', " +
-                //			$"serv.connect_timeout AS '{Constants.ConnectTimeoutProperty}', " +
-                //			$"serv.query_timeout AS '{Constants.QueryTimeoutProperty}', " +
-                //			$"serv.is_linked AS '{Constants.IsLinkedProperty}', " +
-                //			$"serv.is_remote_login_enabled AS '{Constants.IsRemoteLoginEnabledProperty}', " +
-                //			$"serv.is_data_access_enabled AS '{Constants.IsDataAccessEnabledProperty}', " +
-                //			$"serv.modify_date AS '{Constants.ModifyDateProperty}', " +
-                //			$"serv.is_system AS '{Constants.IsSystemProperty}', " +
-                //			$"serv.is_publisher AS '{Constants.IsPublishedProperty}', " +
-                //			$"serv.is_subscriber AS '{Constants.IsSubscriberProperty}', " +
-                //			$"serv.is_distributor AS '{Constants.IsDistributorProperty}', " +
-                //			$"serv.is_nonsql_subscriber AS '{Constants.IsNonSqlSubscriberProperty}' " +
-                //			"FROM sys.servers AS serv WHERE name = @@SERVERNAME ");
+                case MetadataType.Server:
+                    return ($"SELECT serv.product AS '{Constants.ProductProperty}', " +
+                            $"@@VERSION AS '{Constants.ServerVersionProperty}', " +
+                            $"serv.provider AS '{Constants.ProviderProperty}', " +
+                            $"serv.data_source AS '{Constants.DataSourceProperty}', " +
+                            $"serv.connect_timeout AS '{Constants.ConnectTimeoutProperty}', " +
+                            $"serv.query_timeout AS '{Constants.QueryTimeoutProperty}', " +
+                            $"serv.is_linked AS '{Constants.IsLinkedProperty}', " +
+                            $"serv.is_remote_login_enabled AS '{Constants.IsRemoteLoginEnabledProperty}', " +
+                            $"serv.is_data_access_enabled AS '{Constants.IsDataAccessEnabledProperty}', " +
+                            $"serv.modify_date AS '{Constants.ModifyDateProperty}', " +
+                            $"serv.is_system AS '{Constants.IsSystemProperty}', " +
+                            $"serv.is_publisher AS '{Constants.IsPublishedProperty}', " +
+                            $"serv.is_subscriber AS '{Constants.IsSubscriberProperty}', " +
+                            $"serv.is_distributor AS '{Constants.IsDistributorProperty}', " +
+                            $"serv.is_nonsql_subscriber AS '{Constants.IsNonSqlSubscriberProperty}' " +
+                            "FROM sys.servers AS serv WHERE name = @@SERVERNAME ");
 
                 case MetadataType.Database:
                     return ($"SELECT suser_sname( owner_sid ) AS '{Constants.OwnerNameProperty}', " +
@@ -254,7 +254,7 @@ namespace DBManager.SqlServer.Provider
                             $"ks.[{Constants.UpdateReferentialActionProperty}], " +
                             $"ks.[{Constants.IndexIdProperty}] " +
                             "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
-                            $"JOIN (SELECT name AS '{Constants.NameProperty}', " +
+                            $"JOIN (SELECT name AS 'Name', " +
                             $"type_desc AS '{Constants.TypeProperty}', " +
                             $"create_date AS '{Constants.CreationDateProperty}', " +
                             $"modify_date AS '{Constants.ModifyDateProperty}', " +
@@ -275,7 +275,7 @@ namespace DBManager.SqlServer.Provider
                             "delete_referential_action_desc, " +
                             "key_index_id, " +
                             "update_referential_action_desc " +
-                            $"FROM sys.foreign_keys ) AS ks ON inf.CONSTRAINT_NAME=ks.[{Constants.NameProperty}]  " +
+                            $"FROM sys.foreign_keys ) AS ks ON inf.CONSTRAINT_NAME=ks.[Name]  " +
                             "LEFT JOIN sys.foreign_key_columns AS ref ON OBJECT_ID(inf.TABLE_SCHEMA+'.'+inf.CONSTRAINT_NAME)=ref.constraint_object_id  " +
                             $"WHERE inf.CONSTRAINT_NAME ={Constants.NameParameter} AND inf.CONSTRAINT_SCHEMA={Constants.SchemaNameParameter} AND inf.CONSTRAINT_CATALOG={Constants.DatabaseNameParameter}";
                 default:
