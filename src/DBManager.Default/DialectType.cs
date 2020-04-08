@@ -10,5 +10,8 @@ namespace DBManager.Default
 
         [Description("Microsoft SQL Server")]
         MsSql,
+        
+        [Description("Microsoft Access")]
+        Access,
     }
 }

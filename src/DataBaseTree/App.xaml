@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBlockStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ComboBoxStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
