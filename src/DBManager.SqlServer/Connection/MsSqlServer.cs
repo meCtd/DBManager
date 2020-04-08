@@ -16,8 +16,6 @@ namespace DBManager.SqlServer.Connection
 
         protected override string DefaultDatabase => "master";
 
-        public override string DefaultPort => "1433";
-
         public override string ConnectionString
         {
             get

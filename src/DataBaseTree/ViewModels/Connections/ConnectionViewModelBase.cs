@@ -33,7 +33,7 @@ namespace DBManager.Application.ViewModels.Connections
 
         public string Port
         {
-            get { return Model.Port ?? Model.DefaultPort; }
+            get { return Model.Port; }
             set
             {
                 Model.Port = value;

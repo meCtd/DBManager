@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,8 +35,6 @@ namespace DBManager.Default.DataBaseConnection
 
         public abstract string ConnectionString { get; }
 
-        public abstract string DefaultPort { get; }
-
         public abstract DbConnection GetConnection();
 
         protected abstract string DefaultDatabase { get; }
@@ -55,6 +54,18 @@ namespace DBManager.Default.DataBaseConnection
         protected ConnectionData()
         {
             Properties = RegisterProperties().ToDictionary(s => s.Key, s => s.Value);
+        }
+
+        public string GetServerName()
+        {
+            var builder = new StringBuilder();
+            builder.Append(Server);
+
+            if (!string.IsNullOrEmpty(Port))
+                builder.Append($":{Port}");
+
+            builder.Append($" ({UserId})");
+            return builder.ToString();
         }
 
         public async Task<bool> TestConnectionAsync(CancellationToken token)

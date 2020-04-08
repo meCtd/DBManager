@@ -1,4 +1,5 @@
-﻿using DBManager.Application.Providers;
+﻿using System.Globalization;
+using DBManager.Application.Providers;
 using DBManager.Application.Providers.Abstract;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
@@ -11,20 +12,24 @@ namespace DBManager.Application
     /// </summary>
     public partial class App : System.Windows.Application
     {
-
         public App()
         {
+
+            var culture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = culture;
+            CultureInfo.DefaultThreadCurrentUICulture = culture;
+
             RegisterComponents();
         }
 
 
         private void RegisterComponents()
         {
-            var kernel = ViewModelBase.Resolver;
+            var resolver = ViewModelBase.Resolver;
 
-            kernel.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
-            kernel.Bind<IComponentProvider>().To<ComponentProvider>().InSingletonScope();
-            kernel.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
+            resolver.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
+            resolver.Bind<IComponentProvider>().To<ComponentProvider>().InSingletonScope();
+            resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
         }
     }
 }

@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
-using DBManager.Default.Tree.Hierarchy;
-using Framework.Extensions;
+
 
 namespace DBManager.Default.Tree
 {
@@ -14,12 +13,7 @@ namespace DBManager.Default.Tree
         private FullName _fullName;
 
         [DataMember(Name = "Children")]
-        private List<KeyValuePair<MetadataType, List<DbObject>>> _children;
-
-        [DataMember(Name = "Properties")]
-        private List<KeyValuePair<string, object>> _properties;
-
-        private Dictionary<MetadataType, List<DbObject>> _childrenMap;
+        private Dictionary<MetadataType, List<DbObject>> _childrenMap = new Dictionary<MetadataType, List<DbObject>>();
 
         public abstract MetadataType Type { get; }
 
@@ -33,12 +27,12 @@ namespace DBManager.Default.Tree
 
         public IReadOnlyList<DbObject> Children => _childrenMap.Values.SelectMany(x => x).ToList();
 
+        [DataMember(Name = "Properties")]
         public IDictionary<string, object> Properties { get; private set; }
 
         protected DbObject(string name)
         {
             Name = name;
-            OnDeserialized(default);
         }
 
         public void RemoveChildren(MetadataType? type = null)
@@ -65,46 +59,32 @@ namespace DBManager.Default.Tree
             obj.Parent = this;
         }
 
-        public bool? IsChildrenLoaded(MetadataType? childType, IMetadataHierarchy hierarchy)
-        {
-            var childTypes = hierarchy.Structure[Type].ChildrenTypes.ToArray();
+        //public bool? IsChildrenLoaded(MetadataType? childType, IMetadataHierarchy hierarchy)
+        //{
+        //    var childTypes = hierarchy.Structure[Type].ChildrenTypes.ToArray();
 
-            if (!childTypes.Any())
-                return true;
+        //    if (!childTypes.Any())
+        //        return true;
 
-            if (childType == null)
-            {
-                if (_childrenMap.Count == 0)
-                    return false;
+        //    if (childType == null)
+        //    {
+        //        if (_childrenMap.Count == 0)
+        //            return false;
 
-                if (childTypes.Any(type => !_childrenMap.ContainsKey(type)))
-                {
-                    return null;
-                }
+        //        if (childTypes.Any(type => !_childrenMap.ContainsKey(type)))
+        //        {
+        //            return null;
+        //        }
 
-                return true;
-            }
-            else
-                return _childrenMap.ContainsKey(childType.Value);
-        }
+        //        return true;
+        //    }
+        //    else
+        //        return _childrenMap.ContainsKey(childType.Value);
+        //}
 
         public override string ToString()
         {
             return Name;
-        }
-
-        [OnSerializing]
-        private void OnSerializing(StreamingContext context)
-        {
-            _children = _childrenMap.ToList();
-            _properties = Properties.ToList();
-        }
-
-        [OnDeserialized]
-        public void OnDeserialized(StreamingContext context)
-        {
-            _childrenMap = new Dictionary<MetadataType, List<DbObject>>(_children.OrEmpty().ToDictionary(s => s.Key, s => s.Value));
-            Properties = new Dictionary<string, object>(_properties.OrEmpty().ToDictionary(s => s.Key, s => s.Value));
         }
     }
 }

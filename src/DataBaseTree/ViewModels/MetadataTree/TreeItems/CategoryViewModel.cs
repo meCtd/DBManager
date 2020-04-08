@@ -1,34 +1,50 @@
-﻿using System;
-using System.Data.Common;
-using System.Linq;
-using System.Windows;
+﻿using System.Globalization;
+using System.Threading;
+using System.Threading.Tasks;
+
+using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
+
+using Ninject;
 using Plurally;
+
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public class CategoryViewModel : MetadataViewModelBase
     {
+        private const string NameFormat = "{0} [{1}]";
+
         private static readonly Pluralizer _pluralizer = new Pluralizer();
 
-        public override string Name { get; }
+        private readonly string _categoryName;
+
+        private readonly DbObject _model;
+
+        public override string ObjectName => IsBusy
+            ? _categoryName
+            : string.Format(NameFormat, _categoryName, Children.Count);
 
         public override MetadataType Type { get; }
 
-        public CategoryViewModel(MetadataViewModelBase parent, MetadataType type) : base(parent, true)
+        public CategoryViewModel(DbObject model, MetadataViewModelBase parent, MetadataType type) : base(parent, true)
         {
             Type = type;
-            Name = _pluralizer.Pluralize(type.ToString());
+            _model = model;
+            _categoryName = _pluralizer.Pluralize(type.ToString());
         }
 
-        public override void RemoveChildren()
+        protected override void RemoveChildrenFromModel()
         {
-            ObjectParent.Model.RemoveChildren(Type);
+            _model.RemoveChildren(Type);
         }
 
-        public override void LoadChildren()
+        protected override async Task LoadChildren()
         {
-            throw new NotImplementedException();
+            var loader = Resolver.Get<IObjectLoader>();
+
+            await loader.LoadChildrenAsync(_model, Type, CancellationToken.None);
+
         }
     }
 }

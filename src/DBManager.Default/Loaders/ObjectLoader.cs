@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -53,7 +51,6 @@ namespace DBManager.Default.Loaders
                 var command = _component.CreateCommand();
                 command.Connection = connection;
                 command.CommandText = _component.ScriptProvider.ProvideNameScript(target.Type, childrenType);
-
 
                 foreach (var param in _component.ScriptProvider.GetChildrenLoadParameters(target, childrenType))
                 {

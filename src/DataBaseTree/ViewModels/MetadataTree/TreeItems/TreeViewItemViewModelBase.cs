@@ -26,7 +26,11 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             {
                 var oldValue = _isExpanded;
                 if (SetProperty(ref _isExpanded, value))
+                {
+                    Children.Clear();
                     ExpandChanged?.Invoke(this, new ValueChangedEventArgs<bool>(oldValue, value));
+                }
+
             }
         }
 

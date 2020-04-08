@@ -1,9 +1,14 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Linq;
+using System.Windows.Input;
 
 using DBManager.Application.Utils;
-using DBManager.Application.View.Windows;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
+using DBManager.Application.ViewModels.MetadataTree.TreeItems;
+using DBManager.Default.Tree.DbEntities;
+using Framework.EventArguments;
+
 using Ninject;
 
 namespace DBManager.Application.ViewModels.Windows
@@ -14,18 +19,25 @@ namespace DBManager.Application.ViewModels.Windows
 
         public TreeSearchViewModel TreeSearch { get; }
 
-        private string _definitionText;
-
-        private bool _isSaveInProcess;
-
-
         private RelayCommand _connectCommand;
 
         public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand(s => Connect()));
 
         private void Connect()
         {
-            Resolver.Get<IWindowManager>().ShowWindow(new ConnectionWindowViewModel());
+
+            var viewModel = new ConnectionWindowViewModel();
+            viewModel.Connected += OnNewSourceConnected;
+
+            Resolver.Get<IWindowManager>().ShowWindow(viewModel);
+        }
+
+        private void OnNewSourceConnected(object sender, ArgumentEventArgs<string> e)
+        {
+            if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.ObjectName.Equals(e.Argument)))
+                return;
+
+            Tree.RootItems.Add(new DbObjectViewModel(null,new Server(e.Argument)));
         }
 
 

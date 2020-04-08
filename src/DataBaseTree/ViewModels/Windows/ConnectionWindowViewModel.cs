@@ -8,7 +8,8 @@ using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
 using DBManager.Default;
-
+using DBManager.Default.Loaders;
+using Framework.EventArguments;
 using Ninject;
 
 
@@ -38,6 +39,8 @@ namespace DBManager.Application.ViewModels.Windows
 
             }
         }
+
+        public event EventHandler<ArgumentEventArgs<string>> Connected;
 
         public ConnectionViewModelBase Connection
         {
@@ -81,11 +84,7 @@ namespace DBManager.Application.ViewModels.Windows
 
             if (connectionResult)
             {
-                Resolver.Bind<IDialectComponent>()
-                    .ToMethod((s) => Resolver.Get<IComponentProvider>().ProvideComponent(SelectedBaseType));
-                    //.Named(); if many dialects supported
-
-                Close();
+                RegisterConnection();
             }
         }
 
@@ -102,6 +101,7 @@ namespace DBManager.Application.ViewModels.Windows
                 IsBusy = true;
 
                 onConnect(await Connection.Model.TestConnectionAsync(_tokenSource.Token));
+
 
             }
             catch (Exception e)
@@ -128,11 +128,30 @@ namespace DBManager.Application.ViewModels.Windows
             }
         }
 
+        private void RegisterConnection()
+        {
+            var component = Resolver.Get<IComponentProvider>().ProvideComponent(SelectedBaseType);
+
+            Resolver.Bind<IDialectComponent>()
+                .ToConstant(component)
+                .InSingletonScope();
+            //.Named(); 
+
+            Resolver.Bind<IObjectLoader>()
+                .To<ObjectLoader>()
+                .WithConstructorArgument(component)
+                .WithConstructorArgument(Connection.Model);
+            //.Named(); 
+
+            Connected?.Invoke(this, new ArgumentEventArgs<string>(Connection.Model.GetServerName()));
+            Close();
+        }
+
         public override void Dispose()
         {
             _tokenSource.Dispose();
+            Connected = null;
             base.Dispose();
         }
     }
 }
-
