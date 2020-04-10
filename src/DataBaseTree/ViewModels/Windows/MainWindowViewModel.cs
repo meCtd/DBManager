@@ -25,7 +25,6 @@ namespace DBManager.Application.ViewModels.Windows
 
         private void Connect()
         {
-
             var viewModel = new ConnectionWindowViewModel();
             viewModel.Connected += OnNewSourceConnected;
 
@@ -39,8 +38,7 @@ namespace DBManager.Application.ViewModels.Windows
 
             Tree.RootItems.Add(new DbObjectViewModel(null,new Server(e.Argument)));
         }
-
-
+        
         private ICommand _disconnectCommand;
 
         public ICommand DisconnectCommand

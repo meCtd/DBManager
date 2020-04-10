@@ -19,6 +19,12 @@ namespace Framework.Extensions
             return items ?? Enumerable.Empty<T>();
         }
 
+        public static TValue GetValueOrDefault<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key,
+            TValue defaultValue)
+        {
+            return GetValueOrDefault(((IDictionary<TKey, TValue>)dictionary), key, defaultValue);
+        }
+
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
             TValue defaultValue)
         {

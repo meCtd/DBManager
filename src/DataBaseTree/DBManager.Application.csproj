@@ -95,6 +95,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
+    <Compile Include="Controls\SqlEditor.cs" />
+    <Compile Include="Convertors\ObjectConverter.cs" />
     <Compile Include="Providers\Abstract\IComponentProvider.cs" />
     <Compile Include="Providers\Abstract\IConnectionProvider.cs" />
     <Compile Include="Providers\ComponentProvider.cs" />
@@ -160,6 +162,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\ComboBoxStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Icons.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

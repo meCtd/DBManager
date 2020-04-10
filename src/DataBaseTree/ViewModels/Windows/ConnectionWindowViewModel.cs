@@ -1,15 +1,22 @@
 ﻿using System;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+
 using DBManager.Application.Providers;
 using DBManager.Application.Providers.Abstract;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
+
 using DBManager.Default;
+using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Loaders;
+
 using Framework.EventArguments;
+
 using Ninject;
 
 
@@ -67,7 +74,7 @@ namespace DBManager.Application.ViewModels.Windows
             SelectedBaseType = DialectType.MsSql;
         }
 
-        private void TestConnection(bool connectResult)
+        private Task TestConnection(bool connectResult)
         {
             var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
 
@@ -76,15 +83,15 @@ namespace DBManager.Application.ViewModels.Windows
 
             else
                 MessageBox.Show(currentWindow, "Connection failed!", "Connection", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            return Task.CompletedTask;
         }
 
-        private void Connect(bool connectionResult)
+        private async Task Connect(bool connectionResult)
         {
-            IsBusy = true;
-
             if (connectionResult)
             {
-                RegisterConnection();
+                await RegisterConnection();
             }
         }
 
@@ -93,14 +100,14 @@ namespace DBManager.Application.ViewModels.Windows
             return Connection.IsValid && !IsBusy;
         }
 
-        private async void ConnectAsync(Action<bool> onConnect)
+        private async void ConnectAsync(Func<bool, Task> onConnect)
         {
             var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
             try
             {
                 IsBusy = true;
 
-                onConnect(await Connection.Model.TestConnectionAsync(_tokenSource.Token));
+                await onConnect(await Connection.Model.TestConnectionAsync(_tokenSource.Token));
 
 
             }
@@ -128,23 +135,39 @@ namespace DBManager.Application.ViewModels.Windows
             }
         }
 
-        private void RegisterConnection()
+        private async Task RegisterConnection()
         {
-            var component = Resolver.Get<IComponentProvider>().ProvideComponent(SelectedBaseType);
+            var component = Resolver
+                .Get<IComponentProvider>()
+                .ProvideComponent(SelectedBaseType);
 
-            Resolver.Bind<IDialectComponent>()
+            Resolver.Rebind<IDialectComponent>()
                 .ToConstant(component)
-                .InSingletonScope();
-            //.Named(); 
+                .Named(Connection.Model.Type.ToString()); 
 
-            Resolver.Bind<IObjectLoader>()
-                .To<ObjectLoader>()
-                .WithConstructorArgument(component)
-                .WithConstructorArgument(Connection.Model);
-            //.Named(); 
+            var loader = new ObjectLoader(component, Connection.Model);
 
-            Connected?.Invoke(this, new ArgumentEventArgs<string>(Connection.Model.GetServerName()));
+            await loader.LoadServerProperties(CancellationToken.None);
+
+            var serverName = GetServerName(Connection.Model);
+            Resolver.Rebind<IObjectLoader>()
+                .ToConstant(loader)
+                .Named(serverName);
+
+            Connected?.Invoke(this, new ArgumentEventArgs<string>(serverName));
             Close();
+        }
+
+        private string GetServerName(ConnectionData data)
+        {
+            var builder = new StringBuilder();
+            builder.Append(data.Host);
+
+            if (!string.IsNullOrEmpty(data.Port))
+                builder.Append($":{data.Port}");
+
+            builder.Append($" ({data.UserId})");
+            return builder.ToString();
         }
 
         public override void Dispose()

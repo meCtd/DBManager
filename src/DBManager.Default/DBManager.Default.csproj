@@ -45,6 +45,8 @@
     <Compile Include="Constants.cs" />
     <Compile Include="DataBaseConnection\ConnectionData.cs" />
     <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
+    <Compile Include="DataBaseConnection\IConnectionData.cs" />
+    <Compile Include="DataBaseConnection\ServerInfo.cs" />
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialectComponent.cs" />
     <Compile Include="Loaders\IObjectLoader.cs" />

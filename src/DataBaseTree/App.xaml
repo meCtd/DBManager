@@ -6,11 +6,13 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Views/Resources/Icons.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBlockStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ComboBoxStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ScrollBarStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

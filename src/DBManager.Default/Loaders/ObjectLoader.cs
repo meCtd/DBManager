@@ -11,14 +11,19 @@ namespace DBManager.Default.Loaders
 {
     public class ObjectLoader : IObjectLoader
     {
-        private readonly ConnectionData _connection;
+        private IConnectionData _connection { get; }
 
         private readonly IDialectComponent _component;
 
-        public ObjectLoader(IDialectComponent dialectComponent, ConnectionData connection)
+        public ObjectLoader(IDialectComponent dialectComponent, IConnectionData connection)
         {
             _connection = connection;
             _component = dialectComponent;
+        }
+
+        public Task LoadServerProperties(CancellationToken token)
+        {
+            return Task.CompletedTask;
         }
 
         public async Task LoadChildrenAsync(DbObject obj, CancellationToken token)

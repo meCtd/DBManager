@@ -1,9 +1,10 @@
-﻿using System.Globalization;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
+
+using Framework.EventArguments;
 
 using Ninject;
 using Plurally;
@@ -21,9 +22,11 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private readonly DbObject _model;
 
+        private string _nameFormat = "{0}";
+
         public override string ObjectName => IsBusy
             ? _categoryName
-            : string.Format(NameFormat, _categoryName, Children.Count);
+            : string.Format(_nameFormat, _categoryName, Children.Count);
 
         public override MetadataType Type { get; }
 
@@ -32,6 +35,13 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             Type = type;
             _model = model;
             _categoryName = _pluralizer.Pluralize(type.ToString());
+
+            ExpandChanged += OnExpandChanged;
+        }
+
+        private void OnExpandChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            _nameFormat = NameFormat;
         }
 
         protected override void RemoveChildrenFromModel()

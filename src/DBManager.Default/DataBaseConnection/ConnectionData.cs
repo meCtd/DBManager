@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.Data.Common;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace DBManager.Default.DataBaseConnection
 {
     [DataContract(Name = "ConnectionData")]
-    public abstract class ConnectionData
+    public abstract class ConnectionData : IConnectionData
     {
-        [DataMember(Name = "Server")]
-        public string Server { get; set; }
+        [DataMember(Name = "server-info")]
+        private ServerInfo _serverInfo = new ServerInfo();
+
+        IReadOnlyDictionary<ConnectionProperty, object> IConnectionData.Properties => Properties;
+
+        [DataMember(Name = "Host")]
+        public string Host { get; set; }
 
         [DataMember(Name = "Port")]
         public string Port { get; set; }
@@ -27,24 +31,17 @@ namespace DBManager.Default.DataBaseConnection
         public string Password { get; set; }
 
         [DataMember(Name = "Properties")]
-        public IDictionary<ConnectionProperty, object> Properties { get; }
-
-        #region Abstract properties
+        public Dictionary<ConnectionProperty, object> Properties { get; }
 
         public abstract DialectType Type { get; }
 
         public abstract string ConnectionString { get; }
 
+        public ServerInfo ServerInfo => _serverInfo;
+
         public abstract DbConnection GetConnection();
 
-        protected abstract string DefaultDatabase { get; }
-
-        #endregion
-
-        public Task<bool> TestConnectionAsync()
-        {
-            return TestConnectionAsync(CancellationToken.None);
-        }
+        public virtual string TestQuery => "SELECT 1";
 
         protected virtual IEnumerable<KeyValuePair<ConnectionProperty, object>> RegisterProperties()
         {
@@ -53,19 +50,8 @@ namespace DBManager.Default.DataBaseConnection
 
         protected ConnectionData()
         {
-            Properties = RegisterProperties().ToDictionary(s => s.Key, s => s.Value);
-        }
-
-        public string GetServerName()
-        {
-            var builder = new StringBuilder();
-            builder.Append(Server);
-
-            if (!string.IsNullOrEmpty(Port))
-                builder.Append($":{Port}");
-
-            builder.Append($" ({UserId})");
-            return builder.ToString();
+            Properties = RegisterProperties()
+                .ToDictionary(s => s.Key, s => s.Value);
         }
 
         public async Task<bool> TestConnectionAsync(CancellationToken token)

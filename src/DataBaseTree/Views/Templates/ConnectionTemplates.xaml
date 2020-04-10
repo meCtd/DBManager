@@ -17,9 +17,9 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Grid.Column="0">
-                    <TextBlock Text="Server" />
-                    <TextBox Text="{Binding Path=Server,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
-                             Tag="Enter the server name" />
+                    <TextBlock Text="Host" />
+                    <TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                             Tag="Enter the host" />
                 </StackPanel>
 
                 <StackPanel  Margin="5,0,0,0"

@@ -59,29 +59,6 @@ namespace DBManager.Default.Tree
             obj.Parent = this;
         }
 
-        //public bool? IsChildrenLoaded(MetadataType? childType, IMetadataHierarchy hierarchy)
-        //{
-        //    var childTypes = hierarchy.Structure[Type].ChildrenTypes.ToArray();
-
-        //    if (!childTypes.Any())
-        //        return true;
-
-        //    if (childType == null)
-        //    {
-        //        if (_childrenMap.Count == 0)
-        //            return false;
-
-        //        if (childTypes.Any(type => !_childrenMap.ContainsKey(type)))
-        //        {
-        //            return null;
-        //        }
-
-        //        return true;
-        //    }
-        //    else
-        //        return _childrenMap.ContainsKey(childType.Value);
-        //}
-
         public override string ToString()
         {
             return Name;

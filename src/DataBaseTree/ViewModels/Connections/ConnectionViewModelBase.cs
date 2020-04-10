@@ -21,12 +21,12 @@ namespace DBManager.Application.ViewModels.Connections
             set { SetProperty(ref _isValid, value); }
         }
 
-        public string Server
+        public string Host
         {
-            get { return Model.Server; }
+            get { return Model.Host; }
             set
             {
-                Model.Server = value;
+                Model.Host = value;
                 OnPropertyChanged();
             }
         }
@@ -74,6 +74,7 @@ namespace DBManager.Application.ViewModels.Connections
         protected ConnectionViewModelBase(ConnectionData model)
         {
             Model = model;
+            Host = @".\SqlExpress";
         }
 
 
@@ -81,8 +82,8 @@ namespace DBManager.Application.ViewModels.Connections
         {
             switch (columnName)
             {
-                case nameof(Server):
-                    if (string.IsNullOrEmpty(Server))
+                case nameof(Host):
+                    if (string.IsNullOrEmpty(Host))
                         return IsRequired;
                     break;
 

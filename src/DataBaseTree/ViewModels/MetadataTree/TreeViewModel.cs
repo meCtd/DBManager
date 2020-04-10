@@ -11,8 +11,8 @@ namespace DBManager.Application.ViewModels.MetadataTree
     {
         private TreeViewItemViewModelBase _selectedItem;
 
-        public ObservableCollection<TreeViewItemViewModelBase> RootItems { get; } 
-        
+        public ObservableCollection<TreeViewItemViewModelBase> RootItems { get; }
+
         public ICollectionView TreeView { get; }
 
         public TreeViewItemViewModelBase SelectedItem
@@ -25,7 +25,7 @@ namespace DBManager.Application.ViewModels.MetadataTree
         {
             RootItems = new ObservableCollection<TreeViewItemViewModelBase>();
 
-            TreeView= new ListCollectionView(RootItems);
+            TreeView = new ListCollectionView(RootItems);
         }
     }
 }

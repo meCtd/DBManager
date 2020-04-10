@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+
 using DBManager.Application.ViewModels.General;
+
 using Framework.EventArguments;
+
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
@@ -12,11 +15,11 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         private bool _isExpanded;
 
         private bool _isSelected;
-
+        
         public ObservableCollection<TreeViewItemViewModelBase> Children { get; }
 
         public TreeViewItemViewModelBase Parent { get; }
-
+        
         public event EventHandler<ValueChangedEventArgs<bool>> ExpandChanged;
 
         public bool IsExpanded
@@ -26,11 +29,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             {
                 var oldValue = _isExpanded;
                 if (SetProperty(ref _isExpanded, value))
-                {
-                    Children.Clear();
                     ExpandChanged?.Invoke(this, new ValueChangedEventArgs<bool>(oldValue, value));
-                }
-
             }
         }
 
@@ -47,6 +46,14 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
             if (canHaveChildren)
                 Children.Add(_dummyChild);
+
+            ExpandChanged += OnExpandChanged;
+        }
+
+        private void OnExpandChanged(object sender, ValueChangedEventArgs<bool> e)
+        {
+            Children.Remove(_dummyChild);
+            ExpandChanged -= OnExpandChanged;
         }
 
         private sealed class DummyChild : TreeViewItemViewModelBase
