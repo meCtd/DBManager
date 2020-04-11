@@ -39,8 +39,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
             else
             {
-                var loader = Resolver.Get<IObjectLoader>();
-                await loader.LoadChildrenAsync(Model, CancellationToken.None);
+                await GetLoader().LoadChildrenAsync(Model, CancellationToken.None);
 
                 Model.Children.ForEach(s => Children.Add(new DbObjectViewModel(this, s)));
             }

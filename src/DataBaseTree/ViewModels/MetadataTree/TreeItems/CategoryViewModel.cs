@@ -51,10 +51,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected override async Task LoadChildren()
         {
-            var loader = Resolver.Get<IObjectLoader>();
-
-            await loader.LoadChildrenAsync(_model, Type, CancellationToken.None);
-
+            await GetLoader().LoadChildrenAsync(_model, Type, CancellationToken.None);
         }
     }
 }

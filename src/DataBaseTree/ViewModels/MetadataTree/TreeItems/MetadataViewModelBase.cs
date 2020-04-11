@@ -2,7 +2,9 @@
 using System.Windows.Input;
 
 using DBManager.Application.Utils;
+using DBManager.Default.Loaders;
 using DBManager.Default.Tree;
+using Ninject;
 
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
@@ -51,6 +53,17 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected abstract void RemoveChildrenFromModel();
         protected abstract Task LoadChildren();
+
+        protected IObjectLoader GetLoader()
+        {
+            var current = this;
+            while (current.Parent != null)
+            {
+                current = (MetadataViewModelBase)current.Parent;
+            }
+
+            return Resolver.Get<IObjectLoader>(current.ObjectName);
+        }
 
         private void Refresh(object obj)
         {
