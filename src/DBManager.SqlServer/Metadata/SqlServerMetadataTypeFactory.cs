@@ -15,16 +15,16 @@ namespace DBManager.SqlServer.Metadata
         private static readonly Dictionary<MetadataType, Func<DbDataReader, DbObject>> _dictionary =
              new Dictionary<MetadataType, Func<DbDataReader, DbObject>>()
              {
-                 [MetadataType.Database] = (s) => new Database(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Schema] = (s) => new Schema(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Table] = (s) => new Table(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.View] = (s) => new View(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Key] = (s) => new Key(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Index] = (s) => new Index(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Trigger] = (s) => new Trigger(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Constraint] = (s) => new Constraint(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Procedure] = (s) => new Procedure(s.GetString(s.GetOrdinal(Name))),
-                 [MetadataType.Function] = (s) => new Function(s.GetString(s.GetOrdinal(Name))),
+                 [MetadataType.Database] = (s) => new Database(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Schema] = (s) => new Schema(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Table] = (s) => new Table(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.View] = (s) => new View(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Key] = (s) => new Key(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Index] = (s) => new Index(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Trigger] = (s) => new Trigger(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Constraint] = (s) => new Constraint(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Procedure] = (s) => new Procedure(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Function] = (s) => new Function(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Column] = (s) =>
                  {
                      int? length = null;
@@ -39,8 +39,8 @@ namespace DBManager.SqlServer.Metadata
                      if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
                          length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
 
-                     return new Column((s.GetString(s.GetOrdinal(Name))),
-                         new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
+                     return new Column((s.GetString(s.GetOrdinal(Constants.Name))),
+                         new DbType(s.GetString(s.GetOrdinal(Constants.Name)), length, precision, scale));
                  },
                  [MetadataType.Parameter] = (s) =>
                  {
@@ -56,15 +56,15 @@ namespace DBManager.SqlServer.Metadata
                      if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
                          length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
 
-                     return new Parameter((s.GetString(s.GetOrdinal(Name))),
-                         new DbType(s.GetString(s.GetOrdinal(Constants.TypeNameProperty)), length, precision, scale));
+                     return new Parameter((s.GetString(s.GetOrdinal(Constants.Name))),
+                         new DbType(s.GetString(s.GetOrdinal(Constants.TypeConstants.NameProperty)), length, precision, scale));
                  }
              };
 
         public DbObject Create(DbDataReader reader, MetadataType type)
         {
             if (!_dictionary.TryGetValue(type, out var func))
-                throw new ArgumentException(nameof(type));
+                throw new ArgumentException(Constants.Nameof(type));
 
             return func(reader);
         }
