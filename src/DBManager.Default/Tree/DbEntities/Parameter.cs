@@ -1,4 +1,5 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Data;
+using System.Runtime.Serialization;
 
 namespace DBManager.Default.Tree.DbEntities
 {
@@ -7,7 +8,10 @@ namespace DBManager.Default.Tree.DbEntities
     {
         public override MetadataType Type => MetadataType.Parameter;
 
-        public Parameter(string name, DbType parameterType) : base(name, parameterType)
+        [DataMember(Name = "parameter-direction")]
+        public ParameterDirection Directon { get; set; }
+
+        public Parameter(string name) : base(name)
         {
         }
     }

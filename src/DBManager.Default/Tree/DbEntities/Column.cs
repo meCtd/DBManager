@@ -7,7 +7,7 @@ namespace DBManager.Default.Tree.DbEntities
     {
         public override MetadataType Type => MetadataType.Column;
 
-        public Column(string name, DbType columnType) : base(name, columnType)
+        public Column(string name) : base(name)
         {
         }
     }

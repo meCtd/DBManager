@@ -16,7 +16,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
     {
         public DbObject Model { get; }
 
-        public override string ObjectName => Model.ToString();
+        public override string Name => Model.ToString();
 
         public override MetadataType Type => Model.Type;
 

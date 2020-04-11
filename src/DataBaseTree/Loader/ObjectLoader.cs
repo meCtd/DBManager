@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -6,6 +9,7 @@ using System.Threading.Tasks;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Tree;
+using Framework.Extensions;
 
 
 namespace DBManager.Application.Loader
@@ -45,23 +49,13 @@ namespace DBManager.Application.Loader
 
         private async Task LoadChildrenInternal(DbObject target, MetadataType childrenType, CancellationToken token)
         {
-            if (_component.Hierarchy.Structure[target.Type].ChildrenTypes.All(s => s != childrenType))
-            {
-                throw new ArgumentException(nameof(childrenType));
-            }
-
             using (var connection = _connection.GetConnection())
             {
                 await connection.OpenAsync(token);
 
                 var command = _component.CreateCommand();
                 command.Connection = connection;
-                command.CommandText = _component.ScriptProvider.ProvideNameScript(target.Type, childrenType);
-
-                foreach (var param in _component.ScriptProvider.GetChildrenLoadParameters(target, childrenType))
-                {
-                    command.Parameters.Add(param);
-                }
+                command.CommandText = _component.ScriptProvider.ProvideNameScript(target, childrenType);
 
                 using (var reader = await command.ExecuteReaderAsync(token))
                 {
@@ -70,34 +64,6 @@ namespace DBManager.Application.Loader
                         target.AddChild(_component.ObjectFactory.Create(reader, childrenType));
                     }
                 }
-
-                //foreach (var child in children)
-                //{
-                //    if (child.CanHaveDefinition)
-                //    {
-                //        command = _component.CreateCommand();
-                //        command.Connection = connection;
-                //        command.CommandText = _component.ScriptProvider.ProvideDefinitionScript();
-
-                //        foreach (var param in _component.ScriptProvider.GetDefinitionParameters(child))
-                //        {
-                //            command.Parameters.Add(param);
-                //        }
-
-                //        using (var descReader = command.ExecuteReader())
-                //        {
-
-                //            StringBuilder defText = new StringBuilder();
-                //            while (descReader.Read())
-                //            {
-                //                defText.Append(descReader.GetString(0));
-                //            }
-
-                //            child.Definition = defText.ToString();
-                //        }
-                //    }
-                //}
-
             }
         }
 
@@ -112,11 +78,6 @@ namespace DBManager.Application.Loader
                 var command = _component.CreateCommand();
                 command.Connection = connection;
                 command.CommandText = query;
-
-                foreach (var param in _component.ScriptProvider.GetLoadPropertiesParameters(obj))
-                {
-                    command.Parameters.Add(param);
-                }
 
                 using (var reader = await command.ExecuteReaderAsync(token))
                 {

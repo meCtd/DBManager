@@ -1,11 +1,25 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:DBManager.Application.Convertors"
-                    xmlns:default="clr-namespace:DBManager.Default;assembly=DBManager.Default">
+                    xmlns:default="clr-namespace:DBManager.Default;assembly=DBManager.Default"
+                    xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default">
 
     <local:ObjectToObjectConverter x:Key="DialectToIconConverter">
         <local:ObjectsPair Input="{x:Static default:DialectType.SqlServer}"
                            Output="{StaticResource SqlServerIcon}" />
+    </local:ObjectToObjectConverter>
+
+    <local:ObjectToObjectConverter x:Key="MetadataTypeToIconConverter">
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Schema}"
+                           Output="{StaticResource SchemaIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Database}"
+                           Output="{StaticResource DatabaseIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Table}"
+                           Output="{StaticResource TableIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.View}"
+                           Output="{StaticResource ViewIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Function}"
+                           Output="{StaticResource FunctionIcon}" />
     </local:ObjectToObjectConverter>
 
 </ResourceDictionary>

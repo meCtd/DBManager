@@ -1,10 +1,11 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 using DBManager.Default.Tree;
 
 using Framework.EventArguments;
-
+using Framework.Extensions;
 using Plurally;
 
 
@@ -22,7 +23,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private string _nameFormat = "{0}";
 
-        public override string ObjectName => IsBusy
+        public override string Name => IsBusy
             ? _categoryName
             : string.Format(_nameFormat, _categoryName, Children.Count);
 
@@ -50,6 +51,10 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         protected override async Task LoadChildren()
         {
             await GetLoader().LoadChildrenAsync(_model, Type, CancellationToken.None);
+
+            _model.Children
+                .Where(s => Equals(Type, s.Type))
+                .ForEach(s => Children.Add(new DbObjectViewModel(this, s)));
         }
     }
 }

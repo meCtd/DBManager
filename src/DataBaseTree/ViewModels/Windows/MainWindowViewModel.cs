@@ -42,7 +42,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         private void OnNewSourceConnected(object sender, ArgumentEventArgs<(DialectType Dialect, string Name)> e)
         {
-            if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.ObjectName.Equals(e.Argument.Name)))
+            if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.Name.Equals(e.Argument.Name)))
                 return;
 
             Tree.RootItems.Add(new ServerViewModel(new Server(e.Argument.Name, e.Argument.Dialect)));

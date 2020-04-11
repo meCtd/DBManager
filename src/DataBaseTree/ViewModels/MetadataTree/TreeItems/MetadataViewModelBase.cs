@@ -14,19 +14,13 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
     {
-        private const string BusyFormat = "{0} (loading...)";
-
         private bool _isBusy;
 
         private bool _wasLoaded;
 
         private ICommand _refreshCommand;
 
-        public string Name => IsBusy
-            ? string.Format(BusyFormat, ObjectName)
-            : ObjectName;
-
-        public abstract string ObjectName { get; }
+        public abstract string Name { get; }
 
         public abstract MetadataType Type { get; }
 
@@ -36,12 +30,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         public bool IsBusy
         {
-            get { return _isBusy; }
-            set
-            {
-                if (SetProperty(ref _isBusy, value))
-                    OnPropertyChanged(nameof(Name));
-            }
+            get => _isBusy;
+            set => SetProperty(ref _isBusy, value);
         }
 
         public ICommand RefreshCommand =>
@@ -69,7 +59,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
                 current = (MetadataViewModelBase)current.Parent;
             }
 
-            return Context.Resolver.Get<IObjectLoader>(current.ObjectName);
+            return Context.Resolver.Get<IObjectLoader>(current.Name);
         }
 
         private void Refresh(object obj)

@@ -7,6 +7,8 @@
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
         xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
         xmlns:controls="clr-namespace:DBManager.Application.Controls"
+        xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
+        xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DB Manager"
@@ -87,6 +89,40 @@
                     </Trigger>
                 </Style.Triggers>
             </Style>
+
+            <Style TargetType="Canvas"
+                   x:Key="MetadataIconCanvasStyle">
+                <Setter Property="Height"
+                        Value="13" />
+                <Setter Property="Width"
+                        Value="13" />
+            </Style>
+
+            <DataTemplate x:Key="ServerIconTemplate"
+                          DataType="metadataTree:ServerViewModel">
+                <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                        Background="{Binding Dialect,Converter={StaticResource DialectToIconConverter}}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="CategoryIconTemplate"
+                          DataType="metadataTree:CategoryViewModel">
+                <Grid>
+                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                            Background="{StaticResource OpenedCategory}"
+                            Visibility="{Binding IsExpanded,Converter={convertors:BooleanToVisibilityConverter}}" />
+
+                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                            Background="{StaticResource ClosedCategory}"
+                            Visibility="{Binding IsExpanded,Converter={convertors:InvertedBooleanToVisibilityConverter}}" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DbObjectIconTemplate"
+                          DataType="metadataTree:DbObjectViewModel">
+                <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                        Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+            </DataTemplate>
+
         </ResourceDictionary>
     </Window.Resources>
 
@@ -254,17 +290,13 @@
                             <StackPanel x:Name="Container"
                                         Orientation="Horizontal">
 
-                                <Canvas Width="15"
-                                        Height="15"
-                                        Background="{StaticResource SqlServerIcon}">
-                                    <!--<Canvas.Background>
-                                        <MultiBinding Converter="{StaticResource MultiValueConverter}">
-                                            <Binding Path="FirstName" />
-                                            <Binding Path="Surname" />
-                                        </MultiBinding>
-                                    </Canvas.Background>-->
-
-                                </Canvas>
+                                <ContentPresenter Content="{Binding}">
+                                    <ContentPresenter.ContentTemplateSelector>
+                                        <templateSelectors:MetadataIconTemplateSelector ServerIconTemplate="{StaticResource ServerIconTemplate}"
+                                                                                        CategoryIconTemplate="{StaticResource CategoryIconTemplate}"
+                                                                                        DbObjectIconTemplate="{StaticResource DbObjectIconTemplate}"/>
+                                    </ContentPresenter.ContentTemplateSelector>
+                                </ContentPresenter>
 
                                 <TextBlock x:Name="NameBlock"
                                            Margin="3,0,0,0"
@@ -310,8 +342,7 @@
                                 Sql="{Binding Script.Sql}"
                                 SyntaxHighlighting="{Binding Script.Highlighting}"
                                 VerticalScrollBarVisibility="Auto"
-                                HorizontalScrollBarVisibility="Auto"
- />
+                                HorizontalScrollBarVisibility="Auto" />
         </Grid>
     </DockPanel>
 

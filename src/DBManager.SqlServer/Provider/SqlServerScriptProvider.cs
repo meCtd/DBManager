@@ -10,71 +10,85 @@ namespace DBManager.SqlServer.Provider
 {
     internal class SqlServerScriptProvider : IScriptProvider
     {
-        public string ProvideNameScript(MetadataType parentType, MetadataType childType)
+        public string ProvideChangeContext()
+        {
+            return "USE {0}";
+        }
+
+        public string ProvideNameScript(DbObject target, MetadataType childType)
         {
             switch (childType)
             {
+                case MetadataType.Database:
+                    return $"SELECT name  AS '{Constants.Name}' FROM sys.databases";
+
                 case MetadataType.Schema:
-                    return $"SELECT SCHEMA_NAME AS 'Name' FROM INFORMATION_SCHEMA.SCHEMATA";
+                    return $"SELECT SCHEMA_NAME AS '{Constants.Name}' FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[SCHEMATA]";
 
                 case MetadataType.Table:
+                    return $"SELECT TABLE_NAME AS '{Constants.Name}' FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{target.FullName.Schema}'";
+
                 case MetadataType.View:
-                    return $"SELECT TABLE_NAME AS 'Name' FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = {Constants.TypeParameter} AND TABLE_SCHEMA = {Constants.SchemaNameParameter}";
+                    return $"SELECT TABLE_NAME AS '{Constants.Name}' FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = '{target.FullName.Schema}'";
 
                 case MetadataType.Function:
-                case MetadataType.Procedure:
-                    return $"SELECT ROUTINE_NAME AS 'Name' FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_TYPE = {Constants.TypeParameter} AND ROUTINE_SCHEMA = {Constants.SchemaNameParameter}";
+                    return $"SELECT ROUTINE_NAME AS '{Constants.Name}' FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = '{target.FullName.Schema}'";
 
-                case MetadataType.Constraint:
-                    return
-                        ($"SELECT CONSTRAINT_NAME AS Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
-                        $"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
+                case MetadataType.Procedure:
+                    return $"SELECT ROUTINE_NAME AS '{Constants.Name}' FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '{target.FullName.Schema}'";
 
                 case MetadataType.Column:
-                    switch (parentType)
-                    {
-                        case MetadataType.Table:
-                            return ($"SELECT col.name AS'Name', " +
-                                    $"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
-                                    $"col.max_length AS '{Constants.MaxLengthProperty}', " +
-                                    $"col.precision AS '{Constants.PrecisionProperty}', " +
-                                    $"col.scale AS '{Constants.ScaleProperty}'  " +
-                                    $"FROM sys.columns AS col " +
-                                    $"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
-                        case MetadataType.View:
-                            return ($"SELECT col.name AS'Name', " +
-                                   $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
-                                   $"col.max_length AS '{Constants.MaxLengthProperty}', " +
-                                   $"col.precision AS '{Constants.PrecisionProperty}', " +
-                                   $"col.scale AS '{Constants.ScaleProperty}'  " +
-                                   $"FROM sys.columns AS col " +
-                                   $"JOIN INFORMATION_SCHEMA.VIEW_COLUMN_USAGE AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) WHERE inf.VIEW_NAME = {Constants.NameParameter} AND inf.VIEW_SCHEMA={Constants.SchemaNameParameter}");
+                    return $"SELECT COLUMN_NAME AS '{Constants.Name}' " +
+                           $"FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS]" +
+                           $" WHERE TABLE_NAME='{target.Name}' and TABLE_SCHEMA='{target.FullName.Schema}'" +
+                           $" ORDER BY ORDINAL_POSITION";
 
-                        default:
-                            throw new ArgumentException();
-                    }
+                //case MetadataType.Constraint:
+                //    return
+                //        ($"SELECT CONSTRAINT_NAME AS Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
+                //        $"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
+
+                //    switch (parentType)
+                //    {
+                //        case MetadataType.Table:
+                //            return ($"SELECT col.name AS'{Constants.Name}', " +
+                //                    $"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
+                //                    $"col.max_length AS '{Constants.MaxLengthProperty}', " +
+                //                    $"col.precision AS '{Constants.PrecisionProperty}', " +
+                //                    $"col.scale AS '{Constants.ScaleProperty}'  " +
+                //                    $"FROM sys.columns AS col " +
+                //                    $"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
+                //        case MetadataType.View:
+                //            return ($"SELECT col.name AS'{Constants.Name}', " +
+                //                   $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
+                //                   $"col.max_length AS '{Constants.MaxLengthProperty}', " +
+                //                   $"col.precision AS '{Constants.PrecisionProperty}', " +
+                //                   $"col.scale AS '{Constants.ScaleProperty}'  " +
+                //                   $"FROM sys.columns AS col " +
+                //                   $"JOIN INFORMATION_SCHEMA.VIEW_COLUMN_USAGE AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) WHERE inf.VIEW_NAME = {Constants.NameParameter} AND inf.VIEW_SCHEMA={Constants.SchemaNameParameter}");
+
+                //        default:
+                //            throw new ArgumentException();
+                //    }
 
 
-                case MetadataType.Trigger:
-                    return $"SELECT name AS 'Name' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
+                //case MetadataType.Trigger:
+                //    return $"SELECT name AS '{Constants.Name}' FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
 
-                case MetadataType.Parameter:
-                    return ($"SELECT  name AS'Name', " +
-                            $"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
-                            $"max_length AS '{Constants.MaxLengthProperty}', " +
-                            $"precision AS '{Constants.PrecisionProperty}', " +
-                            $"scale AS '{Constants.ScaleProperty}' " +
-                            $"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
+                //case MetadataType.Parameter:
+                //    return ($"SELECT  name AS'{Constants.Name}', " +
+                //            $"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
+                //            $"max_length AS '{Constants.MaxLengthProperty}', " +
+                //            $"precision AS '{Constants.PrecisionProperty}', " +
+                //            $"scale AS '{Constants.ScaleProperty}' " +
+                //            $"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
 
-                case MetadataType.Key:
-                    return $"SELECT DISTINCT CONSTRAINT_NAME AS 'Name' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
+                //case MetadataType.Key:
+                //    return $"SELECT DISTINCT CONSTRAINT_NAME AS '{Constants.Name}' FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
 
-                case MetadataType.Index:
-                    return
-                        $"SELECT name AS 'Name' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
-
-                case MetadataType.Database:
-                    return $"SELECT name  AS 'Name' FROM sys.databases";
+                //case MetadataType.Index:
+                //    return
+                //        $"SELECT name AS '{Constants.Name}' FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
 
                 default:
                     throw new ArgumentException();
@@ -254,7 +268,7 @@ namespace DBManager.SqlServer.Provider
                             $"ks.[{Constants.UpdateReferentialActionProperty}], " +
                             $"ks.[{Constants.IndexIdProperty}] " +
                             "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
-                            $"JOIN (SELECT name AS 'Name', " +
+                            $"JOIN (SELECT name AS '{Constants.Name}', " +
                             $"type_desc AS '{Constants.TypeProperty}', " +
                             $"create_date AS '{Constants.CreationDateProperty}', " +
                             $"modify_date AS '{Constants.ModifyDateProperty}', " +
@@ -281,100 +295,6 @@ namespace DBManager.SqlServer.Provider
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-        }
-
-        public IEnumerable<IDbDataParameter> GetDefinitionParameters(DbObject obj)
-        {
-            yield return new SqlParameter(Constants.NameParameter, $"{obj.FullName.Schema}.{obj.Name}");
-        }
-
-        public IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, MetadataType childType)
-        {
-            List<IDbDataParameter> parameters = new List<IDbDataParameter>();
-            switch (childType)
-            {
-
-                case MetadataType.Table:
-                    parameters.Add(new SqlParameter(Constants.TypeParameter, "BASE TABLE"));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
-                    break;
-
-                case MetadataType.View:
-                case MetadataType.Function:
-                case MetadataType.Procedure:
-                    parameters.Add(new SqlParameter(Constants.TypeParameter, childType.ToString().ToUpper()));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
-                    break;
-
-                case MetadataType.Column:
-                case MetadataType.Constraint:
-                case MetadataType.Key:
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema.Name));
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    break;
-
-                case MetadataType.Trigger:
-                case MetadataType.Parameter:
-                case MetadataType.Index:
-                    parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.FullName.ToString()));
-                    break;
-            }
-
-            return parameters;
-        }
-
-        public IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj)
-        {
-            List<IDbDataParameter> parameters = new List<IDbDataParameter>();
-            switch (obj.Type)
-            {
-                case MetadataType.Database:
-                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.FullName.Schema));
-                    break;
-
-                case MetadataType.Schema:
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
-                    break;
-
-                case MetadataType.Table:
-                case MetadataType.View:
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
-                    break;
-
-                case MetadataType.Function:
-                case MetadataType.Procedure:
-                    parameters.Add(new SqlParameter(Constants.TypeParameter, obj.Type.ToString().ToUpper()));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    break;
-
-                case MetadataType.Trigger:
-                case MetadataType.Index:
-                case MetadataType.Parameter:
-                case MetadataType.Column:
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    parameters.Add(new SqlParameter(Constants.FullParentNameParameter, obj.Parent.FullName.ToString()));
-                    break;
-
-                case MetadataType.Constraint:
-                    parameters.Add(new SqlParameter(Constants.ParentNameParameter, obj.Parent.Name));
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-
-                    break;
-
-                case MetadataType.Key:
-                    parameters.Add(new SqlParameter(Constants.NameParameter, obj.Name));
-                    parameters.Add(new SqlParameter(Constants.SchemaNameParameter, obj.FullName.Schema));
-                    parameters.Add(new SqlParameter(Constants.DatabaseNameParameter, obj.FullName.Database));
-                    break;
-
-
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
-            return parameters;
         }
     }
 }
