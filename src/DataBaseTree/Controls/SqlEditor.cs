@@ -1,10 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+
 using System.Windows;
+using System.Xml;
+
+using DBManager.Default;
+
 using ICSharpCode.AvalonEdit;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Highlighting.Xshd;
+
 
 namespace DBManager.Application.Controls
 {
@@ -23,6 +28,27 @@ namespace DBManager.Application.Controls
         {
             var editor = (SqlEditor)d;
             editor.Text = (string)e.NewValue;
+        }
+
+        static SqlEditor()
+        {
+            RegisterHighlights();
+        }
+        
+        private static void RegisterHighlights()
+        {
+            RegisterHighlight(DialectType.SqlServer, Properties.Resources.MsSql);
+        }
+
+        private static void RegisterHighlight(DialectType dialect, Byte[] ashx)
+        {
+            IHighlightingDefinition definition;
+
+            using (Stream stream = new MemoryStream(ashx))
+            using (XmlReader reader = XmlReader.Create(stream))
+                definition = HighlightingLoader.Load(reader, HighlightingManager.Instance);
+
+            HighlightingManager.Instance.RegisterHighlighting(dialect.ToString(), new String[] { }, definition);
         }
     }
 }

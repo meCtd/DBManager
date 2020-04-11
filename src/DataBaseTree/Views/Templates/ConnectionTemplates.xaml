@@ -5,7 +5,7 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
 
-    <DataTemplate DataType="{x:Type vm:MsSqlConnectionViewModel}">
+    <DataTemplate DataType="{x:Type vm:SqlServerConnectionViewModel}">
         <StackPanel Height="200"
                     Width="300"
                     MaxHeight="200"

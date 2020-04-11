@@ -9,6 +9,8 @@ namespace DBManager.Default
 {
     public interface IDialectComponent
     {
+        DialectType Type { get; }
+
         IPrinter Printer { get; }
 
         IScriptProvider ScriptProvider { get; }

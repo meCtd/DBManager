@@ -9,7 +9,7 @@ namespace DBManager.Default
         Unknown,
 
         [Description("Microsoft SQL Server")]
-        MsSql,
+        SqlServer,
         
         [Description("Microsoft Access")]
         Access,

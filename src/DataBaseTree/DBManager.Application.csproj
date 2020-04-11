@@ -97,10 +97,6 @@
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
-    <Compile Include="Providers\Abstract\IComponentProvider.cs" />
-    <Compile Include="Providers\Abstract\IConnectionProvider.cs" />
-    <Compile Include="Providers\ComponentProvider.cs" />
-    <Compile Include="Providers\ConnectionProvider.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
@@ -112,11 +108,12 @@
     <Compile Include="Utils\SharedResourceDictionary.cs" />
     <Compile Include="Utils\WindowManager.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
-    <Compile Include="ViewModels\Connections\MsSqlConnectionViewModel.cs" />
+    <Compile Include="ViewModels\Connections\SqlServerConnectionViewModel.cs" />
     <Compile Include="ViewModels\General\IWindowContext.cs" />
     <Compile Include="ViewModels\General\WindowViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ScriptViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
@@ -155,6 +152,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\MsSql.xshd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

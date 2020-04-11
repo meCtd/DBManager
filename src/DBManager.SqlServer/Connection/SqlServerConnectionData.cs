@@ -10,11 +10,11 @@ using Framework.Extensions;
 
 namespace DBManager.SqlServer.Connection
 {
-    public class MsSqlServer : ConnectionData
+    public class SqlServerConnectionData : ConnectionData
     {
         private const string DefaultDatabase = "master";
 
-        public override DialectType Type => DialectType.MsSql;
+        public override DialectType Type => DialectType.SqlServer;
 
         public override string ConnectionString
         {

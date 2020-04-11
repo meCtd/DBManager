@@ -15,13 +15,19 @@ namespace DBManager.Application.ViewModels.Windows
 {
     public class MainWindowViewModel : ViewModelBase
     {
+        private ICommand _disconnectCommand;
+
         public TreeViewModel Tree { get; } = new TreeViewModel();
 
         public TreeSearchViewModel TreeSearch { get; }
 
         private RelayCommand _connectCommand;
 
+        public ScriptViewModel Script { get; } = new ScriptViewModel();
+
         public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand(s => Connect()));
+
+        public ICommand DisconnectCommand => _disconnectCommand ?? (_disconnectCommand = new RelayCommand((s) => { }, s => Tree.RootItems.Count > 0));
 
         private void Connect()
         {
@@ -36,18 +42,7 @@ namespace DBManager.Application.ViewModels.Windows
             if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.ObjectName.Equals(e.Argument)))
                 return;
 
-            Tree.RootItems.Add(new DbObjectViewModel(null,new Server(e.Argument)));
-        }
-        
-        private ICommand _disconnectCommand;
-
-        public ICommand DisconnectCommand
-        {
-            get
-            {
-                return _disconnectCommand ?? (_disconnectCommand = new RelayCommand(
-                           (s) => { }, s => Tree.RootItems.Count > 0));
-            }
+            Tree.RootItems.Add(new DbObjectViewModel(null, new Server(e.Argument)));
         }
     }
 }

@@ -59,5 +59,15 @@ namespace DBManager.Application.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] MsSql {
+            get {
+                object obj = ResourceManager.GetObject("MsSql", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
     }
 }

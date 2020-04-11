@@ -10,7 +10,7 @@ namespace DBManager.SqlServer.Metadata
 {
     internal class SqlServerMetadataTypeFactory : IMetadataFactory
     {
-        public DialectType Dialect => DialectType.MsSql;
+        public DialectType Dialect => DialectType.SqlServer;
 
         private static readonly Dictionary<MetadataType, Func<DbDataReader, DbObject>> _dictionary =
             new Dictionary<MetadataType, Func<DbDataReader, DbObject>>()

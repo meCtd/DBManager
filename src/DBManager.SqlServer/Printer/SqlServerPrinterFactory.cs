@@ -4,13 +4,13 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.SqlServer.Printer
 {
-    public class SqlServerPrinterFactory : IPrinter
+    internal class SqlServerPrinterFactory : IPrinter
     {
         public string GetDefinition(DefinitionObject obj)
         {
             return obj.Definition = obj.Type == MetadataType.Table
-                ? new MsSqlTablePrinter().GetDefinition(obj)
-                : new MsSqlDefaultPrinter().GetDefinition(obj);
+                ? new SqlServerTablePrinter().GetDefinition(obj)
+                : new SqlServerDefaultPrinter().GetDefinition(obj);
         }
     }
 }

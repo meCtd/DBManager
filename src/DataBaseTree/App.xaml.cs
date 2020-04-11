@@ -1,9 +1,15 @@
-﻿using System.Globalization;
-using DBManager.Application.Providers;
-using DBManager.Application.Providers.Abstract;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
+using DBManager.Default;
+using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Loaders;
+using DBManager.SqlServer;
+using DBManager.SqlServer.Connection;
+using DBManager.SqlServer.Provider;
 
 namespace DBManager.Application
 {
@@ -27,9 +33,17 @@ namespace DBManager.Application
         {
             var resolver = ViewModelBase.Resolver;
 
-            resolver.Bind<IConnectionProvider>().To<ConnectionProvider>().InSingletonScope();
-            resolver.Bind<IComponentProvider>().To<ComponentProvider>().InSingletonScope();
             resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
+            
+            resolver.Bind<IConnectionData>().To<SqlServerConnectionData>()
+                .InTransientScope()
+                .Named(DialectType.SqlServer.ToString());
+
+            resolver.Bind<IDialectComponent>().To<SqlServerComponent>()
+                .InTransientScope()
+                .Named(DialectType.SqlServer.ToString());
+
+
         }
     }
 }

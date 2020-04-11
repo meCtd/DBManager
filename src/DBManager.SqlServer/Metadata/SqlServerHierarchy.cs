@@ -7,7 +7,7 @@ namespace DBManager.SqlServer.Metadata
 {
     internal class SqlServerHierarchy : IMetadataHierarchy
     {
-        public DialectType Dialect => DialectType.MsSql;
+        public DialectType Dialect => DialectType.SqlServer;
 
         public MetadataType TopLevelObjectType => MetadataType.Database;
 

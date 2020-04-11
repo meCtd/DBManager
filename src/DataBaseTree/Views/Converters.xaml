@@ -4,7 +4,7 @@
                     xmlns:default="clr-namespace:DBManager.Default;assembly=DBManager.Default">
 
     <local:ObjectToObjectConverter x:Key="DialectToIconConverter">
-        <local:ObjectsPair Input="{x:Static default:DialectType.MsSql}"
+        <local:ObjectsPair Input="{x:Static default:DialectType.SqlServer}"
                            Output="{StaticResource SqlServerIcon}" />
     </local:ObjectToObjectConverter>
 

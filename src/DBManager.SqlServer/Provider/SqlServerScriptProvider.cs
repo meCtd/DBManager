@@ -8,7 +8,7 @@ using DBManager.Default.Tree;
 
 namespace DBManager.SqlServer.Provider
 {
-    public class SqlServerScriptProvider : IScriptProvider
+    internal class SqlServerScriptProvider : IScriptProvider
     {
         public string ProvideNameScript(MetadataType parentType, MetadataType childType)
         {

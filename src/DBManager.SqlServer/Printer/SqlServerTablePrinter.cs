@@ -10,7 +10,7 @@ using DBManager.Default.Tree.DbEntities;
 namespace DBManager.SqlServer.Printer
 {
     //TODO USE WITH NORMALIZER and refactor class
-    internal class MsSqlTablePrinter
+    internal class SqlServerTablePrinter
     {
         private readonly StringBuilder _definition = new StringBuilder();
 

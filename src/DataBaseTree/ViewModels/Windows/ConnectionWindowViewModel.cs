@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-using DBManager.Application.Providers;
-using DBManager.Application.Providers.Abstract;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
@@ -71,7 +69,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         public ConnectionWindowViewModel()
         {
-            SelectedBaseType = DialectType.MsSql;
+            SelectedBaseType = DialectType.SqlServer;
         }
 
         private Task TestConnection(bool connectResult)
@@ -120,16 +118,15 @@ namespace DBManager.Application.ViewModels.Windows
                 IsBusy = false;
             }
         }
-
-
+        
         private ConnectionViewModelBase CreateViewModel(DialectType type)
         {
-            var model = Resolver.Get<ConnectionProvider>().ProvideConnection(type);
+            var model = (ConnectionData)Resolver.Get<IConnectionData>(SelectedBaseType.ToString());
 
             switch (type)
             {
-                case DialectType.MsSql:
-                    return new MsSqlConnectionViewModel(model);
+                case DialectType.SqlServer:
+                    return new SqlServerConnectionViewModel(model);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -137,19 +134,12 @@ namespace DBManager.Application.ViewModels.Windows
 
         private async Task RegisterConnection()
         {
-            var component = Resolver
-                .Get<IComponentProvider>()
-                .ProvideComponent(SelectedBaseType);
-
-            Resolver.Rebind<IDialectComponent>()
-                .ToConstant(component)
-                .Named(Connection.Model.Type.ToString()); 
-
-            var loader = new ObjectLoader(component, Connection.Model);
+            var loader = new ObjectLoader(Resolver.Get<IDialectComponent>(SelectedBaseType.ToString()), Connection.Model);
 
             await loader.LoadServerProperties(CancellationToken.None);
 
             var serverName = GetServerName(Connection.Model);
+
             Resolver.Rebind<IObjectLoader>()
                 .ToConstant(loader)
                 .Named(serverName);

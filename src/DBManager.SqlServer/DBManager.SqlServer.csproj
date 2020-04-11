@@ -42,12 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Connection\MsSqlServer.cs" />
+    <Compile Include="Connection\SqlServerConnectionData.cs" />
     <Compile Include="Metadata\SqlServerHierarchy.cs" />
     <Compile Include="Metadata\SqlServerMetadataTypeFactory.cs" />
-    <Compile Include="Printer\MsSqlDefaultPrinter.cs" />
+    <Compile Include="Printer\SqlServerDefaultPrinter.cs" />
     <Compile Include="Printer\SqlServerPrinterFactory.cs" />
-    <Compile Include="Printer\MsSqlTablePrinter.cs" />
+    <Compile Include="Printer\SqlServerTablePrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\SqlServerScriptProvider.cs" />
     <Compile Include="SqlServerComponent.cs" />

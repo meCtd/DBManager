@@ -16,6 +16,8 @@ namespace DBManager.SqlServer
     {
         internal static readonly NormalizerBase SqlNormalizer = new SqlServerNormalizer();
 
+        public DialectType Type => DialectType.SqlServer;
+
         public IPrinter Printer { get; } = new SqlServerPrinterFactory();
 
         public IScriptProvider ScriptProvider { get; } = new SqlServerScriptProvider();

@@ -3,7 +3,7 @@ using DBManager.Default.DataBaseConnection;
 
 namespace DBManager.Application.ViewModels.Connections
 {
-    public sealed class MsSqlConnectionViewModel : ConnectionViewModelBase
+    public sealed class SqlServerConnectionViewModel : ConnectionViewModelBase
     {
         public bool IntegratedSecurity
         {
@@ -22,7 +22,7 @@ namespace DBManager.Application.ViewModels.Connections
             }
         }
 
-        public MsSqlConnectionViewModel(ConnectionData model) : base(model)
+        public SqlServerConnectionViewModel(ConnectionData model) : base(model)
         {
         }
 

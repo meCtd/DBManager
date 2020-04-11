@@ -254,8 +254,8 @@
                             <StackPanel x:Name="Container"
                                         Orientation="Horizontal">
 
-                                <Canvas Width="13"
-                                        Height="13"
+                                <Canvas Width="15"
+                                        Height="15"
                                         Background="{StaticResource SqlServerIcon}">
                                     <!--<Canvas.Background>
                                         <MultiBinding Converter="{StaticResource MultiValueConverter}">
@@ -307,8 +307,11 @@
                                 ShowLineNumbers="True"
                                 Background="Transparent"
                                 Foreground="White"
+                                Sql="{Binding Script.Sql}"
+                                SyntaxHighlighting="{Binding Script.Highlighting}"
                                 VerticalScrollBarVisibility="Auto"
-                                HorizontalScrollBarVisibility="Auto" />
+                                HorizontalScrollBarVisibility="Auto"
+ />
         </Grid>
     </DockPanel>
 
