@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 
-using System.Reflection;
-using Application.Utils;
 using DBManager.Application.Utils;
 
 using AppContext = DBManager.Application.ViewModels.General.AppContext;
@@ -34,7 +29,5 @@ namespace DBManager.Application
 
             PluginManager.New().Load();
         }
-
-
     }
 }

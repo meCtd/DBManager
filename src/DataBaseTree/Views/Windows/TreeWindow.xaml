@@ -306,7 +306,7 @@
             <controls:SqlEditor Grid.Column="2"
                                 ShowLineNumbers="True"
                                 Background="Transparent"
-                                Foreground="White"
+                                Foreground="{StaticResource MarkerBrush}"
                                 Sql="{Binding Script.Sql}"
                                 SyntaxHighlighting="{Binding Script.Highlighting}"
                                 VerticalScrollBarVisibility="Auto"
