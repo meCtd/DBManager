@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Icons.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/Views/Converters.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml"/>

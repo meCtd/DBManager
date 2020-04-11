@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using DBManager.Default.Tree;
 
-
-namespace DBManager.Default.Loaders
+namespace DBManager.Application.Loader
 {
     public interface IObjectLoader
     {

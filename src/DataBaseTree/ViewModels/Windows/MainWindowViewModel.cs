@@ -1,15 +1,18 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Input;
 
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
+
+using DBManager.Default;
 using DBManager.Default.Tree.DbEntities;
+
 using Framework.EventArguments;
 
 using Ninject;
+
 
 namespace DBManager.Application.ViewModels.Windows
 {
@@ -34,15 +37,15 @@ namespace DBManager.Application.ViewModels.Windows
             var viewModel = new ConnectionWindowViewModel();
             viewModel.Connected += OnNewSourceConnected;
 
-            Resolver.Get<IWindowManager>().ShowWindow(viewModel);
+            Context.Resolver.Get<IWindowManager>().ShowWindow(viewModel);
         }
 
-        private void OnNewSourceConnected(object sender, ArgumentEventArgs<string> e)
+        private void OnNewSourceConnected(object sender, ArgumentEventArgs<(DialectType Dialect, string Name)> e)
         {
-            if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.ObjectName.Equals(e.Argument)))
+            if (Tree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.ObjectName.Equals(e.Argument.Name)))
                 return;
 
-            Tree.RootItems.Add(new DbObjectViewModel(null, new Server(e.Argument)));
+            Tree.RootItems.Add(new ServerViewModel(new Server(e.Argument.Name, e.Argument.Dialect)));
         }
     }
 }

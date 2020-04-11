@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -45,6 +46,34 @@ namespace DBManager.Application.Convertors
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return null;
+        }
+    }
+
+    public class EnumItemSourceConverter : ConverterBase
+    {
+        public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var items = (IEnumerable)value;
+
+            var result = new List<ValueDescription>();
+
+            foreach (Enum item in items)
+            {
+                var type = item.GetType();
+
+                var info = type.GetMembers(BindingFlags.Static | BindingFlags.Public)
+                     .First(s => s.Name.Equals(item.ToString()));
+
+                result.Add(new ValueDescription(item,
+                    info.GetCustomAttribute<DescriptionAttribute>()?.Description ?? item.ToString()));
+            }
+
+            return result;
+        }
+
+        public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return null;
         }

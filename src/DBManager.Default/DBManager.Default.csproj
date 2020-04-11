@@ -30,6 +30,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,8 +69,6 @@
     <Compile Include="DataBaseConnection\ServerInfo.cs" />
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialectComponent.cs" />
-    <Compile Include="Loaders\IObjectLoader.cs" />
-    <Compile Include="Loaders\ObjectLoader.cs" />
     <Compile Include="MetadataFactory\IMetadataFactory.cs" />
     <Compile Include="Normalizers\NormalizerBase.cs" />
     <Compile Include="Printers\IPrinter.cs" />
@@ -80,7 +98,6 @@
     <Compile Include="Tree\FullName.cs" />
     <Compile Include="Tree\Hierarchy\MetadataHierarchyInfo.cs" />
     <Compile Include="Tree\Hierarchy\MetadataHierarchy.cs" />
-    <Compile Include="Tree\Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Framework\Framework.csproj">

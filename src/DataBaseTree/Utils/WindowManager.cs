@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 
-using DBManager.Application.View.Windows;
+using DBManager.Application.Views.Windows;
 using DBManager.Application.ViewModels.General;
-
 
 namespace DBManager.Application.Utils
 {

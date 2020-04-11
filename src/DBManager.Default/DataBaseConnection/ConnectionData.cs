@@ -14,8 +14,6 @@ namespace DBManager.Default.DataBaseConnection
         [DataMember(Name = "server-info")]
         private ServerInfo _serverInfo = new ServerInfo();
 
-        IReadOnlyDictionary<ConnectionProperty, object> IConnectionData.Properties => Properties;
-
         [DataMember(Name = "Host")]
         public string Host { get; set; }
 
@@ -31,7 +29,7 @@ namespace DBManager.Default.DataBaseConnection
         public string Password { get; set; }
 
         [DataMember(Name = "Properties")]
-        public Dictionary<ConnectionProperty, object> Properties { get; }
+        public IDictionary<ConnectionProperty, object> Properties { get; }
 
         public abstract DialectType Type { get; }
 

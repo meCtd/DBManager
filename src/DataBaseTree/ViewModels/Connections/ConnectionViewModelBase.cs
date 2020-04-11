@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+
 using DBManager.Application.ViewModels.General;
+
 using DBManager.Default.DataBaseConnection;
+
 
 namespace DBManager.Application.ViewModels.Connections
 {
-    public abstract class ConnectionViewModelBase : ViewModelBase, IDataErrorInfo
+    public class ConnectionViewModel : ViewModelBase, IDataErrorInfo
     {
         protected const string IsRequired = "Field is required";
         protected const string NotValid = "Value is not valid";
@@ -13,7 +16,7 @@ namespace DBManager.Application.ViewModels.Connections
         private bool _isValid;
         private readonly HashSet<string> _invalidColumns = new HashSet<string>();
 
-        public ConnectionData Model { get; }
+        public IConnectionData Model { get; }
 
         public bool IsValid
         {
@@ -71,12 +74,11 @@ namespace DBManager.Application.ViewModels.Connections
             }
         }
 
-        protected ConnectionViewModelBase(ConnectionData model)
+        public ConnectionViewModel(IConnectionData model)
         {
             Model = model;
             Host = @".\SqlExpress";
         }
-
 
         protected virtual string ValidateColumn(string columnName)
         {

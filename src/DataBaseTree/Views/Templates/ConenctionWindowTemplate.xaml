@@ -11,7 +11,8 @@
     <DataTemplate DataType="{x:Type windows:ConnectionWindowViewModel}">
         <DockPanel LastChildFill="True">
             <Grid DockPanel.Dock="Bottom">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Right"
                             Visibility="{Binding IsBusy,Converter={convertors:InvertedBooleanToVisibilityConverter}}">
 
                     <Button Content="Test"
@@ -21,12 +22,12 @@
 
                     <Button Content="Connect"
                             Margin="3"
-                             Width="75"
+                            Width="75"
                             Command="{Binding ConnectCommand}" />
 
                     <Button Content="Cancel"
                             Margin="3"
-                             Width="75"
+                            Width="75"
                             Command="{Binding CloseCommand}" />
 
                 </StackPanel>
@@ -39,8 +40,8 @@
             <DockPanel Margin="10"
                        IsEnabled="{Binding IsBusy,Converter={convertors:InvertedBooleanConverter}}">
                 <ComboBox DockPanel.Dock="Top"
-                          SelectedValue="{Binding SelectedBaseType}"
-                          ItemsSource="{convertors:EnumConverter {x:Type default:DialectType}}"
+                          SelectedValue="{Binding SelectedDialect}"
+                          ItemsSource="{Binding AvailableDialects,Converter={convertors:EnumItemSourceConverter}}"
                           DisplayMemberPath="Description"
                           SelectedValuePath="Value" />
 

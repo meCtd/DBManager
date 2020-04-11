@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+
+using System.Reflection;
+using Application.Utils;
 using DBManager.Application.Utils;
-using DBManager.Application.ViewModels.General;
-using DBManager.Default;
-using DBManager.Default.DataBaseConnection;
-using DBManager.Default.Loaders;
-using DBManager.SqlServer;
-using DBManager.SqlServer.Connection;
-using DBManager.SqlServer.Provider;
+
+using AppContext = DBManager.Application.ViewModels.General.AppContext;
+
 
 namespace DBManager.Application
 {
@@ -31,19 +30,11 @@ namespace DBManager.Application
 
         private void RegisterComponents()
         {
-            var resolver = ViewModelBase.Resolver;
+            AppContext.Current.Resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
 
-            resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
-            
-            resolver.Bind<IConnectionData>().To<SqlServerConnectionData>()
-                .InTransientScope()
-                .Named(DialectType.SqlServer.ToString());
-
-            resolver.Bind<IDialectComponent>().To<SqlServerComponent>()
-                .InTransientScope()
-                .Named(DialectType.SqlServer.ToString());
-
-
+            PluginManager.New().Load();
         }
+
+
     }
 }

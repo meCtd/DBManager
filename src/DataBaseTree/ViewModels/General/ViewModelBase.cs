@@ -2,17 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using DBManager.Application.Utils;
-using DBManager.Application.View.Windows;
-using Ninject;
+
 
 namespace DBManager.Application.ViewModels.General
 {
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
-        public static IKernel Resolver { get; } = new StandardKernel();
-
+        protected AppContext Context =>AppContext.Current;
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)

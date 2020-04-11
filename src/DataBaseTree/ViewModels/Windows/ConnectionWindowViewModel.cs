@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
+using DBManager.Application.Loader;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
 
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-using DBManager.Default.Loaders;
 
 using Framework.EventArguments;
 
@@ -24,30 +26,32 @@ namespace DBManager.Application.ViewModels.Windows
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-        private DialectType _selectedBaseType;
+        private DialectType _selectedDialect;
 
         private ICommand _connectCommand;
         private ICommand _testConnectionCommand;
         private ICommand _cancelCommand;
 
-        private ConnectionViewModelBase _connection;
+        private ConnectionViewModel _connection;
 
         private bool _isBusy;
 
-        public DialectType SelectedBaseType
+        public DialectType SelectedDialect
         {
-            get { return _selectedBaseType; }
+            get { return _selectedDialect; }
             set
             {
-                if (SetProperty(ref _selectedBaseType, value))
-                    Connection = CreateViewModel(SelectedBaseType);
+                if (SetProperty(ref _selectedDialect, value))
+                    Connection = CreateViewModel(SelectedDialect);
 
             }
         }
 
-        public event EventHandler<ArgumentEventArgs<string>> Connected;
+        public IEnumerable<DialectType> AvailableDialects { get; }
 
-        public ConnectionViewModelBase Connection
+        public event EventHandler<ArgumentEventArgs<(DialectType Dialect, string Name)>> Connected;
+
+        public ConnectionViewModel Connection
         {
             get => _connection;
             set => SetProperty(ref _connection, value);
@@ -69,12 +73,14 @@ namespace DBManager.Application.ViewModels.Windows
 
         public ConnectionWindowViewModel()
         {
-            SelectedBaseType = DialectType.SqlServer;
+            var dialects = Context.AvailableDialects.ToArray();
+            AvailableDialects = dialects;
+            SelectedDialect = dialects.FirstOrDefault();
         }
 
         private Task TestConnection(bool connectResult)
         {
-            var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
+            var currentWindow = Context.Resolver.Get<IWindowManager>().CurrentWindow;
 
             if (connectResult)
                 MessageBox.Show(currentWindow, "Connection success!", "Connection", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -100,7 +106,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         private async void ConnectAsync(Func<bool, Task> onConnect)
         {
-            var currentWindow = Resolver.Get<IWindowManager>().CurrentWindow;
+            var currentWindow = Context.Resolver.Get<IWindowManager>().CurrentWindow;
             try
             {
                 IsBusy = true;
@@ -118,15 +124,17 @@ namespace DBManager.Application.ViewModels.Windows
                 IsBusy = false;
             }
         }
-        
-        private ConnectionViewModelBase CreateViewModel(DialectType type)
+
+        private ConnectionViewModel CreateViewModel(DialectType type)
         {
-            var model = (ConnectionData)Resolver.Get<IConnectionData>(SelectedBaseType.ToString());
+            var data = Context.Resolver
+                .Get<IDialectComponent>(SelectedDialect.ToString())
+                .CreateConnectionData();
 
             switch (type)
             {
                 case DialectType.SqlServer:
-                    return new SqlServerConnectionViewModel(model);
+                    return new SqlServerConnectionViewModel(data);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -134,21 +142,22 @@ namespace DBManager.Application.ViewModels.Windows
 
         private async Task RegisterConnection()
         {
-            var loader = new ObjectLoader(Resolver.Get<IDialectComponent>(SelectedBaseType.ToString()), Connection.Model);
+            var component = Context.Resolver.Get<IDialectComponent>(SelectedDialect.ToString());
 
+            var loader = new ObjectLoader(component, Connection.Model);
             await loader.LoadServerProperties(CancellationToken.None);
 
             var serverName = GetServerName(Connection.Model);
 
-            Resolver.Rebind<IObjectLoader>()
+            Context.Resolver.Rebind<IObjectLoader>()
                 .ToConstant(loader)
                 .Named(serverName);
 
-            Connected?.Invoke(this, new ArgumentEventArgs<string>(serverName));
+            Connected?.Invoke(this, new ArgumentEventArgs<(DialectType Dialect, string Name)>((Dialect: SelectedDialect, Name: serverName)));
             Close();
         }
 
-        private string GetServerName(ConnectionData data)
+        private string GetServerName(IConnectionData data)
         {
             var builder = new StringBuilder();
             builder.Append(data.Host);

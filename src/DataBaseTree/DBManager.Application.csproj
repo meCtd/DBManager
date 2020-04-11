@@ -64,6 +64,7 @@
     </Reference>
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
@@ -104,15 +105,20 @@
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
+    <Compile Include="Loader\IObjectLoader.cs" />
+    <Compile Include="Loader\ObjectLoader.cs" />
+    <Compile Include="Utils\PluginManager.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\SharedResourceDictionary.cs" />
     <Compile Include="Utils\WindowManager.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModels\Connections\SqlServerConnectionViewModel.cs" />
+    <Compile Include="ViewModels\General\Context.cs" />
     <Compile Include="ViewModels\General\IWindowContext.cs" />
     <Compile Include="ViewModels\General\WindowViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
     <Compile Include="ViewModels\ScriptViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
@@ -214,10 +220,6 @@
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DBManager.SqlServer\DBManager.SqlServer.csproj">
-      <Project>{14b6b5bc-42af-4213-bb3d-bb29c9bb4ce3}</Project>
-      <Name>DBManager.SqlServer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Framework\Framework.csproj">
       <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
       <Name>Framework</Name>
@@ -231,4 +233,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)\DBManager.SqlServer\bin\$(PlatformName)\$(ConfigurationName)\DBManager.SqlServer.*" "$(TargetDir)Dialects\" /R /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

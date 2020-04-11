@@ -9,17 +9,17 @@ namespace DBManager.Default.DataBaseConnection
 {
     public interface IConnectionData
     {
-        string Host { get; }
+        string Host { get; set; }
 
-        string Port { get; }
+        string Port { get; set; }
 
-        string InitialCatalog { get; }
+        string InitialCatalog { get; set; }
 
-        string UserId { get; }
+        string UserId { get; set; }
 
-        string Password { get; }
+        string Password { get; set; }
 
-        IReadOnlyDictionary<ConnectionProperty, object> Properties { get; }
+        IDictionary<ConnectionProperty, object> Properties { get; }
 
         DialectType Type { get; }
 

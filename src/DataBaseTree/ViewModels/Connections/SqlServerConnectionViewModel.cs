@@ -1,9 +1,11 @@
 ﻿using System;
+
 using DBManager.Default.DataBaseConnection;
+
 
 namespace DBManager.Application.ViewModels.Connections
 {
-    public sealed class SqlServerConnectionViewModel : ConnectionViewModelBase
+    public sealed class SqlServerConnectionViewModel : ConnectionViewModel
     {
         public bool IntegratedSecurity
         {
@@ -22,7 +24,7 @@ namespace DBManager.Application.ViewModels.Connections
             }
         }
 
-        public SqlServerConnectionViewModel(ConnectionData model) : base(model)
+        public SqlServerConnectionViewModel(IConnectionData model) : base(model)
         {
         }
 

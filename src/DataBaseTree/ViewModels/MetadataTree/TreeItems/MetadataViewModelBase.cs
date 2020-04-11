@@ -1,9 +1,12 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
+using DBManager.Application.Loader;
 using DBManager.Application.Utils;
-using DBManager.Default.Loaders;
+
+using DBManager.Default;
 using DBManager.Default.Tree;
+
 using Ninject;
 
 
@@ -26,6 +29,10 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         public abstract string ObjectName { get; }
 
         public abstract MetadataType Type { get; }
+
+        public new MetadataViewModelBase Parent => base.Parent as MetadataViewModelBase;
+
+        public virtual DialectType Dialect => Parent?.Dialect ?? DialectType.Unknown;
 
         public bool IsBusy
         {
@@ -62,7 +69,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
                 current = (MetadataViewModelBase)current.Parent;
             }
 
-            return Resolver.Get<IObjectLoader>(current.ObjectName);
+            return Context.Resolver.Get<IObjectLoader>(current.ObjectName);
         }
 
         private void Refresh(object obj)
