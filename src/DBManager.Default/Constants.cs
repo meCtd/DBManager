@@ -15,6 +15,7 @@
         public const string PrimaryKey = "PRIMARY KEY";
         public const string ForeignKey = "FOREIGN KEY";
         public const string CheckConstraint = "CHECK";
+        public const string UniqueConstraint = "UNIQUE";
 
 
 

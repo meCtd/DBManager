@@ -9,6 +9,11 @@ namespace DBManager.Default.Tree
     {
         private readonly List<Chunk> _items;
 
+        public FullName(IEnumerable<Chunk> chunks)
+        {
+            _items = new List<Chunk>(chunks);
+        }
+
         public FullName(DbObject obj)
         {
             _items = new List<Chunk>();
@@ -24,6 +29,8 @@ namespace DBManager.Default.Tree
         public Chunk Schema => _items.FirstOrDefault(s => s.Type == MetadataType.Schema);
         public Chunk Database => _items.FirstOrDefault(s => s.Type == MetadataType.Database);
 
+        public FullName FullSchemaName => _items.Skip(1).ToArray();
+
         public IEnumerator<Chunk> GetEnumerator()
         {
             return _items.GetEnumerator();
@@ -38,6 +45,11 @@ namespace DBManager.Default.Tree
         {
             return string.Join(".", _items);
 
+        }
+
+        public static implicit operator FullName(Chunk[] chunks)
+        {
+            return new FullName(chunks);
         }
     }
 }

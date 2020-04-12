@@ -40,6 +40,10 @@ namespace DBManager.SqlServer.Metadata
                          case Constants.CheckConstraint:
                              constraint.ConstraintType = ConstraintType.CheckConstraint;
                              break;
+
+                         case Constants.UniqueConstraint:
+                             constraint.ConstraintType = ConstraintType.UniqueConstraint;
+                             break;
                      }
 
                      return constraint;

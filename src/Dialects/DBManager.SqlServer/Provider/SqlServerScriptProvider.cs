@@ -38,7 +38,7 @@ namespace DBManager.SqlServer.Provider
                     return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Column:
-                    switch (target.Parent.Type)
+                    switch (target.Type)
                     {
                         case MetadataType.Table:
                             return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
@@ -52,6 +52,9 @@ namespace DBManager.SqlServer.Provider
 
                 case MetadataType.Constraint:
                     return $"SELECT CONSTRAINT_NAME AS [{Constants.Name}], CONSTRAINT_TYPE AS [{Constants.ConstraintType}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLE_CONSTRAINTS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY CONSTRAINT_TYPE DESC, [{Constants.Name}]";
+
+                case MetadataType.Trigger:
+                    return $"SELECT name AS [{Constants.Name}] FROM [{target.FullName.Database}].[sys].[triggers] WHERE [parent_id]=OBJECT_ID('{target.FullName.FullSchemaName}')";
 
                 //    switch (parentType)
                 //    {
@@ -77,8 +80,7 @@ namespace DBManager.SqlServer.Provider
                 //    }
 
 
-                //case MetadataType.Trigger:
-                //    return $"SELECT name AS [{Constants.Name}] FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
+
 
                 //case MetadataType.Parameter:
                 //    return ($"SELECT  name AS[{Constants.Name}], " +

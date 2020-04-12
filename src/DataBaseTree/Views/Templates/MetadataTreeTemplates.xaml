@@ -43,7 +43,7 @@
     <DataTemplate x:Key="ConstraintIconTemplate"
                   DataType="{x:Type dbEntities:Constraint}">
         <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
-                Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+                Background="{Binding ConstraintType,Converter={StaticResource ConstraintTypeToIconConverter}}" />
     </DataTemplate>
 
     <DataTemplate x:Key="DbObjectIconTemplate"
