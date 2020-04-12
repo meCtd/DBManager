@@ -47,7 +47,7 @@ namespace DBManager.SqlServer.Printer
         {
             foreach (var column in _object.Children.OfType<Column>())
             {
-                _definition.Append($"\t[{column.Name}] {column.ObjectMemberType} ");
+                _definition.Append($"\t[{column.Name}] {column.DbType.Name} ");
                 if ((bool)column.Properties[Constants.IsIdentityProperty])
                 {
                     _definition.Append(

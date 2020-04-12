@@ -25,46 +25,14 @@ namespace DBManager.SqlServer.Metadata
                  [MetadataType.Constraint] = (s) => new Constraint(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Procedure] = (s) => new Procedure(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Function] = (s) => new Function(s.GetString(s.GetOrdinal(Constants.Name))),
-                 [MetadataType.Column] = (s) =>
-                 {
-                     int? length = null;
-                     int? precision = null;
-                     int? scale = null;
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.PrecisionProperty)))
-                         precision = s.GetByte(s.GetOrdinal(Constants.PrecisionProperty));
-
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.ScaleProperty)))
-                         scale = s.GetByte(s.GetOrdinal(Constants.ScaleProperty));
-
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
-                         length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
-
-                     return new Column((s.GetString(s.GetOrdinal(Constants.Name))),
-                         new DbType(s.GetString(s.GetOrdinal(Constants.Name)), length, precision, scale));
-                 },
-                 [MetadataType.Parameter] = (s) =>
-                 {
-                     int? length = null;
-                     int? precision = null;
-                     int? scale = null;
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.PrecisionProperty)))
-                         precision = s.GetByte(s.GetOrdinal(Constants.PrecisionProperty));
-
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.ScaleProperty)))
-                         scale = s.GetByte(s.GetOrdinal(Constants.ScaleProperty));
-
-                     if (!s.IsDBNull(s.GetOrdinal(Constants.MaxLengthProperty)))
-                         length = s.GetInt16(s.GetOrdinal(Constants.MaxLengthProperty));
-
-                     return new Parameter((s.GetString(s.GetOrdinal(Constants.Name))),
-                         new DbType(s.GetString(s.GetOrdinal(Constants.TypeConstants.NameProperty)), length, precision, scale));
-                 }
+                 [MetadataType.Column] = (s) => new Column(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Parameter] = (s) => new Parameter(s.GetString(s.GetOrdinal(Constants.Name))),
              };
 
         public DbObject Create(DbDataReader reader, MetadataType type)
         {
             if (!_dictionary.TryGetValue(type, out var func))
-                throw new ArgumentException(Constants.Nameof(type));
+                throw new ArgumentException(nameof(type));
 
             return func(reader);
         }

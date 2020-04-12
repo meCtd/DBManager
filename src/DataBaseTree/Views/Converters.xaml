@@ -20,6 +20,8 @@
                            Output="{StaticResource ViewIcon}" />
         <local:ObjectsPair Input="{x:Static tree:MetadataType.Function}"
                            Output="{StaticResource FunctionIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Column}"
+                           Output="{StaticResource ColumnIcon}" />
     </local:ObjectToObjectConverter>
 
 </ResourceDictionary>

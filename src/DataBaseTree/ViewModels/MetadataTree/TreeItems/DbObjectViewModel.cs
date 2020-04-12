@@ -20,7 +20,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         public override MetadataType Type => Model.Type;
 
-        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, AppContext.Current.Resolver.Get<IDialectComponent>().Hierarchy.Structure[model.Type].HasChildren)
+        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, AppContext.Current.Resolver.Get<IDialectComponent>().Hierarchy.Structure.GetValueOrDefault(model.Type)?.HasChildren ?? false)
         {
             Model = model;
         }

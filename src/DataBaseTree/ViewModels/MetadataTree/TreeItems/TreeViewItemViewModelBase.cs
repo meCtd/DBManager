@@ -12,10 +12,12 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
     {
         private static readonly TreeViewItemViewModelBase _dummyChild = new DummyChild();
 
+        private readonly bool _canHaveChildren;
+
         private bool _isExpanded;
 
         private bool _isSelected;
-        
+
         public ObservableCollection<TreeViewItemViewModelBase> Children { get; }
 
         public TreeViewItemViewModelBase Parent { get; }
@@ -27,6 +29,9 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             get { return _isExpanded; }
             set
             {
+                if(!_canHaveChildren)
+                    return;
+                
                 var oldValue = _isExpanded;
                 if (SetProperty(ref _isExpanded, value))
                     ExpandChanged?.Invoke(this, new ValueChangedEventArgs<bool>(oldValue, value));
@@ -43,6 +48,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         {
             Parent = parent;
             Children = new ObservableCollection<TreeViewItemViewModelBase>();
+
+            _canHaveChildren = canHaveChildren;
 
             if (canHaveChildren)
                 Children.Add(_dummyChild);
