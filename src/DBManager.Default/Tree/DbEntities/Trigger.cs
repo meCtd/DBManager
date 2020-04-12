@@ -1,13 +1,11 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "trigger")]
-	public class Trigger : DbObject
-	{
-		public override bool CanHaveDefinition => true;
-
-		public override DbEntityType Type => DbEntityType.Trigger;
+	public class Trigger : DefinitionObject
+    {
+		public override MetadataType Type => MetadataType.Trigger;
 
 		public Trigger(string name) : base(name)
 		{

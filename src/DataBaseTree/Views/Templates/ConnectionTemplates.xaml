@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vm="clr-namespace:DBManager.Application.ViewModels.Connections"
+                    xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
+
+    <DataTemplate DataType="{x:Type vm:SqlServerConnectionViewModel}">
+        <StackPanel Height="200"
+                    Width="300"
+                    MaxHeight="200"
+                    MaxWidth="300">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0">
+                    <TextBlock Text="Host" />
+                    <TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                             Tag="Enter the host" />
+                </StackPanel>
+
+                <StackPanel  Margin="5,0,0,0"
+                             Width="80"
+                             Grid.Column="1">
+                    <TextBlock Text="Port" />
+
+                    <TextBox Tag="Enter the port"
+                             Text="{Binding Path=Port,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
+                </StackPanel>
+
+            </Grid>
+
+            <TextBlock Text="Database name" />
+            <TextBox Text="{Binding Path=InitialCatalog,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                     Tag="Enter the database name" />
+
+            <CheckBox Margin="5"
+                      IsChecked="{Binding Path=IntegratedSecurity}"
+                      Content="Windows identification" />
+
+            <StackPanel IsEnabled="{Binding IntegratedSecurity,Converter={convertors:InvertedBooleanConverter},UpdateSourceTrigger=PropertyChanged}">
+
+                <TextBlock Text="User ID" />
+                <TextBox Text="{Binding UserId,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                         Tag="Enter the User ID" />
+
+                <TextBlock Text="Password" />
+
+                <PasswordBox>
+                    <i:Interaction.Behaviors>
+                        <behaviors:PasswordBoxBehavior Password="{Binding Path=Password,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
+                    </i:Interaction.Behaviors>
+                </PasswordBox>
+
+            </StackPanel>
+
+        </StackPanel >
+    </DataTemplate>
+
+</ResourceDictionary>

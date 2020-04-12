@@ -1,24 +1,14 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
-	[DataContract(Name = "database")]
-	[KnownType(typeof(Schema))]
-	public class Database : DbObject
-	{
-		public override DbEntityType Type => DbEntityType.Database;
+    [DataContract(Name = "database")]
+    public class Database : DefinitionObject
+    {
+        public override MetadataType Type => MetadataType.Database;
 
-		public override bool CanHaveDefinition => false;
-
-		public Database(string name) : base(name)
-		{
-		}
-
-		protected override bool CanBeChild(DbObject obj)
-		{
-			return obj.Type == DbEntityType.Schema;
-		}
-
-
-	}
+        public Database(string name) : base(name)
+        {
+        }
+    }
 }

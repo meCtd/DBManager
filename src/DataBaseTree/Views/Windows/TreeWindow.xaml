@@ -1,0 +1,355 @@
+﻿<Window x:Class="DBManager.Application.Views.Windows.TreeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
+        xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
+        xmlns:controls="clr-namespace:DBManager.Application.Controls"
+        xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
+        xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="DB Manager"
+        Width="1366"
+        Height="768"
+        WindowStyle="None">
+
+    <Window.DataContext>
+        <windows:MainWindowViewModel />
+    </Window.DataContext>
+
+    <Window.Style>
+        <Style TargetType="Window">
+            <Setter Property="WindowChrome.WindowChrome">
+                <Setter.Value>
+                    <WindowChrome />
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Window">
+                        <Border Background="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                Padding="{TemplateBinding Margin}">
+
+                            <ContentPresenter />
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource Mode=Self}}"
+                             Value="Maximized">
+                    <Setter Property="Margin"
+                            Value="6" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Style>
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ChromeStyleButton"
+                   TargetType="Button">
+                <Setter Property="Background"
+                        Value="{StaticResource MainBackgroundColor}" />
+                <Setter Property="BorderThickness"
+                        Value="0" />
+                <Setter Property="Width"
+                        Value="35" />
+                <Setter Property="WindowChrome.IsHitTestVisibleInChrome"
+                        Value="True" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="border"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}">
+
+                                <Canvas Background="{TemplateBinding Content}"
+                                        Height="10"
+                                        Width="10" />
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver"
+                             Value="True">
+                        <Setter Property="Background"
+                                Value="Gray" />
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="Canvas"
+                   x:Key="MetadataIconCanvasStyle">
+                <Setter Property="Height"
+                        Value="13" />
+                <Setter Property="Width"
+                        Value="13" />
+            </Style>
+
+            <DataTemplate x:Key="ServerIconTemplate"
+                          DataType="metadataTree:ServerViewModel">
+                <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                        Background="{Binding Dialect,Converter={StaticResource DialectToIconConverter}}" />
+            </DataTemplate>
+
+            <DataTemplate x:Key="CategoryIconTemplate"
+                          DataType="metadataTree:CategoryViewModel">
+                <Grid>
+                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                            Background="{StaticResource OpenedCategory}"
+                            Visibility="{Binding IsExpanded,Converter={convertors:BooleanToVisibilityConverter}}" />
+
+                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                            Background="{StaticResource ClosedCategory}"
+                            Visibility="{Binding IsExpanded,Converter={convertors:InvertedBooleanToVisibilityConverter}}" />
+                </Grid>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DbObjectIconTemplate"
+                          DataType="metadataTree:DbObjectViewModel">
+                <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                        Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <DockPanel Background="{StaticResource MainBackgroundColor}">
+        <Grid DockPanel.Dock="Top"
+              Height="30"
+              VerticalAlignment="Top">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Margin="5,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontSize="16"
+                       Foreground="White"
+                       Text="{Binding Title,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                       Grid.Column="1" />
+
+            <StackPanel Orientation="Horizontal"
+                        Grid.Column="2">
+
+                <Button VerticalContentAlignment="Bottom"
+                        Content="{StaticResource MinimizeIcon}"
+                        Click="MinimizeClick"
+                        Style="{StaticResource ChromeStyleButton}" />
+
+                <Button Click="RestoreDownClick"
+                        Content="{StaticResource RestoreDownIcon}">
+                    <Button.Style>
+                        <Style TargetType="Button"
+                               BasedOn="{StaticResource ChromeStyleButton}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WindowState,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                                             Value="Maximized">
+                                    <Setter Property="Visibility"
+                                            Value="Visible" />
+                                </DataTrigger>
+                                <DataTrigger  Binding="{Binding WindowState,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                                              Value="Normal">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Click="MaximizeClick"
+                        Content="{StaticResource MaximizeIcon}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource ChromeStyleButton}"
+                               TargetType="Button">
+                            <Style.Triggers>
+                                <DataTrigger  Binding="{Binding WindowState,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}"
+                                              Value="Maximized">
+                                    <Setter Property="Visibility"
+                                            Value="Collapsed" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Click="CloseClick"
+                        Content="{StaticResource CloseIcon}">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource ChromeStyleButton}"
+                               TargetType="Button">
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver"
+                                         Value="True">
+                                    <Setter Property="Background"
+                                            Value="IndianRed" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+            </StackPanel>
+        </Grid>
+        <Border DockPanel.Dock="Top"
+                BorderBrush="{StaticResource AccentLowBrush}"
+                BorderThickness="0,1,0,0" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="0">
+                <Menu DockPanel.Dock="Top"
+                      Height="25">
+
+                    <MenuItem ToolTip="Connect"
+                              Command="{Binding ConnectCommand}" />
+
+                    <MenuItem ToolTip="Disconnect"
+                              CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
+                              Command="{Binding Path=DisconnectCommand}" />
+
+                    <MenuItem ToolTip="Restore connection"
+                              Command="{Binding Path=RestoreCommand}" />
+
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                    <MenuItem ToolTip="Refresh selected node"
+                              CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}" />
+
+                    <MenuItem ToolTip="Load Properties"
+                              Command="{Binding LoadPropertiesCommand}"
+                              CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}" />
+
+                    <MenuItem ToolTip="Show definition"
+                              Command="{Binding ShowDefinitionCommand}"
+                              CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}"
+                              Icon="/Resources/Icons/Definition.png" />
+
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+
+                    <MenuItem ToolTip="Save tree"
+                              Command="{Binding SaveCommand}" />
+
+                    <MenuItem ToolTip="Load tree from file"
+                              Command="{Binding OpenCommand}"
+                              Icon="/Resources/Icons/LoadFile.png" />
+                </Menu>
+
+                <TreeView x:Name="DatabaseTree"
+                          BorderThickness="0"
+                          ItemsSource="{Binding Tree.RootItems, UpdateSourceTrigger=PropertyChanged}"
+                          VerticalAlignment="Stretch"
+                          HorizontalAlignment="Stretch"
+                          Background="Transparent">
+
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded"
+                                    Value="{Binding IsExpanded, Mode=TwoWay}" />
+                            <Setter Property="IsSelected"
+                                    Value="{Binding IsSelected, Mode=TwoWay}" />
+                            <Setter Property="FontWeight"
+                                    Value="Normal" />
+                        </Style>
+                    </TreeView.ItemContainerStyle>
+
+                    <TreeView.Resources>
+
+                        <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
+                                         Color="{StaticResource SemiAccentLowСolor}" />
+
+                        <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
+                                         Color="{StaticResource SemiAccentLowСolor}" />
+
+                        <HierarchicalDataTemplate DataType="{x:Type metadataTree:MetadataViewModelBase}"
+                                                  ItemsSource="{Binding Children}">
+
+                            <StackPanel x:Name="Container"
+                                        Orientation="Horizontal">
+
+                                <ContentPresenter Content="{Binding}">
+                                    <ContentPresenter.ContentTemplateSelector>
+                                        <templateSelectors:MetadataIconTemplateSelector ServerIconTemplate="{StaticResource ServerIconTemplate}"
+                                                                                        CategoryIconTemplate="{StaticResource CategoryIconTemplate}"
+                                                                                        DbObjectIconTemplate="{StaticResource DbObjectIconTemplate}"/>
+                                    </ContentPresenter.ContentTemplateSelector>
+                                </ContentPresenter>
+
+                                <TextBlock x:Name="NameBlock"
+                                           Margin="3,0,0,0"
+                                           Text="{Binding Path=Name}" />
+
+                                <TextBlock x:Name="BusyLoaderIndicator" />
+
+                            </StackPanel>
+
+                            <HierarchicalDataTemplate.Triggers>
+
+                                <DataTrigger Binding="{Binding IsBusy}"
+                                             Value="true">
+                                    <Setter TargetName="BusyLoaderIndicator"
+                                            Property="Text"
+                                            Value="(loading...)" />
+                                </DataTrigger>
+
+                            </HierarchicalDataTemplate.Triggers>
+
+                        </HierarchicalDataTemplate>
+
+                    </TreeView.Resources>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectedItemChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=ShowPropertiesCommand}"
+                                                   CommandParameter="{Binding ElementName=DatabaseTree,Path=SelectedItem}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </TreeView>
+
+            </DockPanel>
+            <GridSplitter Grid.Column="1"
+                          Width="3"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Stretch" />
+
+            <controls:SqlEditor Grid.Column="2"
+                                ShowLineNumbers="True"
+                                Background="Transparent"
+                                Foreground="{StaticResource MarkerBrush}"
+                                Sql="{Binding Script.Sql}"
+                                SyntaxHighlighting="{Binding Script.Highlighting}"
+                                VerticalScrollBarVisibility="Auto"
+                                HorizontalScrollBarVisibility="Auto" />
+        </Grid>
+    </DockPanel>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="ContentRendered">
+            <i:InvokeCommandAction Command="{Binding ConnectCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+</Window>
+

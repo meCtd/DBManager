@@ -1,24 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Runtime.Serialization;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Model.Providers
+namespace DBManager.Default.Providers
 {
-	public abstract class ScriptProvider
-	{
-		public abstract string GetLoadNameScript(DbEntityType parentType,DbEntityType childType);
+    public interface IScriptProvider
+    {
+        string ProvideChangeContext();
 
-		public abstract string GetPropertiesScript(DbObject obj);
+        string ProvideNameScript(DbObject target, MetadataType childType);
 
-		public abstract string GetDefinitionScript();
+        string ProvidePropertiesScript(DbObject obj);
 
-		public abstract IEnumerable<IDbDataParameter> GetDefinitionParamteters(DbObject obj);
+        string ProvideDefinitionScript();
 
-		public abstract IEnumerable<IDbDataParameter> GetChildrenLoadParameters(DbObject obj, DbEntityType childType);
-
-		public abstract IEnumerable<IDbDataParameter> GetLoadPropertiesParameters(DbObject obj);
-
-	}
+    }
 }

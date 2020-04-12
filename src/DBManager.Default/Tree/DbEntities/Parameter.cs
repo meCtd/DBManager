@@ -1,17 +1,18 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Data;
+using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
-	[DataContract(Name = "parameter")]
+    [DataContract(Name = "parameter")]
+    public class Parameter : TypeObject
+    {
+        public override MetadataType Type => MetadataType.Parameter;
 
-	public class Parameter : TypeObject
-	{
-		public override DbEntityType Type => DbEntityType.Parameter;
+        [DataMember(Name = "parameter-direction")]
+        public ParameterDirection Directon { get; set; }
 
-		public override bool CanHaveDefinition => false;
-
-		public Parameter(string name, DbType parameterType) : base(name, parameterType)
-		{
-		}
-	}
+        public Parameter(string name) : base(name)
+        {
+        }
+    }
 }

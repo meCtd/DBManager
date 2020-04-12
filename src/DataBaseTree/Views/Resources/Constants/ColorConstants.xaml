@@ -1,0 +1,62 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--<SolidColorBrush x:Key="MainBackgroundColor"
+                     Color="#131313" />-->
+    <SolidColorBrush x:Key="MainBackgroundColor"
+                     Color="#202020" />
+    <SolidColorBrush x:Key="ModalBackgroundColor"
+                     Color="#252525" />
+
+    <Color x:Key="MouseOverColor">#FF669933</Color>
+    <Color x:Key="SemiAccentLowСolor">#5986B90E</Color>
+
+    <!-- Mainly used for filling paths in elements when they are in Normal state. -->
+    <SolidColorBrush x:Key="StrongBrush"
+                     Color="#FF646464" />
+
+    <!-- Border brush of controls in their Normal state.-->
+    <SolidColorBrush x:Key="BasicBorderBrush"
+                     Color="#FF474747" />
+
+    <!-- border brush of controls in their ReadOnly state.-->
+    <SolidColorBrush x:Key="LowBorderBrush"
+                     Color="#FF343434" />
+
+    <!-- A Brush used as background of controls with direct input such as TextBox, PasswordBox. -->
+    <!-- Also, used as main background of elements that has different content with unpredictable background.-->
+    <SolidColorBrush x:Key="MainBrush"
+                     Color="#404040" />
+
+    <!-- A Brush used as a background of controls when in their Normal state, excluding controls with direct input. -->
+    <SolidColorBrush x:Key="PrimaryBrush"
+                     Color="#FF2B2C2E" />
+
+    <!-- A Brush used as an alternative background – i.e. for popups or where we want to distinguish one element from another. -->
+    <SolidColorBrush x:Key="AlternativeBrush"
+                     Color="#FF1D1E21" />
+
+    <!-- Brush used for paths’ fill in elements that are in MouseOver, Pressed or Selected state -->
+    <SolidColorBrush x:Key="SelectedBrush"
+                     Color="#FFFFFFFF" />
+
+    <!-- The default brush used as foreground color -->
+    <SolidColorBrush x:Key="MarkerBrush"
+                     Color="DarkGray" />
+
+    <!-- A Brush used as a background or border brush of controls or elements when they are in MouseOver state. -->
+    <SolidColorBrush x:Key="MouseOverBrush"
+                     Color="{StaticResource MouseOverColor}" />
+
+    <!-- Accent green colors-->
+    <SolidColorBrush x:Key="AccentHighBrush"
+                     Color="#FF2B7402" />
+    <SolidColorBrush x:Key="AccentLowBrush"
+                     Color="#FF86B90E" />
+    <SolidColorBrush x:Key="SemiAccentLowBrush"
+                     Color="{StaticResource SemiAccentLowСolor}" />
+
+    <!-- Validation color brush-->
+    <SolidColorBrush x:Key="ValidationBrush"
+                     Color="#FFE60000" />
+</ResourceDictionary>

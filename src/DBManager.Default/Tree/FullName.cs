@@ -1,44 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
-namespace DataBaseTree.Model.Tree
+
+namespace DBManager.Default.Tree
 {
-	public class FullName : IEnumerable<Chunk>
-	{
-		private readonly List<Chunk> _fullNameList;
+    public class FullName : IEnumerable<Chunk>
+    {
+        private readonly List<Chunk> _items;
 
-		public FullName(DbObject obj)
-		{
-			_fullNameList = new List<Chunk>() { new Chunk(obj.Name, obj.Type) };
-		}
+        public FullName(DbObject obj)
+        {
+            _items = new List<Chunk>();
 
-		public void AddPartent(DbObject obj)
-		{
-			_fullNameList.Insert(0, new Chunk(obj.Name, obj.Type));
-		}
-			
-		public IEnumerator<Chunk> GetEnumerator()
-		{
-			return _fullNameList.GetEnumerator();
-		}
-		
-		IEnumerator IEnumerable.GetEnumerator()
-		{
-			return GetEnumerator();
-		}
+            var current = obj;
+            while (current != null)
+            {
+                _items.Insert(0, new Chunk(current.Name, current.Type));
+                current = current.Parent;
+            }
+        }
 
-		public override string ToString()
-		{
-			StringBuilder stringName = new StringBuilder();
+        public Chunk Schema => _items.FirstOrDefault(s => s.Type == MetadataType.Schema);
+        public Chunk Database => _items.FirstOrDefault(s => s.Type == MetadataType.Database);
 
-			foreach (var part in this)
-			{
-				stringName.Append(part.Name + ".");
-			}
+        public IEnumerator<Chunk> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
 
-			stringName.Remove(stringName.Length - 1, 1);
-			return stringName.ToString();
-		}
-	}
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public override string ToString()
+        {
+            return string.Join(".", _items);
+
+        }
+    }
 }

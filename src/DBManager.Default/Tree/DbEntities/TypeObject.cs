@@ -1,50 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+
+namespace DBManager.Default.Tree.DbEntities
 {
-	[DataContract(Name = "type-object")]
-	public abstract class TypeObject : DbObject
-	{
-		[DataMember(Name = "object-member-type")]
-		public DbType ObjectMemberType { get; private set; }
+    [DataContract(Name = "type-object")]
+    public abstract class TypeObject : DbObject
+    {
+        [DataMember(Name = "db-type")]
+        public DbType DbType { get; set; }
 
-		protected TypeObject(string name, DbType type) : base(name)
-		{
-			ObjectMemberType = type;
-		}
-		public override string ToString()
-		{
-			StringBuilder name = new StringBuilder();
-			name.Append($"{Name} ({ObjectMemberType.Name}");
-			switch (ObjectMemberType.Name)
-			{
-				case "nvarchar":
-				case "varchar":
-				case "nchar":
-				case "сhar":
-				case "varbinary":
-				case "binary":
-					name.Append(ObjectMemberType.Length == -1 ? $"(max))" : $"({ObjectMemberType.Length}))");
-					break;
+        [DataMember(Name = "ordinal")]
+        public int Ordinal { get; set; }
 
-				case "time":
-				case "datetime2":
-					name.Append($"({ObjectMemberType.Scale}))");
-					break;
+        [DataMember(Name = "default-value")]
+        public int DefaultValue { get; set; }
 
-				case "decimal":
-					name.Append($"({ObjectMemberType.Precision},{ObjectMemberType.Scale})");
-					break;
-				default:
-					name.Append(")");
-					break;
-			}
-			return name.ToString();
-		}
-	}
+        protected TypeObject(string name) : base(name)
+        {
+        }
+
+        //public override string ToString()
+        //{
+        //StringBuilder name = new StringBuilder();
+        //name.Append($"{Name} ({ObjectMemberType.Name}");
+        //switch (ObjectMemberType.Name)
+        //{
+        //	case "nvarchar":
+        //	case "varchar":
+        //	case "nchar":
+        //	case "сhar":
+        //	case "varbinary":
+        //	case "binary":
+        //		name.Append(ObjectMemberType.Length == -1 ? $"(max))" : $"({ObjectMemberType.Length}))");
+        //		break;
+
+        //	case "time":
+        //	case "datetime2":
+        //		name.Append($"({ObjectMemberType.Scale}))");
+        //		break;
+
+        //	case "decimal":
+        //		name.Append($"({ObjectMemberType.Precision},{ObjectMemberType.Scale})");
+        //		break;
+        //	default:
+        //		name.Append(")");
+        //		break;
+        //}
+        //return name.ToString();
+        //}
+    }
 }

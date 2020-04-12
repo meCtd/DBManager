@@ -1,13 +1,11 @@
 ﻿using System.Runtime.Serialization;
 
-namespace DataBaseTree.Model.Tree.DbEntities
+namespace DBManager.Default.Tree.DbEntities
 {
 	[DataContract(Name = "index")]
 	public class Index : DbObject
 	{
-		public override DbEntityType Type => DbEntityType.Index;
-
-		public override bool CanHaveDefinition => false;
+		public override MetadataType Type => MetadataType.Index;
 
 		public Index(string name) : base(name)
 		{

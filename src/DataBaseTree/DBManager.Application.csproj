@@ -7,8 +7,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>DataBaseTree</RootNamespace>
-    <AssemblyName>DataBaseTree</AssemblyName>
+    <RootNamespace>DBManager.Application</RootNamespace>
+    <AssemblyName>DBManager.Application</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,25 +50,28 @@
     <OutputPath>bin\x64\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CommonServiceLocator, Version=2.0.4.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommonServiceLocator.2.0.4\lib\net47\CommonServiceLocator.dll</HintPath>
+    <Reference Include="ICSharpCode.AvalonEdit, Version=6.0.1.278, Culture=neutral, PublicKeyToken=9cc39be672370310, processorArchitecture=MSIL">
+      <HintPath>..\packages\AvalonEdit.6.0.1\lib\net45\ICSharpCode.AvalonEdit.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=3.12.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit.3.12.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Prism, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Core.7.1.0.431\lib\net45\Prism.dll</HintPath>
+    <Reference Include="Plurally, Version=1.0.10.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Plurally.1.0.10.0\lib\portable-net40+sl50+win+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Plurally.dll</HintPath>
     </Reference>
-    <Reference Include="Prism.Wpf, Version=7.1.0.431, Culture=neutral, PublicKeyToken=40ee6c3a2184dc59, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\Prism.Wpf.dll</HintPath>
-    </Reference>
+    <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.IdentityModel" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Prism.Wpf.7.1.0.431\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <HintPath>..\packages\Expression.Blend.Sdk.1.0.2\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -92,29 +95,44 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\WindowDragBehaviour.cs" />
+    <Compile Include="Controls\SqlEditor.cs" />
+    <Compile Include="Convertors\ObjectConverter.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
     <Compile Include="Convertors\DbEntityEnumConverter.cs" />
-    <Compile Include="Convertors\EnumToDescriptionConverter.cs" />
-    <Compile Include="Convertors\EnumToItemsSourceConverter.cs" />
+    <Compile Include="Convertors\EnumConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
-    <Compile Include="Framework\RelayCommand.cs" />
-    <Compile Include="Framework\RelayCommandGeneric.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
-    <Compile Include="ViewModel\ConnectionViewModel\BaseConnectionViewModel.cs" />
-    <Compile Include="ViewModel\ConnectionViewModel\MsSqlConnectionViewModel.cs" />
-    <Compile Include="ViewModel\ConnectionWindowViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\CategoryViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\DbObjectViewMolel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\MetadataViewModelBase.cs" />
-    <Compile Include="ViewModel\TreeViewModel\TreeRootViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModel\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModel\TreeWindowViewModel.cs" />
-    <Compile Include="View\ConnectionWindow.xaml.cs">
-      <DependentUpon>ConnectionWindow.xaml</DependentUpon>
+    <Compile Include="Loader\IObjectLoader.cs" />
+    <Compile Include="Loader\ObjectLoader.cs" />
+    <Compile Include="TemplateSelectors\MetadataIconTemplateSelector.cs" />
+    <Compile Include="Utils\PluginManager.cs" />
+    <Compile Include="Utils\RelayCommand.cs" />
+    <Compile Include="Utils\SharedResourceDictionary.cs" />
+    <Compile Include="Utils\WindowManager.cs" />
+    <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
+    <Compile Include="ViewModels\Connections\SqlServerConnectionViewModel.cs" />
+    <Compile Include="ViewModels\General\Context.cs" />
+    <Compile Include="ViewModels\General\IWindowContext.cs" />
+    <Compile Include="ViewModels\General\WindowViewModelBase.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
+    <Compile Include="ViewModels\General\ViewModelBase.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
+    <Compile Include="ViewModels\ScriptViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
+    <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
+    <Compile Include="Views\Windows\ContentWindow.xaml.cs">
+      <DependentUpon>ContentWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\TreeWindow.xaml.cs">
+    <Compile Include="Views\Windows\TreeWindow.xaml.cs">
       <DependentUpon>TreeWindow.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
@@ -141,6 +159,7 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <None Include="Resources\MsSql.xshd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -148,90 +167,66 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resources\ResourcesControlTemplates.xaml">
+    <Page Include="Views\Converters.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\ResourcesDataTemplates.xaml">
+    <Page Include="Views\Resources\Controls\DefaultControls\ComboBoxStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\ConnectionWindow.xaml">
+    <Page Include="Views\Resources\Controls\DefaultControls\ScrollBarStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\TreeWindow.xaml">
+    <Page Include="Views\Resources\Controls\DefaultControls\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Database.png" />
-    <Resource Include="Resources\Icons\Schema.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Category.png" />
-    <Resource Include="Resources\Icons\Key.png" />
-    <Resource Include="Resources\Icons\Table.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Trigger.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Column.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Function.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Connect.png" />
-    <Resource Include="Resources\Icons\Disconnect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Refresh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Server.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\View.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Properties.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Parameter.png" />
-    <Resource Include="Resources\Icons\Procedure.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Constraint.png" />
-    <Resource Include="Resources\Icons\Index.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Save.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Restore.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\LoadFile.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Definition.png" />
+    <Page Include="Views\Resources\Controls\DefaultControls\TextBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Constants\ColorConstants.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\ButtonStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\ConenctionWindowTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\ConnectionTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ContentWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\TreeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DBManager.Default\DBManager.Default.csproj">
       <Project>{4650985b-2a74-4aa0-9c73-1971daa68d1e}</Project>
       <Name>DBManager.Default</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DBManager.SqlServer\DBManager.SqlServer.csproj">
-      <Project>{14b6b5bc-42af-4213-bb3d-bb29c9bb4ce3}</Project>
-      <Name>DBManager.SqlServer</Name>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
+      <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\Icons\Info.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
@@ -239,4 +234,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)\DBManager.SqlServer\bin\$(PlatformName)\$(ConfigurationName)\DBManager.SqlServer.*" "$(TargetDir)Dialects\" /R /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

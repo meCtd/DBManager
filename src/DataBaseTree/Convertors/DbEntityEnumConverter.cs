@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Data;
-using DataBaseTree.Model.Tree;
+using DBManager.Default.Tree;
 
-namespace DataBaseTree.Convertors
+namespace DBManager.Application.Convertors
 {
-	public class DbEntityEnumConverter : IValueConverter
+	public class DbEntityEnumConverter : ConverterBase
 	{
-		private DbEntityType targetValue;
+		private MetadataType _targetValue;
 
-		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			targetValue = (DbEntityType)value;
-			return targetValue.HasFlag((DbEntityType)parameter);
+			_targetValue = (MetadataType)value;
+			return _targetValue.HasFlag((MetadataType)parameter);
 		}
 
-		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		public override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return targetValue ^= (DbEntityType)parameter;
+			return _targetValue ^= (MetadataType)parameter;
 		}
 
 	}

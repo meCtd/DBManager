@@ -30,6 +30,26 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.3</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,19 +64,24 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="DataBaseConnection\ConnectionData.cs" />
-    <Compile Include="DatabaseTypeEnum.cs" />
-    <Compile Include="Loaders\Loader.cs" />
+    <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
+    <Compile Include="DataBaseConnection\IConnectionData.cs" />
+    <Compile Include="DataBaseConnection\ServerInfo.cs" />
+    <Compile Include="DialectType.cs" />
+    <Compile Include="IDialectComponent.cs" />
+    <Compile Include="MetadataFactory\IMetadataFactory.cs" />
+    <Compile Include="Normalizers\NormalizerBase.cs" />
     <Compile Include="Printers\IPrinter.cs" />
-    <Compile Include="Printers\IPrinterFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ScriptProvider.cs" />
-    <Compile Include="SaveData.cs" />
     <Compile Include="Tree\Chunk.cs" />
     <Compile Include="Tree\DbEntities\Column.cs" />
     <Compile Include="Tree\DbEntities\Constraint.cs" />
     <Compile Include="Tree\DbEntities\Database.cs" />
     <Compile Include="Tree\DbEntities\DbType.cs" />
-    <Compile Include="Tree\DbEntities\DbView.cs" />
+    <Compile Include="Tree\DbEntities\DefinitionObject.cs" />
+    <Compile Include="Tree\DbEntities\Server.cs" />
+    <Compile Include="Tree\DbEntities\View.cs" />
     <Compile Include="Tree\DbEntities\Function.cs" />
     <Compile Include="Tree\DbEntities\Index.cs" />
     <Compile Include="Tree\DbEntities\Key.cs" />
@@ -64,16 +89,22 @@
     <Compile Include="Tree\DbEntities\Procedure.cs" />
     <Compile Include="Tree\DbEntities\Routine.cs" />
     <Compile Include="Tree\DbEntities\Schema.cs" />
-    <Compile Include="Tree\DbEntities\Server.cs" />
     <Compile Include="Tree\DbEntities\Table.cs" />
-    <Compile Include="Tree\DbEntities\TableData.cs" />
+    <Compile Include="Tree\DbEntities\DataObject.cs" />
     <Compile Include="Tree\DbEntities\Trigger.cs" />
     <Compile Include="Tree\DbEntities\TypeObject.cs" />
-    <Compile Include="Tree\DbEntityFactory.cs" />
-    <Compile Include="Tree\DbEntityType.cs" />
+    <Compile Include="Tree\MetadataType.cs" />
     <Compile Include="Tree\DbObject.cs" />
     <Compile Include="Tree\FullName.cs" />
-    <Compile Include="Tree\Hierarchy.cs" />
+    <Compile Include="Tree\Hierarchy\MetadataHierarchyInfo.cs" />
+    <Compile Include="Tree\Hierarchy\MetadataHierarchy.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Framework\Framework.csproj">
+      <Project>{ee8dc46c-9770-4d63-a66f-abc608f881e2}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

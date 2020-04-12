@@ -1,11 +1,10 @@
-﻿using DataBaseTree.Model.Tree;
+﻿using DBManager.Default.Tree;
+using DBManager.Default.Tree.DbEntities;
 
-namespace DataBaseTree.Model.Printers
+namespace DBManager.Default.Printers
 {
-	public interface IPrinter
-	{
-		string GetDefintition(DbObject dbObject);
-		
-	}
-	
+    public interface IPrinter
+    {
+        string GetDefinition(DefinitionObject obj);
+    }
 }
