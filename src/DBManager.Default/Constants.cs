@@ -10,6 +10,13 @@
         public const string Length = "Length";
         public const string Precision = "Precision";
         public const string DefaultValue = "DefaultValue";
+        public const string ConstraintType = "СonstraintType";
+
+        public const string PrimaryKey = "PRIMARY KEY";
+        public const string ForeignKey = "FOREIGN KEY";
+        public const string CheckConstraint = "CHECK";
+
+
 
 
 

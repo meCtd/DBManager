@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
-using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Tree;
-using Framework.Extensions;
 
-
-namespace DBManager.Application.Loader
+namespace DBManager.Default.Loader
 {
     public class ObjectLoader : IObjectLoader
     {

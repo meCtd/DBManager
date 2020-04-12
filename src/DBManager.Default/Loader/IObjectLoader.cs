@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using DBManager.Default.Tree;
 
-namespace DBManager.Application.Loader
+namespace DBManager.Default.Loader
 {
     public interface IObjectLoader
     {

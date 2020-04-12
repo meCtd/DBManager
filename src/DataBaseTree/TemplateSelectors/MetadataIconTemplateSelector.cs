@@ -14,7 +14,6 @@ namespace DBManager.Application.TemplateSelectors
 
         public DataTemplate DbObjectIconTemplate { get; set; }
 
-
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             switch (item)

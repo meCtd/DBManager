@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-using DBManager.Application.Loader;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
 
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
-using Framework.EventArguments;
 
 using Ninject;
 
@@ -25,6 +21,8 @@ namespace DBManager.Application.ViewModels.Windows
     public class ConnectionWindowViewModel : WindowViewModelBase
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
+
+        private readonly List<Func<IConnectionData, Task>> _handlers = new List<Func<IConnectionData, Task>>();
 
         private DialectType _selectedDialect;
 
@@ -48,8 +46,6 @@ namespace DBManager.Application.ViewModels.Windows
         }
 
         public IEnumerable<DialectType> AvailableDialects { get; }
-
-        public event EventHandler<ArgumentEventArgs<(DialectType Dialect, string Name)>> Connected;
 
         public ConnectionViewModel Connection
         {
@@ -76,6 +72,11 @@ namespace DBManager.Application.ViewModels.Windows
             var dialects = Context.AvailableDialects.ToArray();
             AvailableDialects = dialects;
             SelectedDialect = dialects.FirstOrDefault();
+        }
+
+        public void OnConnected(Func<IConnectionData, Task> handler)
+        {
+            _handlers.Add(handler);
         }
 
         private Task TestConnection(bool connectResult)
@@ -144,37 +145,14 @@ namespace DBManager.Application.ViewModels.Windows
 
         private async Task RegisterConnection()
         {
-            var component = Context.Resolver.Get<IDialectComponent>(SelectedDialect.ToString());
-
-            var loader = new ObjectLoader(component, Connection.Model);
-            await loader.LoadServerProperties(CancellationToken.None);
-
-            var serverName = GetServerName(Connection.Model);
-
-            Context.Resolver.Rebind<IObjectLoader>()
-                .ToConstant(loader)
-                .Named(serverName);
-
-            Connected?.Invoke(this, new ArgumentEventArgs<(DialectType Dialect, string Name)>((Dialect: SelectedDialect, Name: serverName)));
+            await Task.WhenAll(_handlers.Select(s => s.Invoke(Connection.Model)));
             Close();
-        }
-
-        private string GetServerName(IConnectionData data)
-        {
-            var builder = new StringBuilder();
-            builder.Append(data.Host);
-
-            if (!string.IsNullOrEmpty(data.Port))
-                builder.Append($":{data.Port}");
-
-            builder.Append($" ({data.UserId})");
-            return builder.ToString();
         }
 
         public override void Dispose()
         {
             _tokenSource.Dispose();
-            Connected = null;
+            _handlers.Clear();
             base.Dispose();
         }
     }

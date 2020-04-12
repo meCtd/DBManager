@@ -17,8 +17,7 @@ namespace DBManager.Default.Tree
 		Column = 1 << 9,
 		Trigger = 1 << 10,
 		Parameter = 1 << 11,
-		Key = 1 << 12,
-		Index = 1 << 13,
-		Type = 1 << 14,
+		Index = 1 << 12,
+		Type = 1 << 13,
 	}
 }

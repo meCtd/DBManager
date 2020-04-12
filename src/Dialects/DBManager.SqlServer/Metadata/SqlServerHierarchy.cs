@@ -23,13 +23,11 @@ namespace DBManager.SqlServer.Metadata
                                                                                     MetadataType.Function }),
 
             [MetadataType.Table] = new MetadataHierarchyInfo(MetadataType.Table, new[] { MetadataType.Column,
-                                                                                    MetadataType.Key,
                                                                                     MetadataType.Constraint,
                                                                                     MetadataType.Trigger,
                                                                                     MetadataType.Index}),
 
             [MetadataType.Table] = new MetadataHierarchyInfo(MetadataType.Table, new[] { MetadataType.Column,
-                                                                                    MetadataType.Key,
                                                                                     MetadataType.Constraint,
                                                                                     MetadataType.Trigger,
                                                                                     MetadataType.Index }),

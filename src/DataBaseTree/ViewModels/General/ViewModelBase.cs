@@ -26,7 +26,6 @@ namespace DBManager.Application.ViewModels.General
 
             return true;
         }
-        
 
         public virtual void Dispose()
         {

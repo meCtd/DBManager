@@ -69,12 +69,15 @@
     <Compile Include="DataBaseConnection\ServerInfo.cs" />
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialectComponent.cs" />
+    <Compile Include="Loader\IObjectLoader.cs" />
+    <Compile Include="Loader\ObjectLoader.cs" />
     <Compile Include="MetadataFactory\IMetadataFactory.cs" />
     <Compile Include="Normalizers\NormalizerBase.cs" />
     <Compile Include="Printers\IPrinter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\ScriptProvider.cs" />
+    <Compile Include="Providers\IScriptProvider.cs" />
     <Compile Include="Tree\Chunk.cs" />
+    <Compile Include="Tree\ConstraintType.cs" />
     <Compile Include="Tree\DbEntities\Column.cs" />
     <Compile Include="Tree\DbEntities\Constraint.cs" />
     <Compile Include="Tree\DbEntities\Database.cs" />
@@ -84,7 +87,6 @@
     <Compile Include="Tree\DbEntities\View.cs" />
     <Compile Include="Tree\DbEntities\Function.cs" />
     <Compile Include="Tree\DbEntities\Index.cs" />
-    <Compile Include="Tree\DbEntities\Key.cs" />
     <Compile Include="Tree\DbEntities\Parameter.cs" />
     <Compile Include="Tree\DbEntities\Procedure.cs" />
     <Compile Include="Tree\DbEntities\Routine.cs" />

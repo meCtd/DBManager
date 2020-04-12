@@ -34,5 +34,18 @@ namespace Framework.Extensions
                 ? result
                 : defaultValue;
         }
+
+        public static T GetParent<T>(this T source, Func<T, T> parentSelector)
+        {
+            var current = source;
+            T parent;
+
+            while (!ReferenceEquals(parent = parentSelector(current), null))
+            {
+                current = parent;
+            }
+
+            return current;
+        }
     }
 }

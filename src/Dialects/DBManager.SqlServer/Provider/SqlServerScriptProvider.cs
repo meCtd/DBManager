@@ -23,38 +23,35 @@ namespace DBManager.SqlServer.Provider
                     return $"SELECT name AS [{Constants.Name}] FROM sys.databases";
 
                 case MetadataType.Schema:
-                    return $"SELECT SCHEMA_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[SCHEMATA]";
+                    return $"SELECT SCHEMA_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[SCHEMATA] ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Table:
-                    return $"SELECT TABLE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{target.FullName.Schema}'";
+                    return $"SELECT TABLE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.View:
-                    return $"SELECT TABLE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = '{target.FullName.Schema}'";
+                    return $"SELECT TABLE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLES] WHERE TABLE_TYPE = 'VIEW' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Function:
-                    return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = '{target.FullName.Schema}'";
+                    return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'FUNCTION' AND ROUTINE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Procedure:
-                    return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '{target.FullName.Schema}'";
+                    return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Column:
                     switch (target.Parent.Type)
                     {
                         case MetadataType.Table:
-                             return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '{target.Name}' ORDER BY ORDINAL_POSITION";
+                            return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
 
                         case MetadataType.View:
-                            return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].INFORMATION_SCHEMA.VIEW_COLUMN_USAGE WHERE TABLE_NAME = '{target.Name}' ORDER BY ORDINAL_POSITION";
+                            return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[VIEW_COLUMN_USAGE] WHERE TABLE_NAME = '{target.Name}' AND VIEW_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
 
                         default:
                             throw new ArgumentException();
                     }
-                    
 
-                //case MetadataType.Constraint:
-                //    return
-                //        ($"SELECT CONSTRAINT_NAME AS Name FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_TYPE ='CHECK' " +
-                //        $"AND TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}");
+                case MetadataType.Constraint:
+                    return $"SELECT CONSTRAINT_NAME AS [{Constants.Name}], CONSTRAINT_TYPE AS [{Constants.ConstraintType}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLE_CONSTRAINTS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY CONSTRAINT_TYPE DESC, [{Constants.Name}]";
 
                 //    switch (parentType)
                 //    {
@@ -261,45 +258,45 @@ namespace DBManager.SqlServer.Provider
                             $"has_filter AS '{Constants.HasFilterProperty}' " +
                             $"FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND name = {Constants.NameParameter}");
 
-                case MetadataType.Key:
-                    return $"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
-                            $"OBJECT_SCHEMA_NAME(ref.referenced_object_id) as '{Constants.ReferenceSchemaNameProperty}', " +
-                            $"OBJECT_NAME(ref.referenced_object_id) as '{Constants.ReferenceTableNameProperty}', " +
-                            $"COL_NAME(ref.referenced_object_id,ref.referenced_column_id) as '{Constants.ReferenceColumnProperty}', " +
-                            $"ks.[{Constants.TypeProperty}], " +
-                            $"ks.[{Constants.CreationDateProperty}], " +
-                            $"ks.[{Constants.ModifyDateProperty}], " +
-                            $"ks.[{Constants.IsSystemNamedProperty}], " +
-                            $"ks.[{Constants.IsPublishedProperty}], " +
-                            $"ks.[{Constants.IsMsShippedProperty}], " +
-                            $"ks.[{Constants.DeleteReferentialActionProperty}], " +
-                            $"ks.[{Constants.UpdateReferentialActionProperty}], " +
-                            $"ks.[{Constants.IndexIdProperty}] " +
-                            "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
-                            $"JOIN (SELECT name AS [{Constants.Name}], " +
-                            $"type_desc AS '{Constants.TypeProperty}', " +
-                            $"create_date AS '{Constants.CreationDateProperty}', " +
-                            $"modify_date AS '{Constants.ModifyDateProperty}', " +
-                            $"is_system_named AS '{Constants.IsSystemNamedProperty}', " +
-                            $"is_published AS '{Constants.IsPublishedProperty}', " +
-                            $"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
-                            $"NULL AS '{Constants.DeleteReferentialActionProperty}', " +
-                            $"unique_index_id AS '{Constants.IndexIdProperty}', " +
-                            $"NULL AS '{Constants.UpdateReferentialActionProperty}' " +
-                            "FROM sys.key_constraints " +
-                            "UNION SELECT name, " +
-                            "type_desc, " +
-                            "create_date, " +
-                            "modify_date, " +
-                            "is_system_named, " +
-                            "is_published, " +
-                            "is_ms_shipped, " +
-                            "delete_referential_action_desc, " +
-                            "key_index_id, " +
-                            "update_referential_action_desc " +
-                            $"FROM sys.foreign_keys ) AS ks ON inf.CONSTRAINT_NAME=ks.[Name]  " +
-                            "LEFT JOIN sys.foreign_key_columns AS ref ON OBJECT_ID(inf.TABLE_SCHEMA+'.'+inf.CONSTRAINT_NAME)=ref.constraint_object_id  " +
-                            $"WHERE inf.CONSTRAINT_NAME ={Constants.NameParameter} AND inf.CONSTRAINT_SCHEMA={Constants.SchemaNameParameter} AND inf.CONSTRAINT_CATALOG={Constants.DatabaseNameParameter}";
+                //case MetadataType.Key:
+                //    return $"SELECT (SELECT COLUMN_NAME +' ' FROM INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE WHERE TABLE_NAME=inf.TABLE_NAME and CONSTRAINT_NAME=inf.CONSTRAINT_NAME FOR XML PATH('')) AS '{Constants.ColumnsProperty}', " +
+                //            $"OBJECT_SCHEMA_NAME(ref.referenced_object_id) as '{Constants.ReferenceSchemaNameProperty}', " +
+                //            $"OBJECT_NAME(ref.referenced_object_id) as '{Constants.ReferenceTableNameProperty}', " +
+                //            $"COL_NAME(ref.referenced_object_id,ref.referenced_column_id) as '{Constants.ReferenceColumnProperty}', " +
+                //            $"ks.[{Constants.TypeProperty}], " +
+                //            $"ks.[{Constants.CreationDateProperty}], " +
+                //            $"ks.[{Constants.ModifyDateProperty}], " +
+                //            $"ks.[{Constants.IsSystemNamedProperty}], " +
+                //            $"ks.[{Constants.IsPublishedProperty}], " +
+                //            $"ks.[{Constants.IsMsShippedProperty}], " +
+                //            $"ks.[{Constants.DeleteReferentialActionProperty}], " +
+                //            $"ks.[{Constants.UpdateReferentialActionProperty}], " +
+                //            $"ks.[{Constants.IndexIdProperty}] " +
+                //            "FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS inf " +
+                //            $"JOIN (SELECT name AS [{Constants.Name}], " +
+                //            $"type_desc AS '{Constants.TypeProperty}', " +
+                //            $"create_date AS '{Constants.CreationDateProperty}', " +
+                //            $"modify_date AS '{Constants.ModifyDateProperty}', " +
+                //            $"is_system_named AS '{Constants.IsSystemNamedProperty}', " +
+                //            $"is_published AS '{Constants.IsPublishedProperty}', " +
+                //            $"is_ms_shipped AS '{Constants.IsMsShippedProperty}', " +
+                //            $"NULL AS '{Constants.DeleteReferentialActionProperty}', " +
+                //            $"unique_index_id AS '{Constants.IndexIdProperty}', " +
+                //            $"NULL AS '{Constants.UpdateReferentialActionProperty}' " +
+                //            "FROM sys.key_constraints " +
+                //            "UNION SELECT name, " +
+                //            "type_desc, " +
+                //            "create_date, " +
+                //            "modify_date, " +
+                //            "is_system_named, " +
+                //            "is_published, " +
+                //            "is_ms_shipped, " +
+                //            "delete_referential_action_desc, " +
+                //            "key_index_id, " +
+                //            "update_referential_action_desc " +
+                //            $"FROM sys.foreign_keys ) AS ks ON inf.CONSTRAINT_NAME=ks.[Name]  " +
+                //            "LEFT JOIN sys.foreign_key_columns AS ref ON OBJECT_ID(inf.TABLE_SCHEMA+'.'+inf.CONSTRAINT_NAME)=ref.constraint_object_id  " +
+                //            $"WHERE inf.CONSTRAINT_NAME ={Constants.NameParameter} AND inf.CONSTRAINT_SCHEMA={Constants.SchemaNameParameter} AND inf.CONSTRAINT_CATALOG={Constants.DatabaseNameParameter}";
                 default:
                     throw new ArgumentOutOfRangeException();
             }
