@@ -3,19 +3,19 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using DBManager.Application.Loader;
+
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
+
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
+using DBManager.Default.Loader;
 using DBManager.Default.Tree.DbEntities;
 
-using Framework.EventArguments;
 using Framework.Extensions;
 using Ninject;
-using Ninject.Planning.Bindings;
 
 
 namespace DBManager.Application.ViewModels.Windows

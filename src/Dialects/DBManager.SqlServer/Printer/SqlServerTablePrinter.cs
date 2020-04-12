@@ -76,30 +76,30 @@ namespace DBManager.SqlServer.Printer
             string name = keyType ? "PRIMARY KEY" : "UNIQUE";
 
 
-            IEnumerable<DbObject> matches = _object.Children.Where(key => key.Type == MetadataType.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
-            foreach (var match in matches)
-            {
-                _definition.Append($"CONSTRAINT [{match.Name}] {name} \n(\n");
-                IEnumerable<string> columns = match.Properties[Constants.ColumnsProperty].ToString().Split(' ')
-                    .Where(s => !string.IsNullOrWhiteSpace(s));
-                foreach (var column in columns)
-                {
-                    _definition.Append($"\t[{column}] ,\n");
-                }
+            //IEnumerable<DbObject> matches = _object.Children.Where(key => key.Type == MetadataType.Key && key.Properties[Constants.TypeProperty].ToString().Contains(search));
+            //foreach (var match in matches)
+            //{
+            //    _definition.Append($"CONSTRAINT [{match.Name}] {name} \n(\n");
+            //    IEnumerable<string> columns = match.Properties[Constants.ColumnsProperty].ToString().Split(' ')
+            //        .Where(s => !string.IsNullOrWhiteSpace(s));
+            //    foreach (var column in columns)
+            //    {
+            //        _definition.Append($"\t[{column}] ,\n");
+            //    }
 
-                _definition.Append(") ,\n");
-            }
+            //    _definition.Append(") ,\n");
+            //}
 
         }
 
         private void SetForeingKeyConstraint(DbObject _object)
         {
-            IEnumerable<DbObject> foreingnKeys = _object.Children.Where(child => child.Type == MetadataType.Key && child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
-            foreach (var key in foreingnKeys)
-            {
-                _definition.Append(
-                    $"ALTER TABLE [{_object.FullName.Schema}].[{_object.Name}]  WITH CHECK ADD CONSTRAINT [{key.Name}] FOREIGN KEY([{key.Properties[Constants.ColumnsProperty]}]) REFERENCES [{key.Properties[Constants.ReferenceSchemaNameProperty]}].[{key.Properties[Constants.ReferenceTableNameProperty]}] ([{key.Properties[Constants.ReferenceColumnProperty]}])\n");
-            }
+            //IEnumerable<DbObject> foreingnKeys = _object.Children.Where(child => child.Type == MetadataType.Key && child.Properties[Constants.TypeProperty].ToString().Contains("FOREIGN"));
+            //foreach (var key in foreingnKeys)
+            //{
+            //    _definition.Append(
+            //        $"ALTER TABLE [{_object.FullName.Schema}].[{_object.Name}]  WITH CHECK ADD CONSTRAINT [{key.Name}] FOREIGN KEY([{key.Properties[Constants.ColumnsProperty]}]) REFERENCES [{key.Properties[Constants.ReferenceSchemaNameProperty]}].[{key.Properties[Constants.ReferenceTableNameProperty]}] ([{key.Properties[Constants.ReferenceColumnProperty]}])\n");
+            //}
         }
 
         private void SetCheckConstraints(DbObject _object)

@@ -3,7 +3,9 @@
                     xmlns:treeItems="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
                     xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
                     xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
-                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+                    xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
+                    xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default">
 
     <Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
@@ -32,10 +34,26 @@
         </Grid>
     </DataTemplate>
 
-    <DataTemplate x:Key="DbObjectIconTemplate"
-                  DataType="treeItems:DbObjectViewModel">
+    <DataTemplate x:Key="DbObjectDefaultIconTemplate"
+                  DataType="{x:Type tree:DbObject}">
         <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
                 Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="ConstraintIconTemplate"
+                  DataType="{x:Type dbEntities:Constraint}">
+        <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="DbObjectIconTemplate"
+                  DataType="treeItems:DbObjectViewModel">
+        <ContentPresenter Content="{Binding Model}">
+            <ContentPresenter.ContentTemplateSelector>
+                <templateSelectors:MetadataObjectToIconTemplateSelector DbObjectIconTemplate="{StaticResource DbObjectDefaultIconTemplate}"
+                                                                        ConstraintIconTemplate="{StaticResource ConstraintIconTemplate}"/>
+                </ContentPresenter.ContentTemplateSelector>
+        </ContentPresenter>
     </DataTemplate>
 
     <HierarchicalDataTemplate DataType="{x:Type treeItems:MetadataViewModelBase}"

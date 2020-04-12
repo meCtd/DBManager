@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
-using DBManager.Application.Loader;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
 
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
-using Framework.EventArguments;
 
 using Ninject;
 

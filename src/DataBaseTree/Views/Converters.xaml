@@ -24,4 +24,14 @@
                            Output="{StaticResource ColumnIcon}" />
     </local:ObjectToObjectConverter>
 
+    <local:ObjectToObjectConverter x:Key="ConstraintTypeToIconConverter">
+        <local:ObjectsPair Input="{x:Static tree:ConstraintType.PrimaryKey}"
+                           Output="{StaticResource SchemaIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:ConstraintType.ForeignKey}"
+                           Output="{StaticResource SchemaIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:ConstraintType.CheckConstraint}"
+                           Output="{StaticResource SchemaIcon}" />
+
+    </local:ObjectToObjectConverter>
+
 </ResourceDictionary>

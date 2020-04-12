@@ -106,9 +106,8 @@
     <Compile Include="Convertors\InvertedBooleanConverter.cs" />
     <Compile Include="Convertors\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="Behaviors\PasswordBoxBehavior.cs" />
-    <Compile Include="Loader\IObjectLoader.cs" />
-    <Compile Include="Loader\ObjectLoader.cs" />
     <Compile Include="TemplateSelectors\MetadataIconTemplateSelector.cs" />
+    <Compile Include="TemplateSelectors\MetadataObjectToIconTemplateSelector.cs" />
     <Compile Include="Utils\PluginManager.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\SharedResourceDictionary.cs" />

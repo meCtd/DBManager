@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 
-using DBManager.Application.Loader;
 using DBManager.Application.Utils;
 
 using DBManager.Default;
+using DBManager.Default.Loader;
 using DBManager.Default.Tree;
 using Framework.Extensions;
 using Ninject;
