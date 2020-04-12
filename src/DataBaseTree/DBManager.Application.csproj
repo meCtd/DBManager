@@ -235,6 +235,6 @@
     <Error Condition="!Exists('..\packages\NUnit.3.12.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.12.0\build\NUnit.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(SolutionDir)\DBManager.SqlServer\bin\$(PlatformName)\$(ConfigurationName)\DBManager.SqlServer.*" "$(TargetDir)Dialects\" /R /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(SolutionDir)\Dialects\DBManager.SqlServer\bin\$(PlatformName)\$(ConfigurationName)\DBManager.SqlServer.*" "$(TargetDir)Dialects\" /R /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
