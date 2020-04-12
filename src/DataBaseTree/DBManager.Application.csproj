@@ -112,6 +112,7 @@
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Utils\SharedResourceDictionary.cs" />
     <Compile Include="Utils\WindowManager.cs" />
+    <Compile Include="ViewModels\Connections\AccessConnectionViewModel.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModels\Connections\SqlServerConnectionViewModel.cs" />
     <Compile Include="ViewModels\General\Context.cs" />

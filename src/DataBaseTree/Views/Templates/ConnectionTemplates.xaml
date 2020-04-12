@@ -5,59 +5,80 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
 
-    <DataTemplate DataType="{x:Type vm:SqlServerConnectionViewModel}">
-        <StackPanel Height="200"
+	<DataTemplate DataType="{x:Type vm:SqlServerConnectionViewModel}">
+		<StackPanel Height="180"
                     Width="300"
-                    MaxHeight="200"
+                    MaxHeight="180"
                     MaxWidth="300">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition />
+					<ColumnDefinition Width="Auto" />
+				</Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0">
-                    <TextBlock Text="Host" />
-                    <TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+				<StackPanel Grid.Column="0">
+					<TextBlock Text="Host" />
+					<TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
                              Tag="Enter the host" />
-                </StackPanel>
+				</StackPanel>
 
-                <StackPanel  Margin="5,0,0,0"
+				<StackPanel  Margin="5,0,0,0"
                              Width="80"
                              Grid.Column="1">
-                    <TextBlock Text="Port" />
+					<TextBlock Text="Port" />
 
-                    <TextBox Tag="Enter the port"
+					<TextBox Tag="Enter the port"
                              Text="{Binding Path=Port,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
-                </StackPanel>
+				</StackPanel>
 
-            </Grid>
+			</Grid>
 
-            <TextBlock Text="Database name" />
-            <TextBox Text="{Binding Path=InitialCatalog,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+			<TextBlock Text="Database name" />
+			<TextBox Text="{Binding Path=InitialCatalog,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
                      Tag="Enter the database name" />
 
-            <CheckBox Margin="5"
+			<CheckBox Margin="5"
                       IsChecked="{Binding Path=IntegratedSecurity}"
                       Content="Windows identification" />
 
-            <StackPanel IsEnabled="{Binding IntegratedSecurity,Converter={convertors:InvertedBooleanConverter},UpdateSourceTrigger=PropertyChanged}">
+			<StackPanel IsEnabled="{Binding IntegratedSecurity,Converter={convertors:InvertedBooleanConverter},UpdateSourceTrigger=PropertyChanged}">
 
-                <TextBlock Text="User ID" />
-                <TextBox Text="{Binding UserId,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+				<TextBlock Text="User ID" />
+				<TextBox Text="{Binding UserId,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
                          Tag="Enter the User ID" />
 
-                <TextBlock Text="Password" />
+				<TextBlock Text="Password" />
 
-                <PasswordBox>
-                    <i:Interaction.Behaviors>
-                        <behaviors:PasswordBoxBehavior Password="{Binding Path=Password,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
-                    </i:Interaction.Behaviors>
-                </PasswordBox>
+				<PasswordBox>
+					<i:Interaction.Behaviors>
+						<behaviors:PasswordBoxBehavior Password="{Binding Path=Password,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
+					</i:Interaction.Behaviors>
+				</PasswordBox>
 
-            </StackPanel>
+			</StackPanel>
 
-        </StackPanel >
-    </DataTemplate>
+		</StackPanel >
+	</DataTemplate>
+
+	<DataTemplate DataType="{x:Type vm:AccessConnectionViewModel}">
+		<StackPanel Height="100"
+                    Width="300"
+                    MaxHeight="100"
+                    MaxWidth="300">
+
+			<StackPanel>
+				<TextBlock Text="Database file" />
+				<TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+                         Tag="Select the database file on your file system" />
+			</StackPanel>
+
+			<TextBlock Text="Password" />
+			<PasswordBox>
+				<i:Interaction.Behaviors>
+					<behaviors:PasswordBoxBehavior Password="{Binding Path=Password,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}" />
+				</i:Interaction.Behaviors>
+			</PasswordBox>
+		</StackPanel >
+	</DataTemplate>
 
 </ResourceDictionary>

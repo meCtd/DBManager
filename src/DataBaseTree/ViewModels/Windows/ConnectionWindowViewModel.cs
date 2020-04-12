@@ -135,6 +135,8 @@ namespace DBManager.Application.ViewModels.Windows
             {
                 case DialectType.SqlServer:
                     return new SqlServerConnectionViewModel(data);
+                case DialectType.Access:
+                    return new AccessConnectionViewModel(data);
                 default:
                     throw new ArgumentOutOfRangeException();
             }
