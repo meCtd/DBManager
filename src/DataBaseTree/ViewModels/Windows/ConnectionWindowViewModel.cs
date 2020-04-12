@@ -26,6 +26,8 @@ namespace DBManager.Application.ViewModels.Windows
     {
         private readonly CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
+        private readonly List<Func<IConnectionData, Task>> _handlers = new List<Func<IConnectionData, Task>>();
+
         private DialectType _selectedDialect;
 
         private ICommand _connectCommand;
@@ -48,8 +50,6 @@ namespace DBManager.Application.ViewModels.Windows
         }
 
         public IEnumerable<DialectType> AvailableDialects { get; }
-
-        public event EventHandler<ArgumentEventArgs<(DialectType Dialect, string Name)>> Connected;
 
         public ConnectionViewModel Connection
         {
@@ -76,6 +76,11 @@ namespace DBManager.Application.ViewModels.Windows
             var dialects = Context.AvailableDialects.ToArray();
             AvailableDialects = dialects;
             SelectedDialect = dialects.FirstOrDefault();
+        }
+
+        public void OnConnected(Func<IConnectionData, Task> handler)
+        {
+            _handlers.Add(handler);
         }
 
         private Task TestConnection(bool connectResult)
@@ -142,37 +147,14 @@ namespace DBManager.Application.ViewModels.Windows
 
         private async Task RegisterConnection()
         {
-            var component = Context.Resolver.Get<IDialectComponent>(SelectedDialect.ToString());
-
-            var loader = new ObjectLoader(component, Connection.Model);
-            await loader.LoadServerProperties(CancellationToken.None);
-
-            var serverName = GetServerName(Connection.Model);
-
-            Context.Resolver.Rebind<IObjectLoader>()
-                .ToConstant(loader)
-                .Named(serverName);
-
-            Connected?.Invoke(this, new ArgumentEventArgs<(DialectType Dialect, string Name)>((Dialect: SelectedDialect, Name: serverName)));
+            await Task.WhenAll(_handlers.Select(s => s.Invoke(Connection.Model)));
             Close();
-        }
-
-        private string GetServerName(IConnectionData data)
-        {
-            var builder = new StringBuilder();
-            builder.Append(data.Host);
-
-            if (!string.IsNullOrEmpty(data.Port))
-                builder.Append($":{data.Port}");
-
-            builder.Append($" ({data.UserId})");
-            return builder.ToString();
         }
 
         public override void Dispose()
         {
             _tokenSource.Dispose();
-            Connected = null;
+            _handlers.Clear();
             base.Dispose();
         }
     }

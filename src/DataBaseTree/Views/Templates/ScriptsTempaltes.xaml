@@ -1,0 +1,23 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:viewModels="clr-namespace:DBManager.Application.ViewModels"
+                    xmlns:controls="clr-namespace:DBManager.Application.Controls">
+
+
+    <DataTemplate DataType="{x:Type viewModels:ScriptsViewModel}">
+        <TabControl SelectedItem="{Binding Selected}"
+                    ItemsSource="{Binding Tabs}">
+        </TabControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
+        <controls:SqlEditor ShowLineNumbers="True"
+                            Background="Transparent"
+                            Foreground="{StaticResource MarkerBrush}"
+                            Sql="{Binding Sql}"
+                            SyntaxHighlighting="{Binding Highlighting}"
+                            VerticalScrollBarVisibility="Auto"
+                            HorizontalScrollBarVisibility="Auto" />
+    </DataTemplate>
+
+</ResourceDictionary>

@@ -176,4 +176,16 @@
         </DrawingBrush.Drawing>
     </DrawingBrush>
 
+    <DrawingBrush x:Key="ConnectIcon"
+                  Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="#FF3E86A0"
+                                     Geometry="F1 M 362.667,245.333C 356.776,245.333 352,240.557 352,234.667L 352,2.02656e-005L 245.333,2.02656e-005L 245.333,234.667C 245.333,240.557 240.557,245.333 234.667,245.333L 0,245.333L 0,352L 234.667,352C 240.557,352 245.333,356.776 245.333,362.667L 245.333,597.333L 352,597.333L 352,362.667C 352,356.776 356.776,352 362.667,352L 597.333,352L 597.333,245.333" />
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
 </ResourceDictionary>

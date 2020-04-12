@@ -6,7 +6,7 @@ using DBManager.Application.Utils;
 
 using DBManager.Default;
 using DBManager.Default.Tree;
-
+using Framework.Extensions;
 using Ninject;
 
 
@@ -34,8 +34,9 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             set => SetProperty(ref _isBusy, value);
         }
 
-        public ICommand RefreshCommand =>
-            _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
+        public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
+
+        public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
 
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {
@@ -53,13 +54,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected IObjectLoader GetLoader()
         {
-            var current = this;
-            while (current.Parent != null)
-            {
-                current = (MetadataViewModelBase)current.Parent;
-            }
-
-            return Context.Resolver.Get<IObjectLoader>(current.Name);
+            return Context.Resolver.Get<IObjectLoader>(Root.Name);
         }
 
         private void Refresh(object obj)

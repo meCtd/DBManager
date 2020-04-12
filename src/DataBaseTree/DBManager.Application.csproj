@@ -95,6 +95,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\BindingProxy.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
     <Compile Include="ViewModels\ScriptViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ConenctionManagerViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
@@ -204,6 +206,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Templates\ConnectionTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\MetadataTreeTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\ScriptsTempaltes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
