@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
+        xmlns:utils="clr-namespace:DBManager.Application.Utils"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DB Manager"
@@ -49,7 +50,8 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Views/Templates/MetadataTreeTemplates.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/MetadataTreeTemplates.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ScriptsTempaltes.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

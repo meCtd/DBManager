@@ -6,19 +6,6 @@ using ICSharpCode.AvalonEdit.Highlighting;
 
 namespace DBManager.Application.ViewModels
 {
-    public class ScriptsViewModel : ViewModelBase
-    {
-        public ObservableCollection<ScriptViewModel> Tabs { get; } = new ObservableCollection<ScriptViewModel>();
-
-        private ScriptViewModel _selected;
-
-        public ScriptViewModel Selected
-        {
-            get => _selected;
-            set => SetProperty(ref _selected, value);
-        }
-    }
-
     public class ScriptViewModel : ViewModelBase
     {
         private string _sql;
@@ -33,12 +20,13 @@ namespace DBManager.Application.ViewModels
 
         public string Name { get; }
 
+        public DialectType Dialect { get; }
+
         public ScriptViewModel(string name, DialectType dialect)
         {
             Name = name;
+            Dialect = dialect;
             Highlighting = HighlightingManager.Instance.GetDefinition(dialect.ToString());
         }
-
-
     }
 }

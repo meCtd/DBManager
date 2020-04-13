@@ -7,6 +7,7 @@
         xmlns:general="clr-namespace:DBManager.Application.ViewModels.General"
         xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
         xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+        xmlns:utils="clr-namespace:DBManager.Application.Utils"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance Type=general:WindowViewModelBase}"
         ResizeMode="NoResize"
@@ -21,7 +22,7 @@
         Title="{Binding Header}">
 
     <Window.Resources>
-        <ResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
+        <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
     </Window.Resources>
 
     <DockPanel>

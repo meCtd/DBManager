@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utils="clr-namespace:DBManager.Application.Utils">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml" />
+        <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ScrollBarButton"

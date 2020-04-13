@@ -123,6 +123,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
+    <Compile Include="ViewModels\ScriptsViewModel.cs" />
     <Compile Include="ViewModels\ScriptViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConenctionManagerViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
@@ -180,6 +181,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\ScrollBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\TabControlStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
