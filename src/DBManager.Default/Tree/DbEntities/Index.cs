@@ -2,13 +2,17 @@
 
 namespace DBManager.Default.Tree.DbEntities
 {
-	[DataContract(Name = "index")]
-	public class Index : DbObject
-	{
-		public override MetadataType Type => MetadataType.Index;
+    [DataContract(Name = "index")]
+    public class Index : DbObject
+    {
+        public override MetadataType Type => MetadataType.Index;
 
-		public Index(string name) : base(name)
-		{
-		}
-	}
+        public bool IsPrimaryKey { get; set; }
+
+        public bool IsUniqueConstraint { get; set; }
+
+        public Index(string name) : base(name)
+        {
+        }
+    }
 }

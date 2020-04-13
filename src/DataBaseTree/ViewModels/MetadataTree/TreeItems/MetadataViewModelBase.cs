@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 using DBManager.Application.Utils;
@@ -20,33 +21,36 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private ICommand _refreshCommand;
 
-        public abstract string Name { get; }
-
-        public abstract MetadataType Type { get; }
+        public event EventHandler Loaded;
 
         public new MetadataViewModelBase Parent => base.Parent as MetadataViewModelBase;
 
-        public virtual DialectType Dialect => Parent?.Dialect ?? DialectType.Unknown;
+        public abstract string Name { get; }
+
+        public abstract MetadataType Type { get; }
+        
+        public virtual DialectType Dialect => Root.Dialect;
 
         public bool IsBusy
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
         }
-
         public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
 
         public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
-
+        
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {
             ExpandChanged += (sender, args) =>
             {
-                if (args.New)
+                if (args.New && !_wasLoaded)
                 {
                     LoadChildrenInternal();
                 }
             };
+
+            Refreshed += (s, e) => _wasLoaded = false;
         }
 
         protected abstract void RemoveChildrenFromModel();
@@ -60,7 +64,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         private void Refresh(object obj)
         {
             RemoveChildrenFromModel();
-            Children.Clear();
+            Refresh();
         }
 
         private async void LoadChildrenInternal()
@@ -69,13 +73,14 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             {
                 IsBusy = true;
 
-                if (!_wasLoaded)
-                    await LoadChildren();
+                await LoadChildren();
             }
             finally
             {
                 _wasLoaded = true;
                 IsBusy = false;
+
+                Loaded?.Invoke(this, EventArgs.Empty);
             }
         }
     }

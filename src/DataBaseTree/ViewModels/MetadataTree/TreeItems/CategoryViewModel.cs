@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
 using DBManager.Default.Tree;
 
-using Framework.EventArguments;
 using Framework.Extensions;
+
 using Plurally;
 
 
@@ -13,7 +14,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public class CategoryViewModel : MetadataViewModelBase
     {
-        private const string NameFormat = "{0} [{1}]";
+        private const string LoadedNameFormat = "{0} [{1}]";
+        private const string DefaultNameFormat = "{0}";
 
         private static readonly Pluralizer _pluralizer = new Pluralizer();
 
@@ -21,7 +23,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private readonly DbObject _model;
 
-        private string _nameFormat = "{0}";
+        private string _nameFormat = DefaultNameFormat;
 
         public override string Name => IsBusy
             ? _categoryName
@@ -35,12 +37,20 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             _model = model;
             _categoryName = _pluralizer.Pluralize(type.ToString());
 
-            ExpandChanged += OnExpandChanged;
+            Loaded += OnLoaded;
+            Refreshed += OnRefreshed;
         }
 
-        private void OnExpandChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void OnRefreshed(object sender, EventArgs e)
         {
-            _nameFormat = NameFormat;
+            _nameFormat = DefaultNameFormat;
+            OnPropertyChanged(nameof(Name));
+        }
+
+        private void OnLoaded(object sender, EventArgs e)
+        {
+            _nameFormat = LoadedNameFormat;
+            OnPropertyChanged(nameof(Name));
         }
 
         protected override void RemoveChildrenFromModel()

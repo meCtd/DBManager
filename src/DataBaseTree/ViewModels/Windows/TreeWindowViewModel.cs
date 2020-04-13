@@ -4,7 +4,7 @@ using DBManager.Application.ViewModels.MetadataTree;
 
 namespace DBManager.Application.ViewModels.Windows
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class TreeWindowViewModel : ViewModelBase
     {
         public TreeViewModel Tree { get; } = new TreeViewModel();
 
@@ -12,7 +12,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         public ConnectionManagerViewModel ConnectionManager { get; }
 
-        public MainWindowViewModel()
+        public TreeWindowViewModel()
         {
             ConnectionManager = new ConnectionManagerViewModel(Tree);
         }

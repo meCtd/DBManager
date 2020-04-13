@@ -98,6 +98,9 @@
     <Compile Include="Behaviors\BindingProxy.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
+    <Compile Include="Convertors\MultiVisibilityConverter.cs" />
+    <Compile Include="Convertors\ValueConverterGroup.cs" />
+    <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
@@ -127,7 +130,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
     <Compile Include="Views\Windows\ContentWindow.xaml.cs">
