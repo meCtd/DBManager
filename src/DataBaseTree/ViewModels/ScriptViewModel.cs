@@ -24,7 +24,7 @@ namespace DBManager.Application.ViewModels
         public ScriptViewModel(string name, DialectType dialect)
         {
             Name = name;
-            Dialect = dialect;Г
+            Dialect = dialect;
             Highlighting = HighlightingManager.Instance.GetDefinition(dialect.ToString());
         }
     }

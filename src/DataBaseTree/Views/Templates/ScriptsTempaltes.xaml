@@ -35,6 +35,7 @@
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
                     <controls:SqlEditor ShowLineNumbers="True"
+                                        Margin="0,0,-2,-2"
                                         Background="Transparent"
                                         Foreground="{StaticResource MarkerBrush}"
                                         Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
