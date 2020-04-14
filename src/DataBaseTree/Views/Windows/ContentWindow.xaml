@@ -18,7 +18,7 @@
         ShowInTaskbar="False"
         BorderThickness="1"
         BorderBrush="{StaticResource BasicBorderBrush}"
-        Background="{StaticResource ModalBackgroundColor}"
+        Background="{StaticResource ModalBackgroundBrush}"
         Title="{Binding Header}">
 
     <Window.Resources>

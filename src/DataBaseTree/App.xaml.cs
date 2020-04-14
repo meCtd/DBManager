@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-
+using DBManager.Application.Controls;
 using DBManager.Application.Utils;
 
 using AppContext = DBManager.Application.ViewModels.General.AppContext;
@@ -28,6 +28,8 @@ namespace DBManager.Application
             AppContext.Current.Resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
 
             PluginManager.New().Load();
+
+            SqlEditor.RegisterHighlights();
         }
     }
 }

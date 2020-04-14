@@ -133,10 +133,10 @@
            TargetType="{x:Type TreeView}">
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                             Color="{StaticResource SemiAccentLowСolor}" />
+                             Color="{StaticResource SemiAccentLowColor}" />
 
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                             Color="{StaticResource SemiAccentLowСolor}" />
+                             Color="{StaticResource SemiAccentLowColor}" />
         </Style.Resources>
 
         <Setter Property="VerticalAlignment"

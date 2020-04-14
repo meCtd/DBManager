@@ -27,7 +27,15 @@ namespace DBManager.Application.ViewModels
 
         public ScriptsViewModel()
         {
-            Tabs.Add(new ScriptViewModel("Test", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test1", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test2", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test3", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test4", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test5", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test6", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test7", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test8", DialectType.SqlServer));
+            Tabs.Add(new ScriptViewModel("Test9", DialectType.SqlServer));
         }
     }
 }

@@ -56,7 +56,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <DockPanel Background="{StaticResource MainBackgroundColor}">
+    <DockPanel Background="{StaticResource MainBackgroundBrush}">
         <Grid DockPanel.Dock="Top"
               Height="30"
               VerticalAlignment="Top">

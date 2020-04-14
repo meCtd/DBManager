@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using DBManager.Application.ViewModels.General;
+﻿using DBManager.Application.ViewModels.General;
 using DBManager.Default;
 
 using ICSharpCode.AvalonEdit.Highlighting;
@@ -25,7 +24,7 @@ namespace DBManager.Application.ViewModels
         public ScriptViewModel(string name, DialectType dialect)
         {
             Name = name;
-            Dialect = dialect;
+            Dialect = dialect;Г
             Highlighting = HighlightingManager.Instance.GetDefinition(dialect.ToString());
         }
     }

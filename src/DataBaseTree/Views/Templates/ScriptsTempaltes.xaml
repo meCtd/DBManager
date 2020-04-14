@@ -6,49 +6,45 @@
 
     <ResourceDictionary.MergedDictionaries>
         <utils:SharedResourceDictionary Source="MetadataTreeTemplates.xaml" />
-        <utils:SharedResourceDictionary Source="MetadataTreeTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
-        <controls:SqlEditor ShowLineNumbers="True"
+    <Style TargetType="TabItem"
+           BasedOn="{StaticResource {x:Type TabItem}}">
+        <Style.Resources>
+            <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
+                <StackPanel Orientation="Horizontal"
                             Background="Transparent"
-                            Foreground="{StaticResource MarkerBrush}"
-                            Sql="{Binding Sql}"
-                            SyntaxHighlighting="{Binding Highlighting}"
-                            VerticalScrollBarVisibility="Auto"
-                            HorizontalScrollBarVisibility="Auto" />
-    </DataTemplate>
+                            Margin="-4,0">
+                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                            Background="{Binding Dialect, Converter={StaticResource DialectToIconConverter}}" />
+
+                    <TextBlock Margin="5,0"
+                               Text="{Binding Name}" />
+
+                    <Button Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
+                            Style="{StaticResource TabItemCloseButtonStyle}"
+                            CommandParameter="{Binding}" />
+                </StackPanel>
+            </DataTemplate>
+        </Style.Resources>
+    </Style>
 
     <DataTemplate DataType="{x:Type viewModels:ScriptsViewModel}">
         <TabControl SelectedItem="{Binding Selected}"
                     ItemsSource="{Binding Tabs}">
-            <TabControl.ItemContainerStyle>
-                <Style TargetType="TabItem">
-                    <Setter Property="HeaderTemplate">
-                        <Setter.Value>
-                            <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
-                                <StackPanel Orientation="Horizontal"
-                                            Margin="-4,0">
-                                    <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
-                                            Background="{Binding Dialect, Converter={StaticResource DialectToIconConverter}}" />
-
-                                    <TextBlock Margin="5,0"
-                                               Text="{Binding Name}" />
-
-                                    <Button Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
-                                            Style="{StaticResource ChromeButtonStyle}"
-                                            Content="{StaticResource CloseIcon}"
-                                            Height="13"
-                                            Width="13"
-                                            CommandParameter="{Binding}" />
-
-                                </StackPanel>
-                            </DataTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </TabControl.ItemContainerStyle>
+            <TabControl.ContentTemplate>
+                <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
+                    <controls:SqlEditor ShowLineNumbers="True"
+                                        Background="Transparent"
+                                        Foreground="{StaticResource MarkerBrush}"
+                                        Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                        SyntaxHighlighting="{Binding Highlighting}"
+                                        VerticalScrollBarVisibility="Auto"
+                                        HorizontalScrollBarVisibility="Auto" />
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
+
     </DataTemplate>
 
 </ResourceDictionary>
