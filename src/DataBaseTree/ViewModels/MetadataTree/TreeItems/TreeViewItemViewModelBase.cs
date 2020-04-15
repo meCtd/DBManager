@@ -100,7 +100,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private sealed class DummyChild : TreeViewItemViewModelBase
         {
-            public DummyChild() : base(null)
+            public DummyChild() : base(null,false)
             {
             }
         }

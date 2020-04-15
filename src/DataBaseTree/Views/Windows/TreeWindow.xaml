@@ -6,6 +6,8 @@
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
         xmlns:utils="clr-namespace:DBManager.Application.Utils"
+        xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+        Icon="../../Resources/Icons/database.ico"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DB Manager"
@@ -146,7 +148,7 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="200"
-                                  Width="200"/>
+                                  Width="200" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -164,9 +166,21 @@
                         BorderBrush="{StaticResource PrimaryBrush}"
                         BorderThickness="0,3,0,0" />
 
-                <TreeView ItemsSource="{Binding Tree.RootItems, UpdateSourceTrigger=PropertyChanged}"
-                          Style="{StaticResource MetadataTreeStyle}" />
-
+                <TreeView x:Name="Tree"
+                          ItemsSource="{Binding Tree.RootItems, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource MetadataTreeStyle}">
+                    <TreeView.Resources>
+                        <behaviors:BindingProxy x:Key="Proxy"
+                                                Data="{Binding DataContext,ElementName=Tree}" />
+                    </TreeView.Resources>
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add new connection"
+                                      Command="{Binding Data.ConnectionManager.ConnectCommand, Source={StaticResource Proxy}}"
+                                      Icon="{StaticResource ConnectIcon}"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
             </DockPanel>
             <GridSplitter Grid.Column="1"
                           Width="3"

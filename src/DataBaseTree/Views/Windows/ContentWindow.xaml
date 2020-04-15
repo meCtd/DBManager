@@ -33,6 +33,7 @@
 
             <TextBlock Margin="10,0,0,0"
                        Text="{Binding Header}"
+                       Foreground="White"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center" />
 

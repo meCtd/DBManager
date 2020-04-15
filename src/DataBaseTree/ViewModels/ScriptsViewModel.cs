@@ -1,41 +1,57 @@
 ﻿using System.Collections.ObjectModel;
+
 using System.Windows.Input;
+
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
-
-using DBManager.Default;
+using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 
 
 namespace DBManager.Application.ViewModels
 {
     public class ScriptsViewModel : ViewModelBase
     {
-        private ICommand _closeTabCommand;
+        private const string FileNameFormat = "SQLQuery{0}.sql";
 
-        private ScriptViewModel _selected;
+        private static int _counter = 1;
+
+        private ICommand _closeTabCommand;
+        private ICommand _newTabCommand;
+
+        private ScriptViewModel _selectedTab;
 
         public ObservableCollection<ScriptViewModel> Tabs { get; } = new ObservableCollection<ScriptViewModel>();
 
-        public ScriptViewModel Selected
+        public ScriptViewModel SelectedTab
         {
-            get => _selected;
-            set => SetProperty(ref _selected, value);
+            get => _selectedTab;
+            set => SetProperty(ref _selectedTab, value);
         }
 
         public ICommand CloseTabCommand => _closeTabCommand ?? (_closeTabCommand =
-                                               new RelayCommand<ScriptViewModel>(s => Tabs.Remove(s), s => Tabs.Count > 0));
+                                              new RelayCommand<ScriptViewModel>(s =>
+                                              {
+                                                  if (s.Close())
+                                                      Tabs.Remove(s);
 
-        public ScriptsViewModel()
+                                              }, s => Tabs.Count > 0));
+
+        public ICommand NewTabCommand => _newTabCommand ?? (_newTabCommand =
+            new RelayCommand<MetadataViewModelBase>(s =>
+            {
+                var tab = new ScriptViewModel(GenerateName(), s.Root.Name, s.Dialect);
+                Tabs.Add(tab);
+
+                SelectedTab = tab;
+            }, s => s != null));
+
+
+        private string GenerateName()
         {
-            Tabs.Add(new ScriptViewModel("Test1", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test2", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test3", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test4", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test5", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test6", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test7", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test8", DialectType.SqlServer));
-            Tabs.Add(new ScriptViewModel("Test9", DialectType.SqlServer));
+            var name = string.Format(FileNameFormat, _counter);
+            _counter++;
+            return name;
         }
+
     }
 }

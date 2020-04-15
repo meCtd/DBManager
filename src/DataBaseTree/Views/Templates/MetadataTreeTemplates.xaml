@@ -5,7 +5,8 @@
                     xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
                     xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
-                    xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default">
+                    xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
     <Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
@@ -78,7 +79,7 @@
             <ContentPresenter.ContentTemplateSelector>
                 <templateSelectors:MetadataObjectToIconTemplateSelector DbObjectIconTemplate="{StaticResource DbObjectDefaultIconTemplate}"
                                                                         ConstraintIconTemplate="{StaticResource ConstraintIconTemplate}"
-                                                                        IndexIconTemplate="{StaticResource IndexIconTemplate}"/>
+                                                                        IndexIconTemplate="{StaticResource IndexIconTemplate}" />
             </ContentPresenter.ContentTemplateSelector>
         </ContentPresenter>
     </DataTemplate>
@@ -109,14 +110,28 @@
             <StackPanel.ContextMenu>
                 <ContextMenu>
                     <MenuItem Command="{Binding RefreshCommand}"
+                              Icon="{StaticResource RefreshIcon}"
                               Header="Refresh" />
                     <Separator />
-                    <MenuItem Command="{Binding Data.ConnectionManager.DisconnectCommand,Source={StaticResource Proxy}}"
+                    <MenuItem Header="Disconnect"
+                              Command="{Binding Data.ConnectionManager.DisconnectCommand,Source={StaticResource Proxy}}"
                               CommandParameter="{Binding}"
-                              Header="Disconnect" />
+                              Icon="{StaticResource DisconnectIcon}"/>
+                    <Separator />
+                    <MenuItem Header="New query"
+                              Command="{Binding Data.Scripts.NewTabCommand,Source={StaticResource Proxy}}"
+                              CommandParameter="{Binding}"
+                              Icon="{StaticResource NewScriptIcon}" />
+
                 </ContextMenu>
             </StackPanel.ContextMenu>
 
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Data.Tree.SetSelectedItemCommand,Source={StaticResource Proxy}}"
+                                           CommandParameter="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </StackPanel>
         <HierarchicalDataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsBusy}"

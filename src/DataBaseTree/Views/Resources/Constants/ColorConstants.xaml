@@ -8,9 +8,15 @@
     <Color x:Key="StrongBrushColor">#FF646464</Color>
     <Color x:Key="BasicBorderColor">#FF474747</Color>
     <Color x:Key="LowBorderColor">#FF343434</Color>
+    <Color x:Key="ContextMenuBackgroundColor">#202020</Color>
+    <Color x:Key="MetadataIconColor">#FF3E86A0</Color>
 
-    <!--<SolidColorBrush x:Key="MainBackgroundColor"
-                     Color="#131313" />-->
+    <SolidColorBrush x:Key="MetadataIconBrush"
+                     Color="{StaticResource MetadataIconColor}" />
+
+    <SolidColorBrush x:Key="ContextMenuBackgroundBrush"
+                     Color="{StaticResource ContextMenuBackgroundColor}" />
+
     <SolidColorBrush x:Key="MainBackgroundBrush"
                      Color="{StaticResource MainBackgroundColor}" />
     <SolidColorBrush x:Key="ModalBackgroundBrush"

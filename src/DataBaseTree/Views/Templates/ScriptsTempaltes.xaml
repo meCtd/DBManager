@@ -2,7 +2,9 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:viewModels="clr-namespace:DBManager.Application.ViewModels"
                     xmlns:controls="clr-namespace:DBManager.Application.Controls"
-                    xmlns:utils="clr-namespace:DBManager.Application.Utils">
+                    xmlns:utils="clr-namespace:DBManager.Application.Utils"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
 
     <ResourceDictionary.MergedDictionaries>
         <utils:SharedResourceDictionary Source="MetadataTreeTemplates.xaml" />
@@ -23,29 +25,55 @@
 
                     <Button Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
                             Style="{StaticResource TabItemCloseButtonStyle}"
-                            CommandParameter="{Binding}" />
+                            CommandParameter="{Binding}"/>
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="PreviewMouseDown">
+                            <behaviors:MouseWheelClickTrigger Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
+                                                              CommandParameter="{Binding}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </StackPanel>
             </DataTemplate>
         </Style.Resources>
     </Style>
 
     <DataTemplate DataType="{x:Type viewModels:ScriptsViewModel}">
-        <TabControl SelectedItem="{Binding Selected}"
+        <TabControl SelectedItem="{Binding SelectedTab}"
                     ItemsSource="{Binding Tabs}">
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
-                    <controls:SqlEditor ShowLineNumbers="True"
-                                        Margin="0,0,-2,-2"
-                                        Background="Transparent"
-                                        Foreground="{StaticResource MarkerBrush}"
-                                        Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                        SyntaxHighlighting="{Binding Highlighting}"
-                                        VerticalScrollBarVisibility="Auto"
-                                        HorizontalScrollBarVisibility="Auto" />
+                    <DockPanel>
+                        <StackPanel DockPanel.Dock="Top"
+                                    Orientation="Horizontal"
+                                    Height="25">
+                            <Button Style="{StaticResource MenuItemButtonStyle}"
+                                    Command="{Binding ExecuteCommand}"
+                                    Content="{StaticResource ExecuteIcon}"
+                                    ToolTip="Execute" />
+
+                            <Button Style="{StaticResource MenuItemButtonStyle}"
+                                    Command="{Binding SaveCommand}"
+                                    Content="{StaticResource SaveIcon}"
+                                    ToolTip="Save" />
+
+                        </StackPanel>
+                        <Border DockPanel.Dock="Top"
+                                BorderBrush="{StaticResource PrimaryBrush}"
+                                BorderThickness="0,3,0,0" />
+
+                        <controls:SqlEditor ShowLineNumbers="True"
+                                            Margin="0,0,-2,-2"
+                                            Background="Transparent"
+                                            Foreground="{StaticResource MarkerBrush}"
+                                            Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                            SyntaxHighlighting="{Binding Highlighting}"
+                                            VerticalScrollBarVisibility="Auto"
+                                            HorizontalScrollBarVisibility="Auto" />
+                    </DockPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
-
     </DataTemplate>
 
 </ResourceDictionary>
