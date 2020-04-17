@@ -22,16 +22,28 @@
                            Output="{StaticResource FunctionIcon}" />
         <local:ObjectsPair Input="{x:Static tree:MetadataType.Column}"
                            Output="{StaticResource ColumnIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Trigger}"
+                           Output="{StaticResource TriggerIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Parameter}"
+                           Output="{StaticResource ParameterIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:MetadataType.Procedure}"
+                           Output="{StaticResource ProcedureIcon}" />
     </local:ObjectToObjectConverter>
 
     <local:ObjectToObjectConverter x:Key="ConstraintTypeToIconConverter">
         <local:ObjectsPair Input="{x:Static tree:ConstraintType.PrimaryKey}"
-                           Output="{StaticResource SchemaIcon}" />
+                           Output="{StaticResource PrimaryKeyIcon}" />
         <local:ObjectsPair Input="{x:Static tree:ConstraintType.ForeignKey}"
-                           Output="{StaticResource SchemaIcon}" />
+                           Output="{StaticResource ForeignKeyIcon}" />
         <local:ObjectsPair Input="{x:Static tree:ConstraintType.CheckConstraint}"
-                           Output="{StaticResource SchemaIcon}" />
-
+                           Output="{StaticResource CheckConstraintIcon}" />
+        <local:ObjectsPair Input="{x:Static tree:ConstraintType.UniqueConstraint}"
+                           Output="{StaticResource UniqueConstraintIcon}"/>
     </local:ObjectToObjectConverter>
+
+    <local:MultiBooleanAndConverter x:Key="MultiBooleanAndConverter"/>
+    <local:MultiVisibilityConverter x:Key="MultiVisibilityConverter"/>
+
+
 
 </ResourceDictionary>

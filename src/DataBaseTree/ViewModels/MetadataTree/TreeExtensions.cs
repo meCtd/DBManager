@@ -8,8 +8,7 @@ namespace DBManager.Application.ViewModels.MetadataTree
 {
     public static class TreeExtensions
     {
-
-        public static void TreeActionTraversal<TObj>(IEnumerable<TObj> rootItems, Func<TObj, IEnumerable<TObj>> childGetter,
+        public static void TreeActionTraversal<TObj>(this IEnumerable<TObj> rootItems, Func<TObj, IEnumerable<TObj>> childGetter,
             Action<TObj> action)
         {
             foreach (var item in rootItems)
@@ -19,7 +18,7 @@ namespace DBManager.Application.ViewModels.MetadataTree
             }
         }
 
-        public static IEnumerable<TResult> TreeGetTraversal<TObj, TResult>(IEnumerable<TObj> rootItems, Func<TObj, IEnumerable<TObj>> childGetter,
+        public static IEnumerable<TResult> TreeGetTraversal<TObj, TResult>(this IEnumerable<TObj> rootItems, Func<TObj, IEnumerable<TObj>> childGetter,
             Func<TObj, TResult> selector)
         {
             foreach (var item in rootItems)

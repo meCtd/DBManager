@@ -5,10 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
-        xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree.TreeItems"
-        xmlns:controls="clr-namespace:DBManager.Application.Controls"
-        xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
-        xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+        xmlns:utils="clr-namespace:DBManager.Application.Utils"
+        xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+        Icon="../../Resources/Icons/database.ico"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="DB Manager"
@@ -17,7 +16,7 @@
         WindowStyle="None">
 
     <Window.DataContext>
-        <windows:MainWindowViewModel />
+        <windows:TreeWindowViewModel />
     </Window.DataContext>
 
     <Window.Style>
@@ -53,12 +52,13 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/Views/Templates/MetadataTreeTemplates.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/MetadataTreeTemplates.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ScriptsTempaltes.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
-    <DockPanel Background="{StaticResource MainBackgroundColor}">
+    <DockPanel Background="{StaticResource MainBackgroundBrush}">
         <Grid DockPanel.Dock="Top"
               Height="30"
               VerticalAlignment="Top">
@@ -147,7 +147,8 @@
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" />
+                <ColumnDefinition MinWidth="200"
+                                  Width="200" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -158,17 +159,28 @@
                     <Button Style="{StaticResource MenuItemButtonStyle}"
                             Command="{Binding ConnectionManager.ConnectCommand}"
                             Content="{StaticResource ConnectIcon}"
-                            ToolTip="Add new connection"/>
+                            ToolTip="Add new connection" />
                 </StackPanel>
 
                 <Border DockPanel.Dock="Top"
                         BorderBrush="{StaticResource PrimaryBrush}"
                         BorderThickness="0,3,0,0" />
 
-                <TreeView x:Name="DatabaseTree"
+                <TreeView x:Name="Tree"
                           ItemsSource="{Binding Tree.RootItems, UpdateSourceTrigger=PropertyChanged}"
-                          Style="{StaticResource MetadataTreeStyle}" />
-
+                          Style="{StaticResource MetadataTreeStyle}">
+                    <TreeView.Resources>
+                        <behaviors:BindingProxy x:Key="Proxy"
+                                                Data="{Binding DataContext,ElementName=Tree}" />
+                    </TreeView.Resources>
+                    <TreeView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Add new connection"
+                                      Command="{Binding Data.ConnectionManager.ConnectCommand, Source={StaticResource Proxy}}"
+                                      Icon="{StaticResource ConnectIcon}"/>
+                        </ContextMenu>
+                    </TreeView.ContextMenu>
+                </TreeView>
             </DockPanel>
             <GridSplitter Grid.Column="1"
                           Width="3"

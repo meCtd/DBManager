@@ -1,8 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:utils="clr-namespace:DBManager.Application.Utils">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
+        <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type Button}">
@@ -45,7 +46,7 @@
     <Style x:Key="ChromeButtonStyle"
            TargetType="Button">
         <Setter Property="Background"
-                Value="{StaticResource MainBackgroundColor}" />
+                Value="{StaticResource MainBackgroundBrush}" />
         <Setter Property="BorderThickness"
                 Value="0" />
         <Setter Property="Width"
@@ -71,7 +72,7 @@
             <Trigger Property="IsMouseOver"
                      Value="True">
                 <Setter Property="Background"
-                        Value="Gray" />
+                        Value="{StaticResource StrongBrush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -79,13 +80,11 @@
     <Style x:Key="MenuItemButtonStyle"
            TargetType="Button">
         <Setter Property="Background"
-                Value="{StaticResource MainBackgroundColor}" />
+                Value="{StaticResource MainBackgroundBrush}" />
         <Setter Property="BorderThickness"
                 Value="0" />
         <Setter Property="Width"
                 Value="25" />
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome"
-                Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -107,6 +106,91 @@
                 <Setter Property="Background"
                         Value="{StaticResource SemiAccentLowBrush}" />
             </Trigger>
+            <Trigger Property="IsEnabled"
+                     Value="False">
+                <Setter Property="Opacity"
+                        Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TabItemCloseButtonStyle"
+           TargetType="Button">
+        <Setter Property="Content"
+                Value="{StaticResource CloseIcon}" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="BorderThickness"
+                Value="0" />
+        <Setter Property="Width"
+                Value="13" />
+        <Setter Property="Height"
+                Value="13" />
+        <Setter Property="Visibility"
+                Value="Hidden" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+
+                        <Canvas Background="{TemplateBinding Content}"
+                                Height="8"
+                                Width="8" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Mode=Self}}"
+                               Value="true"/>
+                    <Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TabItem}}"
+                               Value="true" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background"
+                            Value="{StaticResource BasicBorderBrush}" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Mode=Self}}"
+                               Value="true" />
+                    <Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TabItem}}"
+                               Value="false" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Background"
+                            Value="{StaticResource StrongBrush}" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsSelected,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TabItem}}"
+                               Value="true" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
+
+            <MultiDataTrigger>
+                <MultiDataTrigger.Conditions>
+                    <Condition Binding="{Binding IsMouseOver,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TabItem}}"
+                               Value="true" />
+                </MultiDataTrigger.Conditions>
+                <MultiDataTrigger.Setters>
+                    <Setter Property="Visibility"
+                            Value="Visible" />
+                </MultiDataTrigger.Setters>
+            </MultiDataTrigger>
         </Style.Triggers>
     </Style>
 

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
+
 using DBManager.Default;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree;
+
 
 namespace DBManager.SqlServer.Provider
 {
@@ -38,13 +37,13 @@ namespace DBManager.SqlServer.Provider
                     return $"SELECT ROUTINE_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[ROUTINES] WHERE ROUTINE_TYPE = 'PROCEDURE' AND ROUTINE_SCHEMA = '{target.FullName.Schema}' ORDER BY [{Constants.Name}]";
 
                 case MetadataType.Column:
-                    switch (target.Parent.Type)
+                    switch (target.Type)
                     {
                         case MetadataType.Table:
                             return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
 
                         case MetadataType.View:
-                            return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[VIEW_COLUMN_USAGE] WHERE TABLE_NAME = '{target.Name}' AND VIEW_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
+                            return $"SELECT COLUMN_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[VIEW_COLUMN_USAGE] WHERE VIEW_NAME = '{target.Name}' AND VIEW_SCHEMA = '{target.FullName.Schema}'";
 
                         default:
                             throw new ArgumentException();
@@ -53,51 +52,17 @@ namespace DBManager.SqlServer.Provider
                 case MetadataType.Constraint:
                     return $"SELECT CONSTRAINT_NAME AS [{Constants.Name}], CONSTRAINT_TYPE AS [{Constants.ConstraintType}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLE_CONSTRAINTS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY CONSTRAINT_TYPE DESC, [{Constants.Name}]";
 
-                //    switch (parentType)
-                //    {
-                //        case MetadataType.Table:
-                //            return ($"SELECT col.name AS[{Constants.Name}], " +
-                //                    $"TYPE_NAME(col.system_type_id) AS '{Constants.TypeNameProperty}', " +
-                //                    $"col.max_length AS '{Constants.MaxLengthProperty}', " +
-                //                    $"col.precision AS '{Constants.PrecisionProperty}', " +
-                //                    $"col.scale AS '{Constants.ScaleProperty}'  " +
-                //                    $"FROM sys.columns AS col " +
-                //                    $"JOIN INFORMATION_SCHEMA.COLUMNS AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) where inf.TABLE_NAME={Constants.NameParameter} AND inf.TABLE_SCHEMA={Constants.SchemaNameParameter}");
-                //        case MetadataType.View:
-                //            return ($"SELECT col.name AS[{Constants.Name}], " +
-                //                   $"TYPE_NAME(col.system_type_id) AS  '{Constants.TypeNameProperty}', " +
-                //                   $"col.max_length AS '{Constants.MaxLengthProperty}', " +
-                //                   $"col.precision AS '{Constants.PrecisionProperty}', " +
-                //                   $"col.scale AS '{Constants.ScaleProperty}'  " +
-                //                   $"FROM sys.columns AS col " +
-                //                   $"JOIN INFORMATION_SCHEMA.VIEW_COLUMN_USAGE AS inf ON col.name=inf.COLUMN_NAME AND col.object_id=OBJECT_ID(inf.TABLE_CATALOG+'.'+inf.TABLE_SCHEMA+'.'+inf.TABLE_NAME) WHERE inf.VIEW_NAME = {Constants.NameParameter} AND inf.VIEW_SCHEMA={Constants.SchemaNameParameter}");
+                case MetadataType.Trigger:
+                    return $"SELECT name AS [{Constants.Name}] FROM [{target.FullName.Database}].[sys].[triggers] WHERE [parent_id]=OBJECT_ID('{target.FullName.FullSchemaName}')";
 
-                //        default:
-                //            throw new ArgumentException();
-                //    }
+                case MetadataType.Index:
+                    return $"SELECT name AS [{Constants.Name}], is_primary_key AS [{Constants.IsPrimaryKey}], is_unique_constraint as [{Constants.IsUniqueConstraint}] FROM [{target.FullName.Database}].[sys].[indexes] WHERE [object_id]=OBJECT_ID('{target.FullName.FullSchemaName}') and [{Constants.Name}]!='NULL'";
 
-
-                //case MetadataType.Trigger:
-                //    return $"SELECT name AS [{Constants.Name}] FROM sys.triggers WHERE parent_id = COALESCE (OBJECT_ID({Constants.FullParentNameParameter}),0)";
-
-                //case MetadataType.Parameter:
-                //    return ($"SELECT  name AS[{Constants.Name}], " +
-                //            $"TYPE_NAME(system_type_id) AS '{Constants.TypeNameProperty}', " +
-                //            $"max_length AS '{Constants.MaxLengthProperty}', " +
-                //            $"precision AS '{Constants.PrecisionProperty}', " +
-                //            $"scale AS '{Constants.ScaleProperty}' " +
-                //            $"FROM sys.parameters WHERE object_id = OBJECT_ID({Constants.FullParentNameParameter}) AND parameter_id != 0");
-
-                //case MetadataType.Key:
-                //    return $"SELECT DISTINCT CONSTRAINT_NAME AS [{Constants.Name}] FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE WHERE TABLE_SCHEMA = {Constants.SchemaNameParameter} AND TABLE_NAME = {Constants.NameParameter}";
-
-                //case MetadataType.Index:
-                //    return
-                //        $"SELECT name AS [{Constants.Name}] FROM sys.indexes WHERE is_hypothetical = 0 AND index_id != 0 AND object_id = OBJECT_ID({Constants.FullParentNameParameter})";
+                case MetadataType.Parameter:
+                    return $"SELECT PARAMETER_NAME AS [{Constants.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[PARAMETERS] WHERE SPECIFIC_SCHEMA = '{target.FullName.Schema}' AND SPECIFIC_NAME = '{target.Name}' ORDER BY ORDINAL_POSITION";
 
                 default:
                     throw new ArgumentException();
-
             }
         }
 
@@ -249,9 +214,7 @@ namespace DBManager.SqlServer.Provider
 
                 case MetadataType.Index:
                     return ($"SELECT type_desc AS '{Constants.TypeProperty}', " +
-                            $"is_unique AS '{Constants.IsUniqueProperty}', " +
                             $"is_unique_constraint AS '{Constants.IsUniqueConstraintProperty}', " +
-                            $"is_primary_key AS '{Constants.IsPrimaryKeyProperty}', " +
                             $"is_padded AS '{Constants.IsPaddedProperty}', " +
                             $"is_disabled AS '{Constants.IsDisabledProperty}', " +
                             $"is_hypothetical AS '{Constants.IsHypotheticalProperty}', " +

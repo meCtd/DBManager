@@ -15,6 +15,8 @@ namespace DBManager.Application.Controls
 {
     class SqlEditor : TextEditor
     {
+        private bool _isSuspended;
+
         public static readonly DependencyProperty SqlProperty = DependencyProperty.Register(
             "Sql", typeof(string), typeof(SqlEditor), new FrameworkPropertyMetadata(default(string), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSqlChanged));
 
@@ -27,15 +29,18 @@ namespace DBManager.Application.Controls
         private static void OnSqlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var editor = (SqlEditor)d;
+            if(editor._isSuspended)
+                return;
+            
             editor.Text = (string)e.NewValue;
         }
 
-        static SqlEditor()
+        public SqlEditor()
         {
-            RegisterHighlights();
+            Setup();
         }
-        
-        private static void RegisterHighlights()
+
+        public static void RegisterHighlights()
         {
             RegisterHighlight(DialectType.SqlServer, Properties.Resources.MsSql);
         }
@@ -49,6 +54,24 @@ namespace DBManager.Application.Controls
                 definition = HighlightingLoader.Load(reader, HighlightingManager.Instance);
 
             HighlightingManager.Instance.RegisterHighlighting(dialect.ToString(), new String[] { }, definition);
+        }
+
+        private void Setup()
+        {
+            TextChanged += OnTextChanged;
+        }
+
+        private void OnTextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                _isSuspended = true;
+                Sql = Text;
+            }
+            finally
+            {
+                _isSuspended = false;
+            }
         }
     }
 }

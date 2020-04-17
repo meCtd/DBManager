@@ -18,30 +18,44 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private bool _isSelected;
 
-        public ObservableCollection<TreeViewItemViewModelBase> Children { get; }
+        public event EventHandler<ValueChangedEventArgs<bool>> ExpandChanged;
+
+        public event EventHandler Refreshed;
 
         public TreeViewItemViewModelBase Parent { get; }
-        
-        public event EventHandler<ValueChangedEventArgs<bool>> ExpandChanged;
+
+        public ObservableCollection<TreeViewItemViewModelBase> Children { get; }
+
+        private bool HasDummyChild => Children.Count == 1 && Children[0] is DummyChild;
 
         public bool IsExpanded
         {
             get { return _isExpanded; }
             set
             {
-                if(!_canHaveChildren)
+                if (!_canHaveChildren)
                     return;
-                
-                var oldValue = _isExpanded;
+
+                var oldValue = _isExpanded; 
+
                 if (SetProperty(ref _isExpanded, value))
+                {
+                    if (value)
+                        ExpandParent();
+
                     ExpandChanged?.Invoke(this, new ValueChangedEventArgs<bool>(oldValue, value));
+                }
             }
         }
 
         public bool IsSelected
         {
             get { return _isSelected; }
-            set { SetProperty(ref _isSelected, value); }
+            set
+            {
+                if (SetProperty(ref _isSelected, value) && value)
+                    ExpandParent();
+            }
         }
 
         protected TreeViewItemViewModelBase(TreeViewItemViewModelBase parent, bool canHaveChildren = true)
@@ -51,21 +65,42 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
             _canHaveChildren = canHaveChildren;
 
-            if (canHaveChildren)
-                Children.Add(_dummyChild);
+            Refreshed += (s, e) => Setup();
 
-            ExpandChanged += OnExpandChanged;
+            ExpandChanged += (s, e) =>
+            {
+                if (e.New && HasDummyChild)
+                    Children.Remove(_dummyChild);
+            };
+
+            Setup();
         }
 
-        private void OnExpandChanged(object sender, ValueChangedEventArgs<bool> e)
+        private void ExpandParent()
         {
-            Children.Remove(_dummyChild);
-            ExpandChanged -= OnExpandChanged;
+            if (!ReferenceEquals(Parent, null) && Parent.IsExpanded)
+                Parent.IsExpanded = true;
+        }
+
+        protected void Refresh()
+        {
+            Children.Clear();
+            _isExpanded = false;
+
+            Refreshed?.Invoke(this, EventArgs.Empty);
+
+            OnPropertyChanged(nameof(IsExpanded));
+        }
+
+        private void Setup()
+        {
+            if (_canHaveChildren)
+                Children.Add(_dummyChild);
         }
 
         private sealed class DummyChild : TreeViewItemViewModelBase
         {
-            public DummyChild() : base(null)
+            public DummyChild() : base(null,false)
             {
             }
         }

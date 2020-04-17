@@ -5,7 +5,8 @@
                     xmlns:templateSelectors="clr-namespace:DBManager.Application.TemplateSelectors"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
                     xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
-                    xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default">
+                    xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
     <Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
@@ -43,7 +44,33 @@
     <DataTemplate x:Key="ConstraintIconTemplate"
                   DataType="{x:Type dbEntities:Constraint}">
         <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
-                Background="{Binding Type,Converter={StaticResource MetadataTypeToIconConverter}}" />
+                Background="{Binding ConstraintType,Converter={StaticResource ConstraintTypeToIconConverter},Mode=OneTime}" />
+    </DataTemplate>
+
+    <DataTemplate x:Key="IndexIconTemplate"
+                  DataType="{x:Type dbEntities:Index}">
+        <Grid>
+            <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                    Background="{StaticResource PrimaryKeyIcon}"
+                    Visibility="{Binding IsPrimaryKey,Converter={convertors:BooleanToVisibilityConverter},Mode=OneTime}" />
+
+            <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                    Background="{StaticResource UniqueConstraintIcon}"
+                    Visibility="{Binding IsUniqueConstraint,Converter={convertors:BooleanToVisibilityConverter},Mode=OneTime}" />
+
+            <Canvas Style="{StaticResource MetadataIconCanvasStyle}"
+                    Background="{StaticResource IndexIcon}">
+                <Canvas.Visibility>
+                    <MultiBinding Converter="{StaticResource MultiVisibilityConverter}">
+                        <Binding Path="IsPrimaryKey"
+                                 Converter="{convertors:InvertedBooleanToVisibilityConverter}" />
+                        <Binding Path="IsUniqueConstraint"
+                                 Converter="{convertors:InvertedBooleanToVisibilityConverter}" />
+                    </MultiBinding>
+                </Canvas.Visibility>
+            </Canvas>
+        </Grid>
+
     </DataTemplate>
 
     <DataTemplate x:Key="DbObjectIconTemplate"
@@ -51,8 +78,9 @@
         <ContentPresenter Content="{Binding Model}">
             <ContentPresenter.ContentTemplateSelector>
                 <templateSelectors:MetadataObjectToIconTemplateSelector DbObjectIconTemplate="{StaticResource DbObjectDefaultIconTemplate}"
-                                                                        ConstraintIconTemplate="{StaticResource ConstraintIconTemplate}"/>
-                </ContentPresenter.ContentTemplateSelector>
+                                                                        ConstraintIconTemplate="{StaticResource ConstraintIconTemplate}"
+                                                                        IndexIconTemplate="{StaticResource IndexIconTemplate}" />
+            </ContentPresenter.ContentTemplateSelector>
         </ContentPresenter>
     </DataTemplate>
 
@@ -76,17 +104,34 @@
 
             <TextBlock x:Name="NameBlock"
                        Margin="3,0,0,0"
-                       Text="{Binding Path=Name}" />
+                       Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock x:Name="BusyLoaderIndicator" />
 
             <StackPanel.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{Binding Data.ConnectionManager.DisconnectCommand,Source={StaticResource Proxy}}"
+                    <MenuItem Command="{Binding RefreshCommand}"
+                              Icon="{StaticResource RefreshIcon}"
+                              Header="Refresh" />
+                    <Separator />
+                    <MenuItem Header="Disconnect"
+                              Command="{Binding Data.ConnectionManager.DisconnectCommand,Source={StaticResource Proxy}}"
                               CommandParameter="{Binding}"
-                              Header="Disconnect" />
+                              Icon="{StaticResource DisconnectIcon}"/>
+                    <Separator />
+                    <MenuItem Header="New query"
+                              Command="{Binding Data.Scripts.NewTabCommand,Source={StaticResource Proxy}}"
+                              CommandParameter="{Binding}"
+                              Icon="{StaticResource NewScriptIcon}" />
+
                 </ContextMenu>
             </StackPanel.ContextMenu>
 
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="PreviewMouseRightButtonDown">
+                    <i:InvokeCommandAction Command="{Binding Data.Tree.SetSelectedItemCommand,Source={StaticResource Proxy}}"
+                                           CommandParameter="{Binding}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </StackPanel>
         <HierarchicalDataTemplate.Triggers>
             <DataTrigger Binding="{Binding IsBusy}"
@@ -103,10 +148,10 @@
            TargetType="{x:Type TreeView}">
         <Style.Resources>
             <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}"
-                             Color="{StaticResource SemiAccentLowСolor}" />
+                             Color="{StaticResource SemiAccentLowColor}" />
 
             <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}"
-                             Color="{StaticResource SemiAccentLowСolor}" />
+                             Color="{StaticResource SemiAccentLowColor}" />
         </Style.Resources>
 
         <Setter Property="VerticalAlignment"

@@ -21,7 +21,16 @@ namespace DBManager.SqlServer.Metadata
                  [MetadataType.Schema] = s => new Schema(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Table] = s => new Table(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.View] = s => new View(s.GetString(s.GetOrdinal(Constants.Name))),
-                 [MetadataType.Index] = s => new Index(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Index] = s =>
+                 {
+                     var index = new Index(s.GetString(s.GetOrdinal(Constants.Name)))
+                     {
+                         IsPrimaryKey = s.GetBoolean(s.GetOrdinal(Constants.IsPrimaryKey)),
+                         IsUniqueConstraint = s.GetBoolean(s.GetOrdinal(Constants.IsUniqueConstraint))
+                     };
+
+                     return index;
+                 },
                  [MetadataType.Trigger] = s => new Trigger(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Constraint] = s =>
                  {
@@ -40,6 +49,10 @@ namespace DBManager.SqlServer.Metadata
                          case Constants.CheckConstraint:
                              constraint.ConstraintType = ConstraintType.CheckConstraint;
                              break;
+
+                         case Constants.UniqueConstraint:
+                             constraint.ConstraintType = ConstraintType.UniqueConstraint;
+                             break;
                      }
 
                      return constraint;
@@ -47,7 +60,11 @@ namespace DBManager.SqlServer.Metadata
                  [MetadataType.Procedure] = s => new Procedure(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Function] = s => new Function(s.GetString(s.GetOrdinal(Constants.Name))),
                  [MetadataType.Column] = s => new Column(s.GetString(s.GetOrdinal(Constants.Name))),
-                 [MetadataType.Parameter] = s => new Parameter(s.GetString(s.GetOrdinal(Constants.Name))),
+                 [MetadataType.Parameter] = s =>
+                 {
+                     var name = s.GetString(s.GetOrdinal(Constants.Name));
+                     return new Parameter(!string.IsNullOrEmpty(name) ? name : Constants.ReturnValue);
+                 },
              };
 
         public DbObject Create(DbDataReader reader, MetadataType type)

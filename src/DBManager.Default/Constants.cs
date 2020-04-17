@@ -15,6 +15,12 @@
         public const string PrimaryKey = "PRIMARY KEY";
         public const string ForeignKey = "FOREIGN KEY";
         public const string CheckConstraint = "CHECK";
+        public const string UniqueConstraint = "UNIQUE";
+
+        public const string IsPrimaryKey= "IsPrimaryKey";
+        public const string IsUniqueConstraint = "IsUniqueConstraint";
+
+        public const string ReturnValue = "Return Value";
 
 
 
@@ -62,8 +68,6 @@
         public const string ScaleProperty = "Scale";
         public const string CollationNameProperty = "Collation name";
         public const string TypeProperty = "Type";
-        public const string IsUniqueProperty = "Is unique";
-        public const string IsPrimaryKeyProperty = "Is primary key";
         public const string IsPaddedProperty = "Is padded";
         public const string IsDisabledProperty = "Is disabled";
         public const string MaxLengthProperty = "Max length";

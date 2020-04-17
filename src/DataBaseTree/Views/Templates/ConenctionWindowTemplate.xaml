@@ -2,10 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows"
                     xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
-                    xmlns:default="clr-namespace:DBManager.Default;assembly=DBManager.Default">
+                    xmlns:default="clr-namespace:DBManager.Default;assembly=DBManager.Default"
+                    xmlns:utils="clr-namespace:DBManager.Application.Utils">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="ConnectionTemplates.xaml" />
+        <utils:SharedResourceDictionary Source="ConnectionTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate DataType="{x:Type windows:ConnectionWindowViewModel}">

@@ -95,9 +95,13 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\MouseWheelClickTrigger.cs" />
     <Compile Include="Behaviors\BindingProxy.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
+    <Compile Include="Convertors\MultiVisibilityConverter.cs" />
+    <Compile Include="Convertors\ValueConverterGroup.cs" />
+    <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
     <Compile Include="Convertors\BooleanToVisibilityConverter.cs" />
     <Compile Include="Convertors\ConverterBase.cs" />
@@ -121,6 +125,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeExtensions.cs" />
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
+    <Compile Include="ViewModels\ScriptsViewModel.cs" />
     <Compile Include="ViewModels\ScriptViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConenctionManagerViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
@@ -128,7 +133,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModels\Windows\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
     <Compile Include="Views\Windows\ContentWindow.xaml.cs">
@@ -177,7 +182,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\ContextMenuStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\ScrollBarStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\TabControlStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,7 +249,12 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Icons\Info.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Icons\database.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

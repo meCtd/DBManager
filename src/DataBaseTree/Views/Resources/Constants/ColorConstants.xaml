@@ -1,27 +1,39 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--<SolidColorBrush x:Key="MainBackgroundColor"
-                     Color="#131313" />-->
-    <SolidColorBrush x:Key="MainBackgroundColor"
-                     Color="#202020" />
-    <SolidColorBrush x:Key="ModalBackgroundColor"
-                     Color="#252525" />
-
     <Color x:Key="MouseOverColor">#FF669933</Color>
-    <Color x:Key="SemiAccentLowСolor">#5986B90E</Color>
+    <Color x:Key="SemiAccentLowColor">#5986B90E</Color>
+    <Color x:Key="ModalBackgroundColor">#252525</Color>
+    <Color x:Key="MainBackgroundColor">#202020</Color>
+    <Color x:Key="StrongBrushColor">#FF646464</Color>
+    <Color x:Key="BasicBorderColor">#FF474747</Color>
+    <Color x:Key="LowBorderColor">#FF343434</Color>
+    <Color x:Key="ContextMenuBackgroundColor">#202020</Color>
+    <Color x:Key="MetadataIconColor">#FF3E86A0</Color>
+
+    <SolidColorBrush x:Key="MetadataIconBrush"
+                     Color="{StaticResource MetadataIconColor}" />
+
+    <SolidColorBrush x:Key="ContextMenuBackgroundBrush"
+                     Color="{StaticResource ContextMenuBackgroundColor}" />
+
+    <SolidColorBrush x:Key="MainBackgroundBrush"
+                     Color="{StaticResource MainBackgroundColor}" />
+    <SolidColorBrush x:Key="ModalBackgroundBrush"
+                     Color="{StaticResource ModalBackgroundColor}" />
+
 
     <!-- Mainly used for filling paths in elements when they are in Normal state. -->
     <SolidColorBrush x:Key="StrongBrush"
-                     Color="#FF646464" />
+                     Color="{StaticResource StrongBrushColor}" />
 
     <!-- Border brush of controls in their Normal state.-->
     <SolidColorBrush x:Key="BasicBorderBrush"
-                     Color="#FF474747" />
+                     Color="{StaticResource BasicBorderColor}" />
 
     <!-- border brush of controls in their ReadOnly state.-->
     <SolidColorBrush x:Key="LowBorderBrush"
-                     Color="#FF343434" />
+                     Color="{StaticResource LowBorderColor}" />
 
     <!-- A Brush used as background of controls with direct input such as TextBox, PasswordBox. -->
     <!-- Also, used as main background of elements that has different content with unpredictable background.-->
@@ -54,7 +66,7 @@
     <SolidColorBrush x:Key="AccentLowBrush"
                      Color="#FF86B90E" />
     <SolidColorBrush x:Key="SemiAccentLowBrush"
-                     Color="{StaticResource SemiAccentLowСolor}" />
+                     Color="{StaticResource SemiAccentLowColor}" />
 
     <!-- Validation color brush-->
     <SolidColorBrush x:Key="ValidationBrush"
