@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
+using DBManager.Default.Loader;
 using DBManager.Default.Tree;
 
 using Framework.Extensions;
@@ -60,7 +60,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected override async Task LoadChildren()
         {
-            await GetLoader().LoadChildrenAsync(_model, Type, CancellationToken.None);
+            var loadingContext = new LoadingContext(((ServerViewModel)Root).ConnectionData, CancellationToken.None);
+            await Components.Loader.LoadChildrenAsync(loadingContext, _model, Type);
 
             _model.Children
                 .Where(s => Equals(Type, s.Type))

@@ -77,7 +77,6 @@ namespace DBManager.Application.ViewModels.Connections
         public ConnectionViewModel(IConnectionData model)
         {
             Model = model;
-            Host = @".\SqlExpress";
         }
 
         protected virtual string ValidateColumn(string columnName)

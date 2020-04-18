@@ -14,7 +14,7 @@ namespace DBManager.SqlServer.Connection
     {
         private const string DefaultDatabase = "master";
 
-        public override DialectType Type => DialectType.SqlServer;
+        public override DialectType Dialect => DialectType.SqlServer;
 
         public override string ConnectionString
         {

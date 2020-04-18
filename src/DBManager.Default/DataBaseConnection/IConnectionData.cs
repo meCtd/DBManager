@@ -21,7 +21,7 @@ namespace DBManager.Default.DataBaseConnection
 
         IDictionary<ConnectionProperty, object> Properties { get; }
 
-        DialectType Type { get; }
+        DialectType Dialect { get; }
 
         string ConnectionString { get; }
 

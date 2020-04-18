@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Data;
-using DBManager.Default.Tree;
+﻿using DBManager.Default.Tree;
 
 namespace DBManager.Default.Providers
 {

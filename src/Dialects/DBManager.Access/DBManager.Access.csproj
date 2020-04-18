@@ -37,7 +37,7 @@
     <Reference Include="Microsoft.Office.Interop.Access.dao, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <EmbedInteropTypes>False</EmbedInteropTypes>
-      <HintPath>..\..\libs\Microsoft.Office.Interop.Access.dao.dll</HintPath>
+      <HintPath>..\..\..\libs\Microsoft.Office.Interop.Access.dao.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
@@ -61,6 +61,9 @@
     </Compile>
     <Compile Include="ADO\AccessDbDataReader.cs" />
     <Compile Include="ADO\AccessDbTransaction.cs" />
+    <Compile Include="Loader\AccessAtomicLoaderFactory.cs" />
+    <Compile Include="Loader\AccessLoader.cs" />
+    <Compile Include="Metadata\AccessHierarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

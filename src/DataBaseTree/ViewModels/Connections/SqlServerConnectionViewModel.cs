@@ -26,6 +26,7 @@ namespace DBManager.Application.ViewModels.Connections
 
         public SqlServerConnectionViewModel(IConnectionData model) : base(model)
         {
+            Host = @".\SqlExpress";
         }
 
         protected override string ValidateColumn(string columnName)

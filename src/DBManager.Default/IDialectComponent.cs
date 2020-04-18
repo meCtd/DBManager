@@ -1,10 +1,9 @@
 ﻿using System.Data.Common;
 
 using DBManager.Default.DataBaseConnection;
-using DBManager.Default.MetadataFactory;
+using DBManager.Default.Loader;
 using DBManager.Default.Normalizers;
 using DBManager.Default.Printers;
-using DBManager.Default.Providers;
 using DBManager.Default.Tree.Hierarchy;
 
 
@@ -16,11 +15,10 @@ namespace DBManager.Default
 
         IPrinter Printer { get; }
 
-        IScriptProvider ScriptProvider { get; }
+        //IScriptProvider ScriptProvider { get; }
+        ILoader Loader { get; }
 
         IMetadataHierarchy Hierarchy { get; }
-
-        IMetadataFactory ObjectFactory { get; }
 
         NormalizerBase Normalizer { get; }
 

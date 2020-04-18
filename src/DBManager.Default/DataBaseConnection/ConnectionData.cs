@@ -31,7 +31,7 @@ namespace DBManager.Default.DataBaseConnection
         [DataMember(Name = "Properties")]
         public IDictionary<ConnectionProperty, object> Properties { get; }
 
-        public abstract DialectType Type { get; }
+        public abstract DialectType Dialect { get; }
 
         public abstract string ConnectionString { get; }
 

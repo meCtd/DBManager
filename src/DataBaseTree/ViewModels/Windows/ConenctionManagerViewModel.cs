@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -12,7 +11,6 @@ using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Loader;
-using DBManager.Default.Tree.DbEntities;
 
 using Framework.Extensions;
 using Ninject;
@@ -51,41 +49,25 @@ namespace DBManager.Application.ViewModels.Windows
             var root = obj.Root;
             _metadataTree.RootItems.Remove(root);
 
-            Context.Resolver
-               .GetBindings(typeof(IObjectLoader))
-               .Where(s => s.Metadata.Name?.Equals(root.Name) ?? false)
-               .ForEach(Context.Resolver.RemoveBinding);
+            //Context.Resolver
+            //   .GetBindings(typeof(IObjectLoader))
+            //   .Where(s => s.Metadata.Name?.Equals(root.Name) ?? false)
+            //   .ForEach(Context.Resolver.RemoveBinding);
         }
 
         private async Task OnConnectedAsync(IConnectionData data)
         {
-            var component = Context.Resolver.Get<IDialectComponent>(data.Type.ToString());
+            var loader = Context.Resolver.Get<IDialectComponent>(data.Dialect.ToString()).Loader;
 
-            var loader = new ObjectLoader(component, data);
-            await loader.LoadServerProperties(CancellationToken.None);
+            var server = await loader.LoadServerAsync(new LoadingContext(data, CancellationToken.None));
+            //Context.Resolver.Bind<IObjectLoader>()
+            //    .ToConstant(loader)
+            //    .Named(serverName);
 
-            var serverName = GetServerName(data);
-
-            Context.Resolver.Bind<IObjectLoader>()
-                .ToConstant(loader)
-                .Named(serverName);
-
-            if (_metadataTree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.Name.Equals(serverName)))
+            if (_metadataTree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.Name.Equals(server.Name)))
                 return;
 
-            _metadataTree.RootItems.Add(new ServerViewModel(new Server(serverName, data.Type)));
-        }
-
-        private string GetServerName(IConnectionData data)
-        {
-            var builder = new StringBuilder();
-            builder.Append(data.Host);
-
-            if (!string.IsNullOrEmpty(data.Port))
-                builder.Append($":{data.Port}");
-
-            builder.Append($" ({data.UserId})");
-            return builder.ToString();
+            _metadataTree.RootItems.Add(new ServerViewModel(server));
         }
     }
 }

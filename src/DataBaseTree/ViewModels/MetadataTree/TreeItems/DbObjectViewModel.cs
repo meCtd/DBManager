@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using DBManager.Application.ViewModels.General;
 using DBManager.Default;
+using DBManager.Default.Loader;
 using DBManager.Default.Tree;
 
 using Framework.Extensions;
@@ -20,9 +21,18 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         public override MetadataType Type => Model.Type;
 
-        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model) : base(parent, AppContext.Current.Resolver.Get<IDialectComponent>().Hierarchy.Structure.GetValueOrDefault(model.Type)?.HasChildren ?? false)
+        public DbObjectViewModel(MetadataViewModelBase parent, DbObject model)
+            : base(parent, CanHaveChildren(parent, model))
         {
             Model = model;
+        }
+
+        private static bool CanHaveChildren(MetadataViewModelBase parent, DbObject model)
+        {
+            if (parent is null)
+                return true;
+
+            return AppContext.Current.Resolver.Get<IDialectComponent>(parent.Dialect.ToString()).Hierarchy.Structure.GetValueOrDefault(model.Type)?.HasChildren ?? false;
         }
 
         protected override void RemoveChildrenFromModel()
@@ -32,14 +42,15 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected override async Task LoadChildren()
         {
-            var node = Context.Resolver.Get<IDialectComponent>().Hierarchy.Structure[Type];
+
+            var node = Components.Hierarchy.Structure[Type];
 
             if (node.NeedCategory)
                 node.ChildrenTypes.ForEach(type => Children.Add(new CategoryViewModel(Model, this, type)));
-
             else
             {
-                await GetLoader().LoadChildrenAsync(Model, CancellationToken.None);
+                var loadingContext = new LoadingContext(((ServerViewModel)Root).ConnectionData, CancellationToken.None);
+                await Components.Loader.LoadChildrenAsync(loadingContext, Model);
 
                 Model.Children.ForEach(s => Children.Add(new DbObjectViewModel(this, s)));
             }

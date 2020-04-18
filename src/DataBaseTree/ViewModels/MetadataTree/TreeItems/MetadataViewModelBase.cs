@@ -21,6 +21,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private ICommand _refreshCommand;
 
+        protected IDialectComponent _components;
+
         public event EventHandler Loaded;
 
         public new MetadataViewModelBase Parent => base.Parent as MetadataViewModelBase;
@@ -39,7 +41,9 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
 
         public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
-        
+
+        protected IDialectComponent Components => _components ?? Root.Components;
+
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {
             ExpandChanged += (sender, args) =>
@@ -55,11 +59,6 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected abstract void RemoveChildrenFromModel();
         protected abstract Task LoadChildren();
-
-        protected IObjectLoader GetLoader()
-        {
-            return Context.Resolver.Get<IObjectLoader>(Root.Name);
-        }
 
         private void Refresh(object obj)
         {

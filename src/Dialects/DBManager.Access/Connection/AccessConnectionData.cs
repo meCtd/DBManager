@@ -8,7 +8,7 @@ namespace DBManager.Access.Connection
 {
     class AccessConnectionData : ConnectionData
     {
-        public override DialectType Type => DialectType.Access;
+        public override DialectType Dialect => DialectType.Access;
 
         public string DataSource 
         { 

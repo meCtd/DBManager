@@ -47,8 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\SqlServerConnectionData.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerDatabaseAtomicLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerSchemaAtomicLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerTableAtomicLoader.cs" />
+    <Compile Include="Loader\SqlServerAtomicLoaderFactory.cs" />
+    <Compile Include="Loader\SqlServerLoader.cs" />
     <Compile Include="Metadata\SqlServerHierarchy.cs" />
-    <Compile Include="Metadata\SqlServerMetadataTypeFactory.cs" />
     <Compile Include="Printer\SqlServerDefaultPrinter.cs" />
     <Compile Include="Printer\SqlServerPrinterFactory.cs" />
     <Compile Include="Printer\SqlServerTablePrinter.cs" />
