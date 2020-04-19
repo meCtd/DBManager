@@ -39,7 +39,7 @@ namespace DBManager.Application.ViewModels
         public ICommand NewTabCommand => _newTabCommand ?? (_newTabCommand =
             new RelayCommand<MetadataViewModelBase>(s =>
             {
-                var tab = new ScriptViewModel(GenerateName(), s.Root.Name, s.Dialect);
+                var tab = new ScriptViewModel(GenerateName(), s.Root);
                 Tabs.Add(tab);
 
                 SelectedTab = tab;

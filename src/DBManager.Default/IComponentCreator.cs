@@ -1,9 +1,10 @@
 ﻿using System.Data;
 using System.Data.Common;
+
 using DBManager.Default.DataBaseConnection;
 
 
-namespace DBManager.Default.Execution
+namespace DBManager.Default
 {
     public interface IComponentCreator
     {

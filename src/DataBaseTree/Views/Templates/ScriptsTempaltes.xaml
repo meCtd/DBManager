@@ -25,12 +25,12 @@
 
                     <Button Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
                             Style="{StaticResource TabItemCloseButtonStyle}"
-                            CommandParameter="{Binding}"/>
+                            CommandParameter="{Binding}" />
 
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="PreviewMouseDown">
                             <behaviors:MouseWheelClickTrigger Command="{Binding DataContext.CloseTabCommand,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type TabControl}}}"
-                                                              CommandParameter="{Binding}"/>
+                                                              CommandParameter="{Binding}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </StackPanel>
@@ -43,21 +43,29 @@
                     ItemsSource="{Binding Tabs}">
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
-                    <DockPanel>
-                        <StackPanel DockPanel.Dock="Top"
-                                    Orientation="Horizontal"
-                                    Height="25">
-                            <Button Style="{StaticResource MenuItemButtonStyle}"
-                                    Command="{Binding ExecuteCommand}"
-                                    Content="{StaticResource ExecuteIcon}"
-                                    ToolTip="Execute" />
+                    <DockPanel LastChildFill="True">
+                        <DockPanel DockPanel.Dock="Top"
+                                   LastChildFill="False">
+                            <StackPanel  DockPanel.Dock="Left"
+                                         Orientation="Horizontal"
+                                         Height="25">
+                                <Button Style="{StaticResource MenuItemButtonStyle}"
+                                        Command="{Binding ExecuteCommand}"
+                                        Content="{StaticResource ExecuteIcon}"
+                                        ToolTip="Execute" />
 
-                            <Button Style="{StaticResource MenuItemButtonStyle}"
-                                    Command="{Binding SaveCommand}"
-                                    Content="{StaticResource SaveIcon}"
-                                    ToolTip="Save" />
+                                <Button Style="{StaticResource MenuItemButtonStyle}"
+                                        Command="{Binding SaveCommand}"
+                                        Content="{StaticResource SaveIcon}"
+                                        ToolTip="Save" />
 
-                        </StackPanel>
+                            </StackPanel>
+
+                            <ComboBox DockPanel.Dock="Right"
+                                      Width="300"
+                                      ItemsSource="{Binding AvailableСontexts}"
+                                      SelectedItem="{Binding ExecutionContext}" />
+                        </DockPanel>
                         <Border DockPanel.Dock="Top"
                                 BorderBrush="{StaticResource PrimaryBrush}"
                                 BorderThickness="0,3,0,0" />
@@ -69,7 +77,19 @@
                                             Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             SyntaxHighlighting="{Binding Highlighting}"
                                             VerticalScrollBarVisibility="Auto"
-                                            HorizontalScrollBarVisibility="Auto" />
+                                            HorizontalScrollBarVisibility="Auto" >
+                            <controls:SqlEditor.Style>
+                                <Style TargetType="{x:Type controls:SqlEditor}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsVisible"
+                                                     Value="true">
+                                            <Setter Property="FocusManager.FocusedElement"
+                                                    Value="{Binding RelativeSource={RelativeSource Mode=Self}}" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:SqlEditor.Style>
+                        </controls:SqlEditor>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>

@@ -4,9 +4,8 @@ using System.Data.Common;
 
 using DBManager.Access.ADO;
 using DBManager.Access.Connection;
-
+using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-using DBManager.Default.Execution;
 
 
 namespace DBManager.Access

@@ -9,11 +9,6 @@ namespace DBManager.SqlServer.Provider
 {
     internal class SqlServerScriptProvider : IScriptProvider
     {
-        public string ProvideChangeContext()
-        {
-            return "USE {0}";
-        }
-
         public string ProvideNameScript(DbObject target, MetadataType childType)
         {
             switch (childType)

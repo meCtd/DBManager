@@ -14,5 +14,7 @@ namespace DBManager.Default
         ILoader Loader { get; }
 
         IComponentCreator Creator { get; }
+
+        IScriptExecutor Executor { get; }
     }
 }

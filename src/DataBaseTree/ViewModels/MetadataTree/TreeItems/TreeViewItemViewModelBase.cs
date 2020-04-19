@@ -26,6 +26,8 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         public ObservableCollection<TreeViewItemViewModelBase> Children { get; }
 
+        public abstract string Name { get; }
+
         private bool HasDummyChild => Children.Count == 1 && Children[0] is DummyChild;
 
         public bool IsExpanded
@@ -36,7 +38,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
                 if (!_canHaveChildren)
                     return;
 
-                var oldValue = _isExpanded; 
+                var oldValue = _isExpanded;
 
                 if (SetProperty(ref _isExpanded, value))
                 {
@@ -100,9 +102,12 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         private sealed class DummyChild : TreeViewItemViewModelBase
         {
-            public DummyChild() : base(null,false)
+            public override string Name => "";
+
+            public DummyChild() : base(null, false)
             {
             }
+
         }
     }
 }

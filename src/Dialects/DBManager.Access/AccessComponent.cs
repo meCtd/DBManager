@@ -22,5 +22,7 @@ namespace DBManager.Access
         public ILoader Loader => _loader ?? (_loader = new AccessLoader(this));
 
         public IComponentCreator Creator { get; } = new AccessCreator();
+
+        public IScriptExecutor Executor { get; }
     }
 }

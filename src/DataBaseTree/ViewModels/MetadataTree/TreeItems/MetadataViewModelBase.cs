@@ -16,23 +16,18 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         private bool _isBusy;
         private bool _wasLoaded;
         private ICommand _refreshCommand;
-        private IDialectComponent _components;
-        private DialectType? _dialect;
-
 
         public event EventHandler Loaded;
 
-        protected virtual IDialectComponent Components => _components ?? (_components = Root.Components);
+        protected virtual IDialectComponent Components => Root.Components;
 
         public new MetadataViewModelBase Parent => base.Parent as MetadataViewModelBase;
 
-        public abstract string Name { get; }
-
         public abstract MetadataType Type { get; }
 
+        public virtual DialectType Dialect => Root.Dialect;
+
         public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
-        
-        public virtual DialectType Dialect => (_dialect ?? (_dialect = Root.Dialect)).Value;
 
         public bool IsBusy
         {
@@ -46,9 +41,9 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         {
             ExpandChanged += (sender, args) =>
             {
-                if (args.New && !_wasLoaded)
+                if (args.New)
                 {
-                    LoadChildrenInternal();
+                    LoadChildrenAsync();
                 }
             };
 
@@ -64,8 +59,11 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             Refresh();
         }
 
-        private async void LoadChildrenInternal()
+        public async Task LoadChildrenAsync()
         {
+            if (_wasLoaded)
+                return;
+
             try
             {
                 IsBusy = true;

@@ -49,10 +49,10 @@ namespace DBManager.Application.ViewModels.Windows
             var root = obj.Root;
             _metadataTree.RootItems.Remove(root);
 
-            //Context.Resolver
-            //   .GetBindings(typeof(IObjectLoader))
-            //   .Where(s => s.Metadata.Name?.Equals(root.Name) ?? false)
-            //   .ForEach(Context.Resolver.RemoveBinding);
+            Context.Resolver
+               .GetBindings(typeof(IConnectionData))
+               .Where(s => s.Metadata.Name?.Equals(root.Name) ?? false)
+               .ForEach(Context.Resolver.RemoveBinding);
         }
 
         private async Task OnConnectedAsync(IConnectionData data)
@@ -60,9 +60,10 @@ namespace DBManager.Application.ViewModels.Windows
             var loader = Context.Resolver.Get<IDialectComponent>(data.Dialect.ToString()).Loader;
 
             var server = await loader.LoadServerAsync(new LoadingContext(data, CancellationToken.None));
-            //Context.Resolver.Bind<IObjectLoader>()
-            //    .ToConstant(loader)
-            //    .Named(serverName);
+
+            Context.Resolver.Bind<IConnectionData>()
+                .ToConstant(server.ConnectionData)
+                .Named(server.Name);
 
             if (_metadataTree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.Name.Equals(server.Name)))
                 return;

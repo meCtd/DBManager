@@ -1,13 +1,10 @@
 ﻿using System.ComponentModel.Composition;
-using System.Data.Common;
-using System.Data.SqlClient;
 
 using DBManager.Default;
-using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Execution;
 using DBManager.Default.Loader;
 using DBManager.Default.Printers;
-using DBManager.SqlServer.Connection;
+using DBManager.SqlServer.Execution;
 using DBManager.SqlServer.Loader;
 using DBManager.SqlServer.Printer;
 
@@ -25,6 +22,8 @@ namespace DBManager.SqlServer
 
         public ILoader Loader => _loader ?? (_loader = new SqlServerLoader(this));
 
-        public IComponentCreator Creator { get; } = new SqlServerCreator();
+        public IComponentCreator Creator => SqlServerCreator.Instance;
+
+        public IScriptExecutor Executor { get; } = new SqlServerScriptExecutor();
     }
 }

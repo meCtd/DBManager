@@ -67,7 +67,10 @@
     <Compile Include="DataBaseConnection\IConnectionData.cs" />
     <Compile Include="DataBaseConnection\ServerInfo.cs" />
     <Compile Include="DialectType.cs" />
-    <Compile Include="Execution\IComponentCreator.cs" />
+    <Compile Include="Execution\ExecutionContext.cs" />
+    <Compile Include="Execution\IExecutionContext.cs" />
+    <Compile Include="Execution\IScriptExecutor.cs" />
+    <Compile Include="IComponentCreator.cs" />
     <Compile Include="IDialectComponent.cs" />
     <Compile Include="Loader\AtomicLoaderFactoryBase.cs" />
     <Compile Include="Loader\Sql\BaseAtomicSqlLoader.cs" />
