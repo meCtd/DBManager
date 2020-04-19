@@ -5,11 +5,11 @@ using DBManager.Default.Tree;
 
 namespace DBManager.SqlServer.Loader.AtomicLoaders
 {
-    class DatabaseLoader : BaseAtomicSqlLoader
+    internal class SqlServerTableLoader : BaseAtomicSqlLoader
     {
-        public override MetadataType Type => MetadataType.Database;
+        public override MetadataType Type => MetadataType.Table;
 
-        public DatabaseLoader(IDialectComponent components)
+        public SqlServerTableLoader(IDialectComponent components)
             : base(components)
         { }
     }

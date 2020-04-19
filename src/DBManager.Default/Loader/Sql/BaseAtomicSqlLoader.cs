@@ -26,7 +26,7 @@ namespace DBManager.Default.Loader.Sql
             {
                 await connection.OpenAsync(context.Token);
 
-                var command = _components.CreateCommand();
+                var command = _components.Creator.CreateCommand();
                 command.Connection = connection;
                 command.CommandText = _components.Loader.ScriptProvider.ProvideNameScript(objectToLoad, Type);
 
@@ -54,7 +54,7 @@ namespace DBManager.Default.Loader.Sql
 
                 string query = _components.Loader.ScriptProvider.ProvidePropertiesScript(objectToLoad);
 
-                var command = _components.CreateCommand();
+                var command = _components.Creator.CreateCommand();
                 command.Connection = connection;
                 command.CommandText = query;
 

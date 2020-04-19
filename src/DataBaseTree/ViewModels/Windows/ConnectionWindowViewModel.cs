@@ -130,6 +130,7 @@ namespace DBManager.Application.ViewModels.Windows
         {
             var data = Context.Resolver
                 .Get<IDialectComponent>(SelectedDialect.ToString())
+                .Creator
                 .CreateConnectionData();
 
             switch (type)

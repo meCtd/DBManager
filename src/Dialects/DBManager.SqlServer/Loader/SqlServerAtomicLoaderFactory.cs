@@ -18,9 +18,9 @@ namespace DBManager.SqlServer.Loader
         {
             AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>()
             {
-                [MetadataType.Database] = new DatabaseLoader(components),
-                [MetadataType.Schema] = new SchemaLoader(components),
-                [MetadataType.Table] = new TableLoader(components),
+                [MetadataType.Database] = new SqlServerDatabaseLoader(components),
+                [MetadataType.Schema] = new SqlServerSchemaLoader(components),
+                [MetadataType.Table] = new SqlServerTableLoader(components),
             };
         }
     }

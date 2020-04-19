@@ -50,13 +50,13 @@ namespace DBManager.SqlServer.Provider
                     }
 
                 case MetadataType.Constraint:
-                    return $"SELECT CONSTRAINT_NAME AS [{BaseAtomicSqlLoader.Name}], CONSTRAINT_TYPE AS [{Constants.ConstraintType}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLE_CONSTRAINTS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY CONSTRAINT_TYPE DESC, [{BaseAtomicSqlLoader.Name}]";
+                    return $"SELECT CONSTRAINT_NAME AS [{BaseAtomicSqlLoader.Name}], CONSTRAINT_TYPE AS [{SqlServerConstants.ConstraintType}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[TABLE_CONSTRAINTS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY CONSTRAINT_TYPE DESC, [{BaseAtomicSqlLoader.Name}]";
 
                 case MetadataType.Trigger:
                     return $"SELECT name AS [{BaseAtomicSqlLoader.Name}] FROM [{target.FullName.Database}].[sys].[triggers] WHERE [parent_id]=OBJECT_ID('{target.FullName.FullSchemaName}')";
 
                 case MetadataType.Index:
-                    return $"SELECT name AS [{BaseAtomicSqlLoader.Name}], is_primary_key AS [{Constants.IsPrimaryKey}], is_unique_constraint as [{Constants.IsUniqueConstraint}] FROM [{target.FullName.Database}].[sys].[indexes] WHERE [object_id]=OBJECT_ID('{target.FullName.FullSchemaName}') and [{BaseAtomicSqlLoader.Name}]!='NULL'";
+                    return $"SELECT name AS [{BaseAtomicSqlLoader.Name}], is_primary_key AS [{SqlServerConstants.IsPrimaryKey}], is_unique_constraint as [{SqlServerConstants.IsUniqueConstraint}] FROM [{target.FullName.Database}].[sys].[indexes] WHERE [object_id]=OBJECT_ID('{target.FullName.FullSchemaName}') and [{BaseAtomicSqlLoader.Name}]!='NULL'";
 
                 case MetadataType.Parameter:
                     return $"SELECT PARAMETER_NAME AS [{BaseAtomicSqlLoader.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[PARAMETERS] WHERE SPECIFIC_SCHEMA = '{target.FullName.Schema}' AND SPECIFIC_NAME = '{target.Name}' ORDER BY ORDINAL_POSITION";

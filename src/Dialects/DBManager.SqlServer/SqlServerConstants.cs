@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DBManager.SqlServer
+﻿namespace DBManager.SqlServer
 {
-    internal static class Constants
+    internal static class SqlServerConstants
     {
         public const string Type = "Type";
         public const string OrdinalPosition = "OrdinalPosition";

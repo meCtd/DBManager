@@ -7,7 +7,7 @@ namespace DBManager.SqlServer.Printer
     {
         public string GetDefinition(DefinitionObject obj)
         {
-            return $"CREATE {obj.Type.ToString().ToUpper()} {SqlServerComponent.SqlNormalizer.Quote(obj.Name)}";
+            return $"CREATE {obj.Type.ToString().ToUpper()} {SqlServerNormalizer.Instance.Quote(obj.Name)}";
         }
     }
 }

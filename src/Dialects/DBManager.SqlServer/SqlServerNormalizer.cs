@@ -4,6 +4,12 @@ namespace DBManager.SqlServer
 {
     internal class SqlServerNormalizer : NormalizerBase
     {
+        public static NormalizerBase Instance { get; }=new SqlServerNormalizer();
+
+        private SqlServerNormalizer()
+        {
+        }
+
         public override string ScriptDelimiter => "GO";
 
         public override string ParameterPrefix => "@";

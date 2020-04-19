@@ -47,10 +47,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\SqlServerConnectionData.cs" />
-    <Compile Include="Constants.cs" />
-    <Compile Include="Loader\AtomicLoaders\DatabaseLoader.cs" />
-    <Compile Include="Loader\AtomicLoaders\SchemaLoader.cs" />
-    <Compile Include="Loader\AtomicLoaders\TableLoader.cs" />
+    <Compile Include="SqlServerConstants.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerDatabaseLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerSchemaLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerTableLoader.cs" />
     <Compile Include="Loader\SqlServerAtomicLoaderFactory.cs" />
     <Compile Include="Loader\SqlServerLoader.cs" />
     <Compile Include="Metadata\SqlServerHierarchy.cs" />
@@ -60,6 +60,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Provider\SqlServerScriptProvider.cs" />
     <Compile Include="SqlServerComponent.cs" />
+    <Compile Include="SqlServerCreator.cs" />
     <Compile Include="SqlServerNormalizer.cs" />
   </ItemGroup>
   <ItemGroup>

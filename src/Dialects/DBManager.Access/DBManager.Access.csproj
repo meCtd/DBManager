@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccessComponent.cs" />
+    <Compile Include="AccessCreator.cs" />
     <Compile Include="Connection\AccessConnectionData.cs" />
     <Compile Include="ADO\AccessConnectionStringBuilder.cs" />
     <Compile Include="ADO\AccessDbCommand.cs">
