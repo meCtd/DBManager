@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\SqlServerConnectionData.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Loader\AtomicLoaders\DatabaseLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\SchemaLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\TableLoader.cs" />

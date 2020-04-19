@@ -62,7 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Constants.cs" />
     <Compile Include="DataBaseConnection\ConnectionData.cs" />
     <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
     <Compile Include="DataBaseConnection\IConnectionData.cs" />
@@ -70,14 +69,13 @@
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialectComponent.cs" />
     <Compile Include="Loader\AtomicLoaderFactoryBase.cs" />
-    <Compile Include="Loader\BaseAtomicSqlLoader.cs" />
+    <Compile Include="Loader\Sql\BaseAtomicSqlLoader.cs" />
     <Compile Include="Loader\IAtomicLoader.cs" />
     <Compile Include="Loader\IAtomicLoaderFactory.cs" />
     <Compile Include="Loader\ILoader.cs" />
     <Compile Include="Loader\ILoadingContext.cs" />
     <Compile Include="Loader\LoaderBase.cs" />
     <Compile Include="Loader\LoadingContext.cs" />
-    <Compile Include="MetadataFactory\IMetadataFactory.cs" />
     <Compile Include="MetadataFactory\MetadataTypeFactory.cs" />
     <Compile Include="Normalizers\NormalizerBase.cs" />
     <Compile Include="Printers\IPrinter.cs" />

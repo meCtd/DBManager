@@ -5,10 +5,12 @@ using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 
 
-namespace DBManager.Default.Loader
+namespace DBManager.Default.Loader.Sql
 {
     public abstract class BaseAtomicSqlLoader : IAtomicLoader
     {
+        public const string Name = "Name";
+
         protected readonly IDialectComponent _components;
 
         public abstract MetadataType Type { get; }
@@ -32,7 +34,7 @@ namespace DBManager.Default.Loader
                 {
                     while (await reader.ReadAsync())
                     {
-                        var name = reader.GetString(reader.GetOrdinal(Constants.Name));
+                        var name = reader.GetString(reader.GetOrdinal(Name));
                         objectToLoad.AddChild(MetadataTypeFactory.Instance.Create(Type, name));
                     }
                 }

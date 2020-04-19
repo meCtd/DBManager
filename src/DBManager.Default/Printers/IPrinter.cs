@@ -1,5 +1,5 @@
-﻿using DBManager.Default.Tree;
-using DBManager.Default.Tree.DbEntities;
+﻿using DBManager.Default.Tree.DbEntities;
+
 
 namespace DBManager.Default.Printers
 {

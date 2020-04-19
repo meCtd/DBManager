@@ -7,7 +7,7 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.Default.MetadataFactory
 {
-    public class MetadataTypeFactory : IMetadataFactory
+    public class MetadataTypeFactory
     {
         public static MetadataTypeFactory Instance { get; } = new MetadataTypeFactory();
         

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using DBManager.Default;
+
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
+
 
 namespace DBManager.SqlServer.Printer
 {
@@ -45,29 +46,29 @@ namespace DBManager.SqlServer.Printer
 
         private void SetColumns(DbObject _object)
         {
-            foreach (var column in _object.Children.OfType<Column>())
-            {
-                _definition.Append($"\t[{column.Name}] {column.DbType.Name} ");
-                if ((bool)column.Properties[Constants.IsIdentityProperty])
-                {
-                    _definition.Append(
-                        $"IDENTITY ({column.Properties[Constants.SeedValueProperty]},{column.Properties[Constants.SeedIncrementProperty]}) ");
-                }
+            //foreach (var column in _object.Children.OfType<Column>())
+            //{
+            //    _definition.Append($"\t[{column.Name}] {column.DbType.Name} ");
+            //    if ((bool)column.Properties[Constants.IsIdentityProperty])
+            //    {
+            //        _definition.Append(
+            //            $"IDENTITY ({column.Properties[Constants.SeedValueProperty]},{column.Properties[Constants.SeedIncrementProperty]}) ");
+            //    }
                  
-                if (!string.IsNullOrWhiteSpace(column.Properties[Constants.DefaultValueProperty].ToString()))
-                {
-                    _definition.Append($"CONSTRAINT [DF_{column.FullName.Schema}_{column.Name}] DEFAULT {column.Properties[Constants.DefaultValueProperty]} ,\n");
-                }
-                else
-                {
-                    if ((bool)column.Properties[Constants.IsNullableProperty])
-                    {
-                        _definition.Append("NULL ,\n");
-                    }
-                    else
-                        _definition.Append("NOT NULL ,\n");
-                }
-            }
+            //    if (!string.IsNullOrWhiteSpace(column.Properties[Constants.DefaultValueProperty].ToString()))
+            //    {
+            //        _definition.Append($"CONSTRAINT [DF_{column.FullName.Schema}_{column.Name}] DEFAULT {column.Properties[Constants.DefaultValueProperty]} ,\n");
+            //    }
+            //    else
+            //    {
+            //        if ((bool)column.Properties[Constants.IsNullableProperty])
+            //        {
+            //            _definition.Append("NULL ,\n");
+            //        }
+            //        else
+            //            _definition.Append("NOT NULL ,\n");
+            //    }
+            //}
         }
 
         private void SetPrimaryUniqueKeys(DbObject _object, bool keyType)
@@ -107,8 +108,8 @@ namespace DBManager.SqlServer.Printer
             IEnumerable<DbObject> constraints = _object.Children.Where(child => child.Type == MetadataType.Constraint);
             foreach (var constraint in constraints)
             {
-                _definition.Append(
-                    $"ALTER TABLE [{_object.FullName.Schema}].[{_object.Name}]  WITH CHECK ADD CONSTRAINT [{constraint.Name}] CHECK {constraint.Properties[Constants.DefinitionProperty]} \n");
+                //_definition.Append(
+                //    $"ALTER TABLE [{_object.FullName.Schema}].[{_object.Name}]  WITH CHECK ADD CONSTRAINT [{constraint.Name}] CHECK {constraint.Properties[Constants.DefinitionProperty]} \n");
             }
         }
     }

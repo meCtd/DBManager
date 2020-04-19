@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
+
 using Framework.Attributes;
+
 
 namespace DBManager.Default
 {

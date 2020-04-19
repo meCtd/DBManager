@@ -1,5 +1,6 @@
 ﻿using DBManager.Default.Tree;
 
+
 namespace DBManager.Default.Providers
 {
     public interface IScriptProvider
