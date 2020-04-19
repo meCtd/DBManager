@@ -5,11 +5,12 @@ using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 using DBManager.Default.Tree.Hierarchy;
 
+
 namespace DBManager.Default.Loader
 {
     public abstract class LoaderBase : ILoader
     {
-        protected IAtomicLoaderFactory _atomicLoaderFactory;
+        private readonly IAtomicLoaderFactory _atomicLoaderFactory;
 
         public abstract IScriptProvider ScriptProvider { get; }
         public abstract IMetadataHierarchy Hierarchy { get; }
@@ -19,7 +20,6 @@ namespace DBManager.Default.Loader
             _atomicLoaderFactory = loaderFactory;
         }
 
-        #region Public methods
         public abstract Task<Server> LoadServerAsync(ILoadingContext context);
         
         public async Task LoadChildrenAsync(ILoadingContext context, DbObject objectToLoad, MetadataType type = MetadataType.None)
@@ -51,13 +51,12 @@ namespace DBManager.Default.Loader
 
             await atomicLoader.LoadProperties(context, objectToLoad);
         }
-        #endregion
 
-        #region Private members
         private async Task LoadChildrenByTypeAsync(ILoadingContext context, DbObject objectToLoad, MetadataType type)
         {
-            await _atomicLoaderFactory.GetAtomicLoader(type).LoadChildren(context, objectToLoad);
+            await _atomicLoaderFactory
+                .GetAtomicLoader(type)
+                .LoadChildren(context, objectToLoad);
         }
-        #endregion
     }
 }

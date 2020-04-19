@@ -8,22 +8,23 @@ using DBManager.Default.Providers;
 using DBManager.Default.Tree.DbEntities;
 using DBManager.Default.Tree.Hierarchy;
 
+
 namespace DBManager.Access.Loader
 {
-    class AccessLoader : LoaderBase
+    internal class AccessLoader : LoaderBase
     {
         public override IScriptProvider ScriptProvider => throw new NotImplementedException();
 
         public override IMetadataHierarchy Hierarchy { get; } = new AccessHierarchy();
 
-        public AccessLoader(IDialectComponent components) 
+        public AccessLoader(IDialectComponent components)
             : base(new AccessAtomicLoaderFactory(components))
         {
         }
 
-        public async override Task<Server> LoadServerAsync(ILoadingContext context)
+        public override async Task<Server> LoadServerAsync(ILoadingContext context)
         {
-            return await Task.Run(() => new Server(context.ConnectionData, "Microsoft Access", DialectType.Access));
+            return await Task.FromResult(new Server(context.ConnectionData, "Microsoft Access", DialectType.Access));
         }
     }
 }

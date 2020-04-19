@@ -31,8 +31,12 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         {
             if (parent is null)
                 return true;
+            
+            var hierarchy = AppContext.Current.Resolver
+                .Get<IDialectComponent>(parent.Dialect.ToString())
+                .Loader.Hierarchy;
 
-            return AppContext.Current.Resolver.Get<IDialectComponent>(parent.Dialect.ToString()).Hierarchy.Structure.GetValueOrDefault(model.Type)?.HasChildren ?? false;
+            return hierarchy.Structure.GetValueOrDefault(model.Type)?.HasChildren ?? false;
         }
 
         protected override void RemoveChildrenFromModel()
@@ -42,8 +46,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
         protected override async Task LoadChildren()
         {
-
-            var node = Components.Hierarchy.Structure[Type];
+            var node = Components.Loader.Hierarchy.Structure[Type];
 
             if (node.NeedCategory)
                 node.ChildrenTypes.ForEach(type => Children.Add(new CategoryViewModel(Model, this, type)));

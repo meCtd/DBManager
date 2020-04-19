@@ -2,13 +2,14 @@
 using DBManager.Default.Loader;
 using DBManager.Default.Tree;
 
+
 namespace DBManager.SqlServer.Loader.AtomicLoaders
 {
-    class SqlServerTableAtomicLoader : BaseAtomicLoaderViaSql
+    internal class SchemaLoader : BaseAtomicSqlLoader
     {
-        public override MetadataType Type => MetadataType.Table;
+        public override MetadataType Type => MetadataType.Schema;
 
-        public SqlServerTableAtomicLoader(IDialectComponent components)
+        public SchemaLoader(IDialectComponent components)
             : base(components)
         { }
     }

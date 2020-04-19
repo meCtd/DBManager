@@ -1,18 +1,19 @@
 ﻿using System.Threading.Tasks;
 
+using DBManager.Default.MetadataFactory;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
-using DBManager.SqlServer.Metadata;
+
 
 namespace DBManager.Default.Loader
 {
-    public abstract class BaseAtomicLoaderViaSql : IAtomicLoader
+    public abstract class BaseAtomicSqlLoader : IAtomicLoader
     {
-        protected IDialectComponent _components;
+        protected readonly IDialectComponent _components;
 
         public abstract MetadataType Type { get; }
 
-        public BaseAtomicLoaderViaSql(IDialectComponent components)
+        protected BaseAtomicSqlLoader(IDialectComponent components)
         {
             _components = components;
         }

@@ -10,6 +10,7 @@ using DBManager.Default.Tree.Hierarchy;
 using DBManager.SqlServer.Metadata;
 using DBManager.SqlServer.Provider;
 
+
 namespace DBManager.SqlServer.Loader
 {
     public class SqlServerLoader : LoaderBase
@@ -17,14 +18,14 @@ namespace DBManager.SqlServer.Loader
         public override IScriptProvider ScriptProvider { get; } = new SqlServerScriptProvider();
         public override IMetadataHierarchy Hierarchy { get; } = new SqlServerHierarchy();
 
-        public SqlServerLoader(IDialectComponent components) 
+        public SqlServerLoader(IDialectComponent components)
             : base(new SqlServerAtomicLoaderFactory(components))
         {
         }
 
         public override async Task<Server> LoadServerAsync(ILoadingContext loadingContext)
         {
-            return await Task.Run(() => new Server(loadingContext.ConnectionData, GetServerName(loadingContext.ConnectionData), DialectType.SqlServer));
+            return await Task.FromResult(new Server(loadingContext.ConnectionData, GetServerName(loadingContext.ConnectionData), DialectType.SqlServer));
         }
 
         private string GetServerName(IConnectionData data)

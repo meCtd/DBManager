@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using DBManager.Default.MetadataFactory;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
 
 
-namespace DBManager.SqlServer.Metadata
+namespace DBManager.Default.MetadataFactory
 {
     public class MetadataTypeFactory : IMetadataFactory
     {
-        #region Singleton impl
-        private static MetadataTypeFactory _instance;
-        public static MetadataTypeFactory Instance => _instance ?? (_instance = new MetadataTypeFactory());
-        private MetadataTypeFactory() 
-        { }
-        #endregion
+        public static MetadataTypeFactory Instance { get; } = new MetadataTypeFactory();
+        
+        private MetadataTypeFactory()
+        {
+        }
 
         private static readonly Dictionary<MetadataType, Func<string, DbObject>> _dictionary =
              new Dictionary<MetadataType, Func<string, DbObject>>()

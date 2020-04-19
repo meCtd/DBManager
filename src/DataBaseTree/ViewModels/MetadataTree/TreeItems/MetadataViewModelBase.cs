@@ -5,10 +5,8 @@ using System.Windows.Input;
 using DBManager.Application.Utils;
 
 using DBManager.Default;
-using DBManager.Default.Loader;
 using DBManager.Default.Tree;
 using Framework.Extensions;
-using Ninject;
 
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
@@ -16,33 +14,33 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
     public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
     {
         private bool _isBusy;
-
         private bool _wasLoaded;
-
         private ICommand _refreshCommand;
+        private IDialectComponent _components;
+        private DialectType? _dialect;
 
-        protected IDialectComponent _components;
 
         public event EventHandler Loaded;
+
+        protected virtual IDialectComponent Components => _components ?? (_components = Root.Components);
 
         public new MetadataViewModelBase Parent => base.Parent as MetadataViewModelBase;
 
         public abstract string Name { get; }
 
         public abstract MetadataType Type { get; }
+
+        public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
         
-        public virtual DialectType Dialect => Root.Dialect;
+        public virtual DialectType Dialect => (_dialect ?? (_dialect = Root.Dialect)).Value;
 
         public bool IsBusy
         {
             get => _isBusy;
             set => SetProperty(ref _isBusy, value);
         }
+
         public ICommand RefreshCommand => _refreshCommand ?? (_refreshCommand = new RelayCommand(Refresh));
-
-        public MetadataViewModelBase Root => this.GetParent(s => s.Parent);
-
-        protected IDialectComponent Components => _components ?? Root.Components;
 
         protected MetadataViewModelBase(MetadataViewModelBase parent, bool canHaveChildren) : base(parent, canHaveChildren)
         {

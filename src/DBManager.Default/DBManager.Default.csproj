@@ -70,7 +70,7 @@
     <Compile Include="DialectType.cs" />
     <Compile Include="IDialectComponent.cs" />
     <Compile Include="Loader\AtomicLoaderFactoryBase.cs" />
-    <Compile Include="Loader\BaseAtomicLoaderViaSql.cs" />
+    <Compile Include="Loader\BaseAtomicSqlLoader.cs" />
     <Compile Include="Loader\IAtomicLoader.cs" />
     <Compile Include="Loader\IAtomicLoaderFactory.cs" />
     <Compile Include="Loader\ILoader.cs" />
