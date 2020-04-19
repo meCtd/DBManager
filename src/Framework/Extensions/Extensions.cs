@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 
 namespace Framework.Extensions
@@ -46,6 +47,11 @@ namespace Framework.Extensions
             }
 
             return current;
+        }
+
+        public static T Get<T>(this DbDataReader reader, string columnName)
+        {
+            return reader.GetFieldValue<T>(reader.GetOrdinal(columnName));
         }
     }
 }

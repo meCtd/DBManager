@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Data.Common;
+using System.Threading.Tasks;
 
 using DBManager.Default.MetadataFactory;
 using DBManager.Default.Tree;
@@ -34,11 +35,16 @@ namespace DBManager.Default.Loader.Sql
                 {
                     while (await reader.ReadAsync())
                     {
-                        var name = reader.GetString(reader.GetOrdinal(Name));
-                        objectToLoad.AddChild(MetadataTypeFactory.Instance.Create(Type, name));
+                        objectToLoad.AddChild(CreateObject(reader));
                     }
                 }
             }
+        }
+
+        protected virtual DbObject CreateObject(DbDataReader reader)
+        {
+            var name = reader.GetString(reader.GetOrdinal(Name));
+            return MetadataTypeFactory.Instance.Create(Type, name);
         }
 
         public Task LoadDefinition(ILoadingContext context, DefinitionObject objectToLoad)

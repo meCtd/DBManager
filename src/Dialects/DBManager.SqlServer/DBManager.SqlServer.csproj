@@ -47,6 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\SqlServerConnectionData.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerColumnLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerConstraintLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerFunctionLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerIndexLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerParameterLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerProcedureLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerTriggerLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\SqlServerViewLoader.cs" />
     <Compile Include="Execution\SqlServerScriptExecutor.cs" />
     <Compile Include="SqlServerConstants.cs" />
     <Compile Include="Loader\AtomicLoaders\SqlServerDatabaseLoader.cs" />
