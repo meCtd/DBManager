@@ -6,13 +6,19 @@ using DBManager.Application.Utils;
 
 using DBManager.Default;
 using DBManager.Default.Tree;
+
 using Framework.Extensions;
+using Framework.Utils;
+
+using Ninject;
 
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
     public abstract class MetadataViewModelBase : TreeViewItemViewModelBase
     {
+        private readonly Guid _guid = Guid.NewGuid();
+
         private bool _isBusy;
         private bool _wasLoaded;
         private ICommand _refreshCommand;
@@ -59,15 +65,19 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
             Refresh();
         }
 
-        public async Task LoadChildrenAsync()
+        public Task LoadChildrenAsync()
+        {
+            return Context.Resolver.Get<IAsyncAwaiter>().AwaitAsync(_guid.ToString(), LoadChildrenAsyncInternal);
+        }
+
+        private async Task LoadChildrenAsyncInternal()
         {
             if (_wasLoaded)
                 return;
-
             try
             {
                 IsBusy = true;
-
+                Context.Resolver.Get<IWindowManager>().RunOnUi(Children.Clear);
                 await LoadChildren();
             }
             finally
@@ -77,6 +87,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 
                 Loaded?.Invoke(this, EventArgs.Empty);
             }
+
         }
     }
 }

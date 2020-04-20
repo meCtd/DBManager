@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Framework.Utils.Abstract
+namespace Framework.Utils
 {
     public interface IAsyncAwaiter
     {

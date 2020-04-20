@@ -44,7 +44,10 @@ namespace DBManager.Application.Utils
         public void RunOnUi(Action action)
         {
             if (App.Current.Dispatcher.CheckAccess())
+            {
                 action?.Invoke();
+                return;
+            }
 
             App.Current.Dispatcher.Invoke(action);
         }

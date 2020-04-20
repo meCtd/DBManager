@@ -18,18 +18,18 @@ namespace DBManager.Application.ViewModels
         private ICommand _closeTabCommand;
         private ICommand _newTabCommand;
 
-        private ScriptViewModel _selectedTab;
+        private ScriptExecutorViewModel _selectedTab;
 
-        public ObservableCollection<ScriptViewModel> Tabs { get; } = new ObservableCollection<ScriptViewModel>();
+        public ObservableCollection<ScriptExecutorViewModel> Tabs { get; } = new ObservableCollection<ScriptExecutorViewModel>();
 
-        public ScriptViewModel SelectedTab
+        public ScriptExecutorViewModel SelectedTab
         {
             get => _selectedTab;
             set => SetProperty(ref _selectedTab, value);
         }
 
         public ICommand CloseTabCommand => _closeTabCommand ?? (_closeTabCommand =
-                                              new RelayCommand<ScriptViewModel>(s =>
+                                              new RelayCommand<ScriptExecutorViewModel>(s =>
                                               {
                                                   if (s.Close())
                                                       Tabs.Remove(s);
@@ -39,7 +39,7 @@ namespace DBManager.Application.ViewModels
         public ICommand NewTabCommand => _newTabCommand ?? (_newTabCommand =
             new RelayCommand<MetadataViewModelBase>(s =>
             {
-                var tab = new ScriptViewModel(GenerateName(), s.Root);
+                var tab = new ScriptExecutorViewModel(GenerateName(), s.Root);
                 Tabs.Add(tab);
 
                 SelectedTab = tab;

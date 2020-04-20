@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -11,7 +10,7 @@ using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
+using Framework.Utils;
 using ICSharpCode.AvalonEdit.Highlighting;
 
 using Microsoft.Win32;
@@ -23,10 +22,12 @@ using ExecutionContext = DBManager.Default.Execution.ExecutionContext;
 
 namespace DBManager.Application.ViewModels
 {
-    public class ScriptViewModel : ViewModelBase
+    public class ScriptExecutorViewModel : ViewModelBase
     {
         private const string SavedFileFormat = "{0} {1}";
         private const string UnSavedFileFormat = "{0} {1}*";
+
+        public static IEnumerable<string> EmptyContexts { get; } = new[] { "..." };
 
         private readonly string _fileName;
         private readonly MetadataViewModelBase _root;
@@ -37,13 +38,15 @@ namespace DBManager.Application.ViewModels
         private string _filePath;
         private string _sql;
         private string _executionContext;
-        private bool _hasChanges;
-        private bool _isBusy;
-        private object _data;
-        private IEnumerable<string> _availableСontexts;
-
         private string _currentFormat = SavedFileFormat;
 
+        private bool _hasChanges;
+        private bool _isBusy;
+
+        private object _data;
+
+        private IEnumerable<string> _availableСontexts;
+        
         public IHighlightingDefinition Highlighting { get; }
 
         public string Sql
@@ -97,24 +100,33 @@ namespace DBManager.Application.ViewModels
         public DialectType Dialect => _root.Dialect;
 
         public ICommand ExecuteCommand => _executeCommand ??
-                                          (_executeCommand = new RelayCommand(Execute));
+                                          (_executeCommand = new RelayCommand(Execute, (s) => !IsBusy));
 
         public ICommand SaveCommand => _saveCommand ??
                                           (_saveCommand = new RelayCommand(s => SaveInternal()));
 
-        public ScriptViewModel(string filename, MetadataViewModelBase root)
+        public ScriptExecutorViewModel(string filename, MetadataViewModelBase root)
         {
             _fileName = filename;
             _root = root;
+            _root.Refreshed += (s, args) =>
+            {
+                _availableСontexts = null;
+                OnPropertyChanged(nameof(AvailableСontexts));
+            };
 
             Highlighting = HighlightingManager.Instance.GetDefinition(Dialect.ToString());
         }
 
         private IEnumerable<string> GetContexts()
         {
-            _root.LoadChildrenAsync().ConfigureAwait(false).GetAwaiter().GetResult();
-
-            return _root.Children.Select(s => s.Name);
+            IEnumerable<string> items = null;
+            using (PerformOperation(() =>
+            {
+                _root.LoadChildrenAsync().GetAwaiter().GetResult();
+                items = _root.Children.Select(s => s.Name);
+            }))
+                return items;
         }
 
         private async void Execute(object obj)
@@ -134,6 +146,19 @@ namespace DBManager.Application.ViewModels
             {
             }
 
+        }
+
+        private IDisposable PerformOperation(Action action)
+        {
+            return new DisposableToken(this, s =>
+            {
+                IsBusy = true;
+                action?.Invoke();
+            }, s =>
+            {
+                IsBusy = false;
+                Context.Resolver.Get<IWindowManager>().RunOnUi(CommandManager.InvalidateRequerySuggested);
+            });
         }
 
         private void SaveInternal()
