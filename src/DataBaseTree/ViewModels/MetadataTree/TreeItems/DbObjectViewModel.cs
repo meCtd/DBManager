@@ -1,15 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
+using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Default;
 using DBManager.Default.Loader;
 using DBManager.Default.Tree;
-
 using Framework.Extensions;
-
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
@@ -31,7 +28,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
         {
             if (parent is null)
                 return true;
-            
+
             var hierarchy = AppContext.Current.Resolver
                 .Get<IDialectComponent>(parent.Dialect.ToString())
                 .Loader.Hierarchy;
@@ -55,8 +52,10 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
                 var loadingContext = new LoadingContext(((ServerViewModel)Root).ConnectionData, CancellationToken.None);
                 await Components.Loader.LoadChildrenAsync(loadingContext, Model);
 
-                Model.Children.ForEach(s => Children.Add(new DbObjectViewModel(this, s)));
+                Model.Children.ForEach(s => Context.Resolver.Get<IWindowManager>().RunOnUi(() => Children.Add(new DbObjectViewModel(this, s))));
             }
         }
+
+        public override string ToString() => Model.FullName.FullSchemaName.ToString();
     }
 }

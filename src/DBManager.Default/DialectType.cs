@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel;
-
 using Framework.Attributes;
-
 
 namespace DBManager.Default
 {
@@ -14,6 +12,6 @@ namespace DBManager.Default
         SqlServer,
         
         [Description("Microsoft Access")]
-        Access,
+        Access
     }
 }

@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-
-using DBManager.Application.Views.Windows;
 using DBManager.Application.ViewModels.General;
+using DBManager.Application.Views.Windows;
 
 namespace DBManager.Application.Utils
 {
@@ -44,7 +43,10 @@ namespace DBManager.Application.Utils
         public void RunOnUi(Action action)
         {
             if (App.Current.Dispatcher.CheckAccess())
+            {
                 action?.Invoke();
+                return;
+            }
 
             App.Current.Dispatcher.Invoke(action);
         }

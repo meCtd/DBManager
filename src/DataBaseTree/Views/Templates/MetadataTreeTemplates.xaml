@@ -6,7 +6,8 @@
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
                     xmlns:tree="clr-namespace:DBManager.Default.Tree;assembly=DBManager.Default"
                     xmlns:dbEntities="clr-namespace:DBManager.Default.Tree.DbEntities;assembly=DBManager.Default"
-                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+                    xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree">
 
     <Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
@@ -91,7 +92,7 @@
 
             <StackPanel.Resources>
                 <behaviors:BindingProxy x:Key="Proxy"
-                                        Data="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=TreeView}}" />
+                                        Data="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" />
             </StackPanel.Resources>
 
             <ContentPresenter Content="{Binding}">
@@ -105,7 +106,8 @@
             <TextBlock x:Name="NameBlock"
                        Margin="3,0,0,0"
                        Text="{Binding Path=Name,UpdateSourceTrigger=PropertyChanged}" />
-            <TextBlock x:Name="BusyLoaderIndicator" />
+            <TextBlock x:Name="BusyLoaderIndicator"
+                       Margin="5,0,0,0" />
 
             <StackPanel.ContextMenu>
                 <ContextMenu>
@@ -116,7 +118,7 @@
                     <MenuItem Header="Disconnect"
                               Command="{Binding Data.ConnectionManager.DisconnectCommand,Source={StaticResource Proxy}}"
                               CommandParameter="{Binding}"
-                              Icon="{StaticResource DisconnectIcon}"/>
+                              Icon="{StaticResource DisconnectIcon}" />
                     <Separator />
                     <MenuItem Header="New query"
                               Command="{Binding Data.Scripts.NewTabCommand,Source={StaticResource Proxy}}"
@@ -175,5 +177,32 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <DataTemplate DataType="{x:Type metadataTree:TreeViewModel}">
+        <TreeView ItemsSource="{Binding RootItems, UpdateSourceTrigger=PropertyChanged}"
+                  Style="{StaticResource MetadataTreeStyle}">
+            <TreeView.Resources>
+                <behaviors:BindingProxy x:Key="Proxy"
+                                        Data="{Binding DataContext,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" />
+            </TreeView.Resources>
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add new connection"
+                              Command="{Binding Data.ConnectionManager.ConnectCommand, Source={StaticResource Proxy}}"
+                              Icon="{StaticResource ConnectIcon}" />
+                </ContextMenu>
+            </TreeView.ContextMenu>
+            <TreeView.InputBindings>
+                <KeyBinding Modifiers="Control"
+                            Key="C"
+                            Command="{Binding CopyItem}"
+                            CommandParameter="{Binding SelectedItem}" />
+            </TreeView.InputBindings>
+
+            <i:Interaction.Behaviors>
+                <behaviors:TreeViewBehavior SelectedItem="{Binding SelectedItem}"/>
+            </i:Interaction.Behaviors>
+        </TreeView>
+    </DataTemplate>
 
 </ResourceDictionary>

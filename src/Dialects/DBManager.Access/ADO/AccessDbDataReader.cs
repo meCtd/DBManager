@@ -2,14 +2,13 @@
 using System.Collections;
 using System.Data.Common;
 using System.Runtime.InteropServices;
-
 using Microsoft.Office.Interop.Access.Dao;
 
 namespace DBManager.Access.ADO
 {
     class AccessDbDataReader : DbDataReader
     {
-        private bool _isDisposed = false;
+        private bool _isDisposed;
 
         private bool _isFirstRead = true;
         private Recordset _executeResult;

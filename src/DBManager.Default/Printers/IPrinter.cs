@@ -1,6 +1,5 @@
 ﻿using DBManager.Default.Tree.DbEntities;
 
-
 namespace DBManager.Default.Printers
 {
     public interface IPrinter

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-
 using DBManager.Application.ViewModels.General;
-
 using DBManager.Default.DataBaseConnection;
-
 
 namespace DBManager.Application.ViewModels.Connections
 {

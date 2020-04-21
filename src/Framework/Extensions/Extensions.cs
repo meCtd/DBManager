@@ -21,7 +21,7 @@ namespace Framework.Extensions
         }
 
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key,
-            TValue defaultValue = default(TValue))
+            TValue defaultValue = default)
         {
             return dictionary.TryGetValue(key, out var result)
                 ? result
@@ -29,7 +29,7 @@ namespace Framework.Extensions
         }
 
         public static TValue GetValueOrDefault<TKey, TValue>(this IReadOnlyDictionary<TKey, TValue> dictionary, TKey key,
-            TValue defaultValue = default(TValue))
+            TValue defaultValue = default)
         {
             return dictionary.TryGetValue(key, out var result)
                 ? result

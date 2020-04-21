@@ -1,11 +1,8 @@
 ﻿using System.Collections.Generic;
-
 using DBManager.Default;
 using DBManager.Default.Loader;
 using DBManager.Default.Tree;
-
 using DBManager.SqlServer.Loader.AtomicLoaders;
-
 
 namespace DBManager.SqlServer.Loader
 {
@@ -16,7 +13,7 @@ namespace DBManager.SqlServer.Loader
         public SqlServerAtomicLoaderFactory(IDialectComponent components)
             : base(components)
         {
-            AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>()
+            AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>
             {
                 [MetadataType.Database] = new SqlServerDatabaseLoader(components),
                 [MetadataType.Schema] = new SqlServerSchemaLoader(components),
@@ -28,7 +25,7 @@ namespace DBManager.SqlServer.Loader
                 [MetadataType.Procedure] = new SqlServerProcedureLoader(components),
                 [MetadataType.Function] = new SqlServerFunctionLoader(components),
                 [MetadataType.Column] = new SqlServerColumnLoader(components),
-                [MetadataType.Parameter] = new SqlServerParameterLoader(components),
+                [MetadataType.Parameter] = new SqlServerParameterLoader(components)
             };
         }
     }

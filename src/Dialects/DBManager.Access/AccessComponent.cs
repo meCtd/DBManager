@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.Composition;
-
+﻿using System;
+using System.ComponentModel.Composition;
 using DBManager.Access.Loader;
-
 using DBManager.Default;
 using DBManager.Default.Execution;
 using DBManager.Default.Loader;
 using DBManager.Default.Printers;
-
 
 namespace DBManager.Access
 {
@@ -17,7 +15,7 @@ namespace DBManager.Access
 
         public DialectType Type => DialectType.Access;
 
-        public IPrinter Printer => throw new System.NotImplementedException();
+        public IPrinter Printer => throw new NotImplementedException();
 
         public ILoader Loader => _loader ?? (_loader = new AccessLoader(this));
 

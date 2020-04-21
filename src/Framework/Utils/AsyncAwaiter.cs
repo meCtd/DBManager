@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Framework.Utils.Abstract;
 
 namespace Framework.Utils
 {
@@ -21,12 +19,12 @@ namespace Framework.Utils
         /// <summary>
         /// A semaphore to lock the semaphore list
         /// </summary>
-        private SemaphoreSlim SelfLock = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim _selfLock = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// A list of all semaphore locks (one per key)
         /// </summary>
-        private Dictionary<string, SemaphoreSlim> Semaphores = new Dictionary<string, SemaphoreSlim>();
+        private readonly Dictionary<string, SemaphoreSlim> _semaphores = new Dictionary<string, SemaphoreSlim>();
 
         #endregion
 
@@ -60,13 +58,13 @@ namespace Framework.Utils
             // code execution will proceed
             // Otherwise this thread waits here until the semaphore is released 
             //
-            await SelfLock.WaitAsync();
+            await _selfLock.WaitAsync();
 
             try
             {
                 // Create semaphore if it doesn't already exist
-                if (!Semaphores.ContainsKey(key))
-                    Semaphores.Add(key, new SemaphoreSlim(maxAccessCount, maxAccessCount));
+                if (!_semaphores.ContainsKey(key))
+                    _semaphores.Add(key, new SemaphoreSlim(maxAccessCount, maxAccessCount));
             }
             finally
             {
@@ -78,14 +76,14 @@ namespace Framework.Utils
                 // This is why it is important to do the Release within a try...finally clause
                 // Program execution may crash or take a different path, this way you are guaranteed execution
                 //
-                SelfLock.Release();
+                _selfLock.Release();
             }
 
             #endregion
 
             // Now use this semaphore and perform the desired task inside its lock
             // NOTE: We never remove semaphores after creating them, so this will never be null
-            var semaphore = Semaphores[key];
+            var semaphore = _semaphores[key];
 
             // Await this semaphore
             await semaphore.WaitAsync();

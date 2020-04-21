@@ -5,7 +5,6 @@ using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.SqlServer.Connection;
 
-
 namespace DBManager.SqlServer
 {
     internal class SqlServerCreator : IComponentCreator

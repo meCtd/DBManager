@@ -1,9 +1,8 @@
 ﻿using System.Globalization;
 using DBManager.Application.Controls;
 using DBManager.Application.Utils;
-
-using AppContext = DBManager.Application.ViewModels.General.AppContext;
-
+using DBManager.Application.ViewModels.General;
+using Framework.Utils;
 
 namespace DBManager.Application
 {
@@ -26,6 +25,7 @@ namespace DBManager.Application
         private void RegisterComponents()
         {
             AppContext.Current.Resolver.Bind<IWindowManager>().To<WindowManager>().InSingletonScope();
+            AppContext.Current.Resolver.Bind<IAsyncAwaiter>().To<AsyncAwaiter>().InSingletonScope();
 
             PluginManager.New().Load();
 

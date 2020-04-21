@@ -1,7 +1,5 @@
 ﻿using System;
-
 using DBManager.Default.DataBaseConnection;
-
 
 namespace DBManager.Application.ViewModels.Connections
 {

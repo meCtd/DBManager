@@ -9,7 +9,7 @@ namespace DBManager.Access.ADO
 {
     class AccessDbConnection : DbConnection
     {
-        private bool _isDisposed = false;
+        private bool _isDisposed;
         private ConnectionState _state = ConnectionState.Closed;
 
         private static DBEngine _engine;
@@ -23,7 +23,7 @@ namespace DBManager.Access.ADO
         public override string ConnectionString { get; set; }
         public override string Database { get; }
         public override string DataSource { get; }
-        public override string ServerVersion => DaoDatabase.Version.ToString();
+        public override string ServerVersion => DaoDatabase.Version;
         public override ConnectionState State => _state;
 
         public AccessDbConnection(AccessConnectionData connectionData)

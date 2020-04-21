@@ -2,7 +2,6 @@
 using DBManager.Default.Loader;
 using DBManager.Default.Printers;
 
-
 namespace DBManager.Default
 {
     public interface IDialectComponent

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.Composition;
-
 using DBManager.Default;
 using DBManager.Default.Execution;
 using DBManager.Default.Loader;
@@ -7,7 +6,6 @@ using DBManager.Default.Printers;
 using DBManager.SqlServer.Execution;
 using DBManager.SqlServer.Loader;
 using DBManager.SqlServer.Printer;
-
 
 namespace DBManager.SqlServer
 {

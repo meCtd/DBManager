@@ -1,8 +1,6 @@
 ﻿using System.Data;
 using System.Data.Common;
-
 using DBManager.Default.DataBaseConnection;
-
 
 namespace DBManager.Default
 {

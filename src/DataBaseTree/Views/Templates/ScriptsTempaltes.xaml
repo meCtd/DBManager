@@ -4,7 +4,8 @@
                     xmlns:controls="clr-namespace:DBManager.Application.Controls"
                     xmlns:utils="clr-namespace:DBManager.Application.Utils"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <ResourceDictionary.MergedDictionaries>
         <utils:SharedResourceDictionary Source="MetadataTreeTemplates.xaml" />
@@ -13,7 +14,7 @@
     <Style TargetType="TabItem"
            BasedOn="{StaticResource {x:Type TabItem}}">
         <Style.Resources>
-            <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
+            <DataTemplate DataType="{x:Type viewModels:ScriptExecutorViewModel}">
                 <StackPanel Orientation="Horizontal"
                             Background="Transparent"
                             Margin="-4,0">
@@ -42,7 +43,7 @@
         <TabControl SelectedItem="{Binding SelectedTab}"
                     ItemsSource="{Binding Tabs}">
             <TabControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type viewModels:ScriptViewModel}">
+                <DataTemplate DataType="{x:Type viewModels:ScriptExecutorViewModel}">
                     <DockPanel LastChildFill="True">
                         <DockPanel DockPanel.Dock="Top"
                                    LastChildFill="False">
@@ -63,8 +64,16 @@
 
                             <ComboBox DockPanel.Dock="Right"
                                       Width="300"
-                                      ItemsSource="{Binding AvailableСontexts}"
-                                      SelectedItem="{Binding ExecutionContext}" />
+                                      SelectedItem="{Binding ExecutionContext}"
+                                      IsSynchronizedWithCurrentItem="True">
+                                <ComboBox.ItemsSource>
+                                    <PriorityBinding>
+                                        <Binding Path="AvailableСontexts"
+                                                 IsAsync="True"/>
+                                        <Binding Path="(viewModels:ScriptExecutorViewModel.EmptyContexts)"/>
+                                    </PriorityBinding>
+                                </ComboBox.ItemsSource>
+                            </ComboBox>
                         </DockPanel>
                         <Border DockPanel.Dock="Top"
                                 BorderBrush="{StaticResource PrimaryBrush}"
@@ -77,12 +86,12 @@
                                             Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                                             SyntaxHighlighting="{Binding Highlighting}"
                                             VerticalScrollBarVisibility="Auto"
-                                            HorizontalScrollBarVisibility="Auto" >
+                                            HorizontalScrollBarVisibility="Auto">
                             <controls:SqlEditor.Style>
                                 <Style TargetType="{x:Type controls:SqlEditor}">
                                     <Style.Triggers>
                                         <Trigger Property="IsVisible"
-                                                     Value="true">
+                                                 Value="true">
                                             <Setter Property="FocusManager.FocusedElement"
                                                     Value="{Binding RelativeSource={RelativeSource Mode=Self}}" />
                                         </Trigger>

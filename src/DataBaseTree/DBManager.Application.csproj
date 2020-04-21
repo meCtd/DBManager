@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Behaviors\MouseWheelClickTrigger.cs" />
     <Compile Include="Behaviors\BindingProxy.cs" />
+    <Compile Include="Behaviors\TreeViewBehavior.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
@@ -126,7 +127,7 @@
     <Compile Include="ViewModels\General\ViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
     <Compile Include="ViewModels\ScriptsViewModel.cs" />
-    <Compile Include="ViewModels\ScriptViewModel.cs" />
+    <Compile Include="ViewModels\ScriptExecutorViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConenctionManagerViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />

@@ -1,7 +1,5 @@
 ﻿using System.Threading;
-
 using DBManager.Default.DataBaseConnection;
-
 
 namespace DBManager.Default.Execution
 {

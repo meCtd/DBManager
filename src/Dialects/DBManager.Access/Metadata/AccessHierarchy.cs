@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using DBManager.Default;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.Hierarchy;
@@ -29,7 +25,7 @@ namespace DBManager.Access.Metadata
 
             [MetadataType.View] = new MetadataHierarchyInfo(MetadataType.View, new[] { MetadataType.Column }),
 
-            [MetadataType.Procedure] = new MetadataHierarchyInfo(MetadataType.Procedure, new[] { MetadataType.Parameter }),
+            [MetadataType.Procedure] = new MetadataHierarchyInfo(MetadataType.Procedure, new[] { MetadataType.Parameter })
         };
 
         public IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> Structure => _structure;

@@ -1,10 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
-
-
 
 namespace DBManager.Application.TemplateSelectors
 {

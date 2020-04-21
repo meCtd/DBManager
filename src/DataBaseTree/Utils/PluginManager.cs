@@ -4,11 +4,8 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Reflection;
-
 using DBManager.Default;
-
 using AppContext = DBManager.Application.ViewModels.General.AppContext;
-
 
 namespace DBManager.Application.Utils
 {

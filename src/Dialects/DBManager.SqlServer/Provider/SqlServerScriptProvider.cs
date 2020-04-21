@@ -1,9 +1,7 @@
 ﻿using System;
-
 using DBManager.Default.Loader.Sql;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree;
-
 
 namespace DBManager.SqlServer.Provider
 {

@@ -2,7 +2,6 @@
 using System.Globalization;
 using System.Windows.Data;
 
-
 namespace DBManager.Application.Convertors
 {
     public class MultiBooleanAndConverter : IMultiValueConverter

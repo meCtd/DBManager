@@ -1,8 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
-
 
 namespace DBManager.Application.TemplateSelectors
 {

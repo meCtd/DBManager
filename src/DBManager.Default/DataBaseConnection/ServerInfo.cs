@@ -1,6 +1,5 @@
 ﻿using System.Runtime.Serialization;
 
-
 namespace DBManager.Default.DataBaseConnection
 {
     [DataContract(Name = "server-info")]
