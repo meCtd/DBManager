@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using DBManager.Application.Utils;
 
-
 namespace DBManager.Application.ViewModels.General
 {
     public abstract class WindowViewModelBase : ViewModelBase, IWindowContext

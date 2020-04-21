@@ -15,8 +15,8 @@ namespace DBManager.Access.ADO
 		protected override DbParameterCollection DbParameterCollection { get; }
 		protected override DbTransaction DbTransaction { get; set; }
 
-		public AccessDbCommand() : base()
-		{ }
+		public AccessDbCommand()
+        { }
 
 		public AccessDbCommand(string cmdText, AccessDbConnection connection) : this()
 		{

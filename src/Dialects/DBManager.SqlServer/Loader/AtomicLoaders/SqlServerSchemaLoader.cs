@@ -2,7 +2,6 @@
 using DBManager.Default.Loader.Sql;
 using DBManager.Default.Tree;
 
-
 namespace DBManager.SqlServer.Loader.AtomicLoaders
 {
     internal class SqlServerSchemaLoader : BaseAtomicSqlLoader

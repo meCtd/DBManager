@@ -1,12 +1,8 @@
 ﻿using System.Globalization;
-
 using DBManager.Application.Controls;
 using DBManager.Application.Utils;
-
+using DBManager.Application.ViewModels.General;
 using Framework.Utils;
-
-using AppContext = DBManager.Application.ViewModels.General.AppContext;
-
 
 namespace DBManager.Application
 {

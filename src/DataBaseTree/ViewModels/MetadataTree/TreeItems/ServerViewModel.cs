@@ -1,9 +1,7 @@
 ﻿using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Tree.DbEntities;
-
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {

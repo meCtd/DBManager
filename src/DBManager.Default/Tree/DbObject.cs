@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 
-
 namespace DBManager.Default.Tree
 {
     [DataContract(Name = "db-object", IsReference = true)]

@@ -1,18 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Input;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 
-
 namespace DBManager.Application.ViewModels.MetadataTree
 {
     public class TreeViewModel : ViewModelBase
     {
         private ICommand _setSelectedItemCommand;
+        private ICommand _copyItem;
 
         private TreeViewItemViewModelBase _selectedItem;
 
@@ -28,11 +29,11 @@ namespace DBManager.Application.ViewModels.MetadataTree
                 SetProperty(ref _selectedItem, value,
                     (old, @new) =>
                     {
-                        if (!ReferenceEquals(old, null))
-                            old.IsSelected = false;
-
                         if (!ReferenceEquals(@new, null))
                             @new.IsSelected = true;
+
+                        if (!ReferenceEquals(old, null))
+                            old.IsSelected = false;
 
                     });
             }
@@ -44,6 +45,10 @@ namespace DBManager.Application.ViewModels.MetadataTree
                                                       item => RootItems
                                                           .TreeGetTraversal(s => s.Children, s => s)
                                                           .Any(s => ReferenceEquals(s, item))));
+
+        public ICommand CopyItem => _copyItem ?? (_copyItem =
+            new RelayCommand<TreeViewItemViewModelBase>(
+                s => Clipboard.SetText(s.ToString()), s => s is DbObjectViewModel));
 
         public TreeViewModel()
         {

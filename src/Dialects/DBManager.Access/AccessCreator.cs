@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-
 using DBManager.Access.ADO;
 using DBManager.Access.Connection;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
 
 namespace DBManager.Access
 {

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Windows.Data;
 using DBManager.Default.Tree;
 
 namespace DBManager.Application.Convertors

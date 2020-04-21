@@ -1,7 +1,6 @@
 ﻿using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
 
-
 namespace DBManager.Application.ViewModels.Windows
 {
     public class TreeWindowViewModel : ViewModelBase

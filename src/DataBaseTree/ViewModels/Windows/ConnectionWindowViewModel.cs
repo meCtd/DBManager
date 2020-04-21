@@ -5,16 +5,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.Connections;
 using DBManager.Application.ViewModels.General;
-
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.Windows
 {
@@ -61,7 +57,7 @@ namespace DBManager.Application.ViewModels.Windows
 
         public ICommand TestConnectionCommand => _testConnectionCommand ?? (_testConnectionCommand = new RelayCommand(s => ConnectAsync(TestConnection), CanConnect));
 
-        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand((s) => ConnectAsync(Connect), CanConnect));
+        public ICommand ConnectCommand => _connectCommand ?? (_connectCommand = new RelayCommand(s => ConnectAsync(Connect), CanConnect));
 
         public ICommand CancelCommand => _cancelCommand ?? (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel(), s => !IsBusy));
 

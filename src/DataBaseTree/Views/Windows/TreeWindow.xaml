@@ -166,21 +166,7 @@
                         BorderBrush="{StaticResource PrimaryBrush}"
                         BorderThickness="0,3,0,0" />
 
-                <TreeView x:Name="Tree"
-                          ItemsSource="{Binding Tree.RootItems, UpdateSourceTrigger=PropertyChanged}"
-                          Style="{StaticResource MetadataTreeStyle}">
-                    <TreeView.Resources>
-                        <behaviors:BindingProxy x:Key="Proxy"
-                                                Data="{Binding DataContext,ElementName=Tree}" />
-                    </TreeView.Resources>
-                    <TreeView.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem Header="Add new connection"
-                                      Command="{Binding Data.ConnectionManager.ConnectCommand, Source={StaticResource Proxy}}"
-                                      Icon="{StaticResource ConnectIcon}"/>
-                        </ContextMenu>
-                    </TreeView.ContextMenu>
-                </TreeView>
+                <ContentPresenter Content="{Binding Tree}" />
             </DockPanel>
             <GridSplitter Grid.Column="1"
                           Width="3"

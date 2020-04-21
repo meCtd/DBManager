@@ -1,9 +1,6 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Threading.Tasks;
-
 using DBManager.Default.Execution;
-
 
 namespace DBManager.SqlServer.Execution
 {

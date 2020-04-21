@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Input;
-
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
@@ -12,13 +11,9 @@ using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using Framework.Utils;
 using ICSharpCode.AvalonEdit.Highlighting;
-
 using Microsoft.Win32;
-
 using Ninject;
-
 using ExecutionContext = DBManager.Default.Execution.ExecutionContext;
-
 
 namespace DBManager.Application.ViewModels
 {
@@ -100,7 +95,7 @@ namespace DBManager.Application.ViewModels
         public DialectType Dialect => _root.Dialect;
 
         public ICommand ExecuteCommand => _executeCommand ??
-                                          (_executeCommand = new RelayCommand(Execute, (s) => !IsBusy));
+                                          (_executeCommand = new RelayCommand(Execute, s => !IsBusy));
 
         public ICommand SaveCommand => _saveCommand ??
                                           (_saveCommand = new RelayCommand(s => SaveInternal()));

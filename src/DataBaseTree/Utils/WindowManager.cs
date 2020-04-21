@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
-
-using DBManager.Application.Views.Windows;
 using DBManager.Application.ViewModels.General;
+using DBManager.Application.Views.Windows;
 
 namespace DBManager.Application.Utils
 {

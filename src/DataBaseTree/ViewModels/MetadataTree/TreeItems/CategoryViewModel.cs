@@ -2,18 +2,12 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using DBManager.Application.Utils;
-
 using DBManager.Default.Loader;
 using DBManager.Default.Tree;
-
 using Framework.Extensions;
-
 using Ninject;
-
 using Plurally;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {

@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
-
 
 namespace DBManager.SqlServer.Printer
 {

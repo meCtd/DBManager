@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
-
 using Framework.Extensions;
-
 
 namespace DBManager.SqlServer.Connection
 {

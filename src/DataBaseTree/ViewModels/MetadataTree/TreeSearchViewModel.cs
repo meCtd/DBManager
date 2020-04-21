@@ -2,7 +2,6 @@
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 
-
 namespace DBManager.Application.ViewModels.MetadataTree
 {
     public class TreeSearchViewModel : ViewModelBase

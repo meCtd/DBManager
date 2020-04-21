@@ -1,10 +1,8 @@
 ﻿using System.Data.Common;
-
 using DBManager.Default;
 using DBManager.Default.Loader.Sql;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
-
 using Framework.Extensions;
 
 namespace DBManager.SqlServer.Loader.AtomicLoaders

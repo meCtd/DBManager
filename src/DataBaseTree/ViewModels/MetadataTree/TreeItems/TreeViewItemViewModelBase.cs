@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
 using DBManager.Application.ViewModels.General;
-
 using Framework.EventArguments;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {

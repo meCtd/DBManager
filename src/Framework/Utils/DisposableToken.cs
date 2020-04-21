@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Framework.Utils
 {
     /// <summary>
@@ -57,7 +56,7 @@ namespace Framework.Utils
         {
             _dispose?.Invoke(this);
 
-            Instance = default(T);
+            Instance = default;
             _dispose = null;
         }
     }

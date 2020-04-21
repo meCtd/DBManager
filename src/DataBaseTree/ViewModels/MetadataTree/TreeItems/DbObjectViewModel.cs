@@ -1,17 +1,12 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
-
 using DBManager.Default;
 using DBManager.Default.Loader;
 using DBManager.Default.Tree;
-
 using Framework.Extensions;
-
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
@@ -60,5 +55,7 @@ namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
                 Model.Children.ForEach(s => Context.Resolver.Get<IWindowManager>().RunOnUi(() => Children.Add(new DbObjectViewModel(this, s))));
             }
         }
+
+        public override string ToString() => Model.FullName.FullSchemaName.ToString();
     }
 }

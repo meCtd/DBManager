@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Behaviors\MouseWheelClickTrigger.cs" />
     <Compile Include="Behaviors\BindingProxy.cs" />
+    <Compile Include="Behaviors\TreeViewBehavior.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />

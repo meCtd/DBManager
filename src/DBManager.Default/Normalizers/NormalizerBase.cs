@@ -1,6 +1,4 @@
-﻿using DBManager.Default.Tree;
-
-namespace DBManager.Default.Normalizers
+﻿namespace DBManager.Default.Normalizers
 {
     public abstract class NormalizerBase
     {

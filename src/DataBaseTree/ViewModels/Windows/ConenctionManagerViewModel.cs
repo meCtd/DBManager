@@ -2,19 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
-
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Loader;
-
 using Framework.Extensions;
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.Windows
 {

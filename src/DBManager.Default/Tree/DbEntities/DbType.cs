@@ -1,6 +1,5 @@
 ﻿using System.Runtime.Serialization;
 
-
 namespace DBManager.Default.Tree.DbEntities
 {
     [DataContract(Name = "db-type")]

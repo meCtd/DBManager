@@ -3,7 +3,6 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-
 namespace DBManager.Application.Convertors
 {
     public class MultiVisibilityConverter : IMultiValueConverter

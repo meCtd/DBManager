@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 
-
 namespace DBManager.Application.Behaviors
 {
     public class BindingProxy : Freezable
@@ -10,7 +9,7 @@ namespace DBManager.Application.Behaviors
 
         public object Data
         {
-            get { return (object) GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

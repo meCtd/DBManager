@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interactivity;
 
 namespace DBManager.Application.Behaviors
@@ -23,7 +19,7 @@ namespace DBManager.Application.Behaviors
             AssociatedObject.MouseLeftButtonDown -= OnMouseLeftButtonDown;
         }
 
-        private void OnMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var window = Window.GetWindow(AssociatedObject);
             window.DragMove();

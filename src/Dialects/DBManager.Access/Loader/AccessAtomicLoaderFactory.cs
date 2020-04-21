@@ -12,10 +12,7 @@ namespace DBManager.Access.Loader
         public AccessAtomicLoaderFactory(IDialectComponent components)
             : base(components)
         {
-            AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>()
-            {
-
-            };
+            AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>();
         }
     }
 }

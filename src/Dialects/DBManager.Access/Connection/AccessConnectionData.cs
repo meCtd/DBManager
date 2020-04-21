@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Common;
+﻿using System.Data.Common;
 using DBManager.Access.ADO;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
@@ -23,7 +22,7 @@ namespace DBManager.Access.Connection
                 var csb = new AccessConnectionStringBuilder
                 {
                     DataSource = Host,
-                    Password = Password,
+                    Password = Password
                 };
 
                 return csb.ToString();

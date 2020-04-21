@@ -1,6 +1,5 @@
 ﻿using System;
 
-
 namespace Framework.EventArguments
 {
     public class ArgumentEventArgs<T> : EventArgs

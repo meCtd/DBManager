@@ -35,7 +35,7 @@ namespace DBManager.SqlServer.Metadata
             [MetadataType.View] = new MetadataHierarchyInfo(MetadataType.View, new[] { MetadataType.Column }),
 
             [MetadataType.Procedure] = new MetadataHierarchyInfo(MetadataType.Procedure, new[] { MetadataType.Parameter }),
-            [MetadataType.Function] = new MetadataHierarchyInfo(MetadataType.Function, new[] { MetadataType.Parameter }),
+            [MetadataType.Function] = new MetadataHierarchyInfo(MetadataType.Function, new[] { MetadataType.Parameter })
         };
 
         public IReadOnlyDictionary<MetadataType, MetadataHierarchyInfo> Structure => _structure;

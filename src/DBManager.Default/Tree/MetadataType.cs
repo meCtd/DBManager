@@ -18,6 +18,6 @@ namespace DBManager.Default.Tree
 		Trigger = 1 << 10,
 		Parameter = 1 << 11,
 		Index = 1 << 12,
-		Type = 1 << 13,
+		Type = 1 << 13
 	}
 }

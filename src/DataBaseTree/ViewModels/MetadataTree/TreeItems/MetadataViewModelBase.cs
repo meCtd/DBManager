@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-
 using DBManager.Application.Utils;
-
 using DBManager.Default;
 using DBManager.Default.Tree;
-
 using Framework.Extensions;
 using Framework.Utils;
-
 using Ninject;
-
 
 namespace DBManager.Application.ViewModels.MetadataTree.TreeItems
 {
