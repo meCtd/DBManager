@@ -6,7 +6,9 @@
 
     <local:ObjectToObjectConverter x:Key="DialectToIconConverter">
         <local:ObjectsPair Input="{x:Static default:DialectType.SqlServer}"
-                           Output="{StaticResource SqlServerIcon}" />
+                           Output="{StaticResource SqlServerIcon}" />     
+        <local:ObjectsPair Input="{x:Static default:DialectType.Access}"
+                           Output="{StaticResource AccessIcon}" />
     </local:ObjectToObjectConverter>
 
     <local:ObjectToObjectConverter x:Key="MetadataTypeToIconConverter">
