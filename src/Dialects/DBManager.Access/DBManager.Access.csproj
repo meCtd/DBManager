@@ -64,6 +64,15 @@
     <Compile Include="ADO\AccessDbTransaction.cs" />
     <Compile Include="Loader\AccessAtomicLoaderFactory.cs" />
     <Compile Include="Loader\AccessLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessColumnLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessConstraintLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessDatabaseLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessIndexLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessParameterLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessProcedureLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessTableLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\AccessViewLoader.cs" />
+    <Compile Include="Loader\AtomicLoaders\Wrapper\QueryDefWrapper.cs" />
     <Compile Include="Metadata\AccessHierarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

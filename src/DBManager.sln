@@ -4,6 +4,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBManager.Application", "DataBaseTree\DBManager.Application.csproj", "{47CE56C8-4DAC-4418-9102-25B5D1D7E69A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{31163392-11E7-48FC-94FA-7B93BA8576B3} = {31163392-11E7-48FC-94FA-7B93BA8576B3}
+		{14B6B5BC-42AF-4213-BB3D-BB29C9BB4CE3} = {14B6B5BC-42AF-4213-BB3D-BB29C9BB4CE3}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBManager.Default", "DBManager.Default\DBManager.Default.csproj", "{4650985B-2A74-4AA0-9C73-1971DAA68D1E}"
 EndProject

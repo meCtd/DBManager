@@ -17,7 +17,9 @@ namespace DBManager.Access.Metadata
 
         private static readonly Dictionary<MetadataType, MetadataHierarchyInfo> _structure = new Dictionary<MetadataType, MetadataHierarchyInfo>
         {
-            [MetadataType.Database] = new MetadataHierarchyInfo(MetadataType.Schema, new[] { MetadataType.Table,
+            [MetadataType.Server] = new MetadataHierarchyInfo(MetadataType.Server, new[] { MetadataType.Database }),
+
+            [MetadataType.Database] = new MetadataHierarchyInfo(MetadataType.Database, new[] { MetadataType.Table,
                                                                                     MetadataType.View,
                                                                                     MetadataType.Procedure }),
 

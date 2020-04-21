@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Common;
+
 using DBManager.Default;
 using DBManager.Default.Loader.Sql;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
+
 using Framework.Extensions;
 
 namespace DBManager.SqlServer.Loader.AtomicLoaders
