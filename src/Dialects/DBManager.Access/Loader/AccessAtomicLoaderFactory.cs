@@ -16,7 +16,6 @@ namespace DBManager.Access.Loader
         {
             AtomicLoaders = new Dictionary<MetadataType, IAtomicLoader>()
             {
-                [MetadataType.Database] = new AccessDatabaseLoader(),
                 [MetadataType.Table] = new AccessTableLoader(),
                 [MetadataType.Column] = new AccessColumnLoader(),
                 [MetadataType.View] = new AccessViewLoader(),

@@ -27,11 +27,6 @@ namespace DBManager.SqlServer.Metadata
                                                                                     MetadataType.Trigger,
                                                                                     MetadataType.Index}),
 
-            [MetadataType.Table] = new MetadataHierarchyInfo(MetadataType.Table, new[] { MetadataType.Column,
-                                                                                    MetadataType.Constraint,
-                                                                                    MetadataType.Trigger,
-                                                                                    MetadataType.Index }),
-
             [MetadataType.View] = new MetadataHierarchyInfo(MetadataType.View, new[] { MetadataType.Column }),
 
             [MetadataType.Procedure] = new MetadataHierarchyInfo(MetadataType.Procedure, new[] { MetadataType.Parameter }),
