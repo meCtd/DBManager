@@ -100,6 +100,7 @@
     <Compile Include="Behaviors\TreeViewBehavior.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
+    <Compile Include="Controls\TextBoxWithOpenFile.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
     <Compile Include="Convertors\ValueConverterGroup.cs" />
     <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
@@ -176,6 +177,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Controls\CustomControls\TextBoxWithOpenFile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

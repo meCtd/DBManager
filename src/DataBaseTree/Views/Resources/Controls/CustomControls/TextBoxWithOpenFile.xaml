@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+					xmlns:controls="clr-namespace:DBManager.Application.Controls"
+                    xmlns:local="clr-namespace:DBManager.Application.Views.Resources.Controls.CustomControls"
+					xmlns:utils="clr-namespace:DBManager.Application.Utils">
+
+
+	<ResourceDictionary.MergedDictionaries>
+		<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml" />
+		<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+	
+	<Style TargetType="{x:Type controls:TextBoxWithOpenFile}">
+		<Setter Property="Validation.ErrorTemplate"
+                Value="{StaticResource TextBoxErrorTemplate}" />
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type controls:TextBoxWithOpenFile}">
+					<DockPanel>
+						<Button Content="•••" Command="Open" DockPanel.Dock="Right" >
+							<Button.Style>
+								<Style BasedOn="{StaticResource DefaultDarkButtonStyle}">
+									<Setter Property="Border.CornerRadius"
+											Value="0, 3, 3, 0"/>
+								</Style>
+							</Button.Style>
+						</Button>
+						<TextBox Text="{TemplateBinding Text}">
+							<TextBox.Style>
+								<Style BasedOn="{StaticResource TextBoxCommonStyle}">
+									<Setter Property="Border.CornerRadius"
+											Value="3, 0, 0, 3"/>
+								</Style>
+							</TextBox.Style>
+						</TextBox>
+					</DockPanel>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+	
+</ResourceDictionary>

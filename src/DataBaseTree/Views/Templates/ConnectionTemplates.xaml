@@ -2,9 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:vm="clr-namespace:DBManager.Application.ViewModels.Connections"
                     xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+					xmlns:controls="clr-namespace:DBManager.Application.Controls"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors">
+                    xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
+					xmlns:utils="clr-namespace:DBManager.Application.Utils">
 
+	<ResourceDictionary.MergedDictionaries>
+		<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/TextBoxWithOpenFile.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+	
 	<DataTemplate DataType="{x:Type vm:SqlServerConnectionViewModel}">
 		<StackPanel Height="180"
                     Width="300"
@@ -68,8 +74,10 @@
 
 			<StackPanel>
 				<TextBlock Text="Database file" />
-				<TextBox Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
-                         Tag="Select the database file on your file system" />
+				<controls:TextBoxWithOpenFile Text="{Binding Path=Host,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True}"
+											  FileFilter="Microsoft Access Files (*.mdb;*.accdb)|*.mdb;*.accdb"
+											  Tag="Select the database file on your file system" />
+					
 			</StackPanel>
 
 			<TextBlock Text="Password" />
