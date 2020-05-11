@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using DBManager.Access.Connection;
 using DBManager.Access.Metadata;
 using DBManager.Default;
 using DBManager.Default.Loader;
@@ -22,7 +24,10 @@ namespace DBManager.Access.Loader
 
         public override async Task<Server> LoadServerAsync(ILoadingContext context)
         {
-            return await Task.FromResult(new Server(context.ConnectionData, "Microsoft Access", DialectType.Access));
+            var connection = (AccessConnectionData)context.ConnectionData;
+            var name = Path.GetFileNameWithoutExtension(connection.DataSource);
+
+            return await Task.FromResult(new Server(context.ConnectionData, name, DialectType.Access));
         }
     }
 }

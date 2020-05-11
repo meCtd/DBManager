@@ -6,19 +6,21 @@
         <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type Button}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BasicBorderBrush}"/>
-        <Setter Property="Foreground" Value="{StaticResource MarkerBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="5, 2"/>
-        <Setter Property="Template">
+    <Style x:Key="DefaultDarkButtonStyle">
+        <Setter Property="Control.OverridesDefaultStyle" Value="True"/>
+		<Setter Property="Control.Background" Value="{StaticResource PrimaryBrush}"/>
+		<Setter Property="Control.BorderBrush" Value="{StaticResource BasicBorderBrush}"/>
+		<Setter Property="Control.Foreground" Value="{StaticResource MarkerBrush}"/>
+		<Setter Property="Control.BorderThickness" Value="1"/>
+		<Setter Property="Control.HorizontalContentAlignment" Value="Center"/>
+		<Setter Property="Control.VerticalContentAlignment" Value="Center"/>
+		<Setter Property="Control.Padding" Value="5, 2"/>
+		<Setter Property="Border.CornerRadius"
+                Value="3" />
+		<Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" CornerRadius="2" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                    <Border x:Name="border" CornerRadius="{TemplateBinding Border.CornerRadius}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                         <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -43,7 +45,10 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ChromeButtonStyle"
+	<Style TargetType="{x:Type Button}"
+		   BasedOn="{StaticResource DefaultDarkButtonStyle}"/>
+
+	<Style x:Key="ChromeButtonStyle"
            TargetType="Button">
         <Setter Property="Background"
                 Value="{StaticResource MainBackgroundBrush}" />

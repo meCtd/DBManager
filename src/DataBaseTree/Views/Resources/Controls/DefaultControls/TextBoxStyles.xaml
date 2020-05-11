@@ -47,13 +47,15 @@
                 Value="3, 0" />
         <Setter Property="ScrollViewer.PanningMode"
                 Value="VerticalFirst" />
-        <Setter Property="Stylus.IsFlicksEnabled"
+		<Setter Property="Stylus.IsFlicksEnabled"
                 Value="False" />
-        <Setter Property="Control.Template">
+		<Setter Property="Border.CornerRadius"
+                Value="3" />
+		<Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border x:Name="border"
-                            CornerRadius="3"
+                            CornerRadius="{TemplateBinding Border.CornerRadius}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
                             Background="{TemplateBinding Background}"
