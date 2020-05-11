@@ -1,5 +1,6 @@
 ﻿using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree;
+using DBManager.Application.ViewModels.ScriptExecution;
 
 namespace DBManager.Application.ViewModels.Windows
 {

@@ -4,7 +4,7 @@ using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 
-namespace DBManager.Application.ViewModels
+namespace DBManager.Application.ViewModels.ScriptExecution
 {
     public class ScriptsViewModel : ViewModelBase
     {

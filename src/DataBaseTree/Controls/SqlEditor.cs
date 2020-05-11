@@ -25,9 +25,9 @@ namespace DBManager.Application.Controls
         private static void OnSqlChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             var editor = (SqlEditor)d;
-            if(editor._isSuspended)
+            if (editor._isSuspended)
                 return;
-            
+
             editor.Text = (string)e.NewValue;
         }
 
@@ -54,15 +54,16 @@ namespace DBManager.Application.Controls
 
         private void Setup()
         {
-            TextChanged += OnTextChanged;
+            TextChanged += (s, e) => SetupSql(Text);
+            TextArea.SelectionChanged += (s, e) => SetupSql(string.IsNullOrEmpty(SelectedText) ? Text : SelectedText);
         }
 
-        private void OnTextChanged(object sender, EventArgs e)
+        private void SetupSql(string text)
         {
             try
             {
                 _isSuspended = true;
-                Sql = Text;
+                Sql = text;
             }
             finally
             {

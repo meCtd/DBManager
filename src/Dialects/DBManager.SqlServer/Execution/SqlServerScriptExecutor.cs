@@ -1,29 +1,56 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
+using System.Data.SqlClient;
+using System.Diagnostics;
+using System.Text;
 using System.Threading.Tasks;
 using DBManager.Default.Execution;
+using Framework.Utils;
 
 namespace DBManager.SqlServer.Execution
 {
     internal class SqlServerScriptExecutor : IScriptExecutor
     {
-        private string _changeContextFormat = "USE {0};\n";
+        private const string ChangeContextFormat = "USE {0};\n";
 
-        public async Task<DataTable> ExecuteAsync(string sql, IExecutionContext context)
+        public async Task<IScriptExecutionResult> ExecuteAsync(string sql, IExecutionContext context)
         {
-            var dataTable = new DataTable();
+            var queryBuilder = new StringBuilder(string.Format(ChangeContextFormat, context.Context))
+                .Append(sql);
 
-            using (var connection = context.Connection.GetConnection())
-            using (var command = SqlServerCreator.Instance.CreateCommand())
+            var composite = new CompositeDisposable();
+
+            var connection = context.Connection.GetConnection();
+            await connection.OpenAsync(context.Token);
+
+
+            var command = SqlServerCreator.Instance.CreateCommand();
+            command.Connection = connection;
+            command.CommandText = queryBuilder.ToString();
+
+            var sqlCommand = (SqlCommand)command;
+            var affectedRows = new List<int>();
+            sqlCommand.StatementCompleted += (s, e) => affectedRows.Add(e.RecordCount);
+
+            var stopWatch = Stopwatch.StartNew();
+            var reader = await command.ExecuteReaderAsync(context.Token);
+            var elapsed = stopWatch.Elapsed;
+            stopWatch.Stop();
+
+            composite.Add(reader);
+            composite.Add(command);
+            composite.Add(connection);
+            
+            return new ScriptExecutionResult()
             {
-                command.Connection = connection;
-                await connection.OpenAsync(context.Token);
-                
-                command.CommandText = string.Concat(string.Format(_changeContextFormat, context.Context), sql);
-                var reader = await command.ExecuteReaderAsync(context.Token);
-                dataTable.Load(reader);
-            }
-
-            return dataTable;
+                Info = new ScriptExecutionInfo()
+                {
+                    ExecutionTime = elapsed,
+                    StatementAffectedRows = affectedRows
+                },
+                Reader = new DisposableToken<DbDataReader>(reader, s => { }, s => { composite.Dispose(); })
+            };
         }
     }
 }

@@ -5,16 +5,19 @@
                     xmlns:utils="clr-namespace:DBManager.Application.Utils"
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:behaviors="clr-namespace:DBManager.Application.Behaviors"
-                    xmlns:system="clr-namespace:System;assembly=mscorlib">
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    xmlns:scriptExecution="clr-namespace:DBManager.Application.ViewModels.ScriptExecution"
+                    xmlns:convertors="clr-namespace:DBManager.Application.Convertors"
+                    xmlns:controls1="clr-namespace:DBManager.Application.Views.Resources.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <utils:SharedResourceDictionary Source="MetadataTreeTemplates.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="TabItem"
+    <Style TargetType="{x:Type TabItem}"
            BasedOn="{StaticResource {x:Type TabItem}}">
         <Style.Resources>
-            <DataTemplate DataType="{x:Type viewModels:ScriptExecutorViewModel}">
+            <DataTemplate DataType="{x:Type scriptExecution:ScriptExecutorViewModel}">
                 <StackPanel Orientation="Horizontal"
                             Background="Transparent"
                             Margin="-4,0">
@@ -39,17 +42,87 @@
         </Style.Resources>
     </Style>
 
-    <DataTemplate DataType="{x:Type viewModels:ScriptsViewModel}">
+    <DataTemplate DataType="{x:Type scriptExecution:ScriptResultViewModel}">
+        <TabControl x:Name="Root"
+                    Visibility="{Binding IsEmpty,Converter={convertors:InvertedBooleanToVisibilityConverter}}">
+            <TabControl.Style>
+                <Style TargetType="{x:Type TabControl}"
+                       BasedOn="{StaticResource {x:Type TabControl}}">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding DataContext.HasData,ElementName=Root}"
+                                     Value="False">
+                            <Setter Property="SelectedIndex"
+                                    Value="1" />
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding DataContext.HasData,ElementName=Root}"
+                                     Value="True">
+                            <Setter Property="SelectedIndex"
+                                    Value="0" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TabControl.Style>
+
+            <TabItem Header="Results"
+                     Visibility="{Binding HasData,Converter={convertors:BooleanToVisibilityConverter}}">
+                <Grid>
+                    <controls1:LoadingIndicator Visibility="{Binding IsBusy,Converter={convertors:BooleanToVisibilityConverter}}" />
+                    <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  Visibility="{Binding IsBusy,Converter={convertors:InvertedBooleanToVisibilityConverter}}">
+                        <ItemsControl ItemsSource="{Binding Data,UpdateSourceTrigger=PropertyChanged}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*"
+                                                           SharedSizeGroup="data" />
+
+                                        </Grid.RowDefinitions>
+
+                                        <GridSplitter HorizontalAlignment="Stretch"
+                                                      VerticalAlignment="Center"
+                                                      ResizeDirection="Rows"
+                                                      Height="2" />
+
+                                        <DataGrid Grid.Row="1"
+                                                  VirtualizingPanel.IsVirtualizing="True"
+                                                  VirtualizingPanel.ScrollUnit="Item"
+                                                  VirtualizingPanel.VirtualizationMode="Recycling"
+                                                  HeadersVisibility="Column"
+                                                  VerticalAlignment="Bottom"
+                                                  ItemsSource="{Binding}"
+                                                  IsReadOnly="True"
+                                                  CanUserAddRows="False"
+                                                  CanUserDeleteRows="False"
+                                                  CanUserReorderColumns="False"
+                                                  CanUserSortColumns="False"
+                                                  CanUserResizeRows="False"
+                                                  AutoGenerateColumns="True" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Messages">
+                <TextBlock Text="{Binding Message}" />
+            </TabItem>
+        </TabControl>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type scriptExecution:ScriptsViewModel}">
         <TabControl SelectedItem="{Binding SelectedTab}"
                     ItemsSource="{Binding Tabs}">
             <TabControl.ContentTemplate>
-                <DataTemplate DataType="{x:Type viewModels:ScriptExecutorViewModel}">
+                <DataTemplate DataType="{x:Type scriptExecution:ScriptExecutorViewModel}">
                     <DockPanel LastChildFill="True">
                         <DockPanel DockPanel.Dock="Top"
                                    LastChildFill="False">
                             <StackPanel  DockPanel.Dock="Left"
-                                         Orientation="Horizontal"
-                                         Height="25">
+                                         Orientation="Horizontal">
                                 <Button Style="{StaticResource MenuItemButtonStyle}"
                                         Command="{Binding ExecuteCommand}"
                                         Content="{StaticResource ExecuteIcon}"
@@ -69,8 +142,8 @@
                                 <ComboBox.ItemsSource>
                                     <PriorityBinding>
                                         <Binding Path="AvailableСontexts"
-                                                 IsAsync="True"/>
-                                        <Binding Path="(viewModels:ScriptExecutorViewModel.EmptyContexts)"/>
+                                                 IsAsync="True" />
+                                        <Binding Path="(scriptExecution:ScriptExecutorViewModel.EmptyContexts)" />
                                     </PriorityBinding>
                                 </ComboBox.ItemsSource>
                             </ComboBox>
@@ -79,26 +152,41 @@
                                 BorderBrush="{StaticResource PrimaryBrush}"
                                 BorderThickness="0,3,0,0" />
 
-                        <controls:SqlEditor ShowLineNumbers="True"
-                                            Margin="0,0,-2,-2"
-                                            Background="Transparent"
-                                            Foreground="{StaticResource MarkerBrush}"
-                                            Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                                            SyntaxHighlighting="{Binding Highlighting}"
-                                            VerticalScrollBarVisibility="Auto"
-                                            HorizontalScrollBarVisibility="Auto">
-                            <controls:SqlEditor.Style>
-                                <Style TargetType="{x:Type controls:SqlEditor}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsVisible"
-                                                 Value="true">
-                                            <Setter Property="FocusManager.FocusedElement"
-                                                    Value="{Binding RelativeSource={RelativeSource Mode=Self}}" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </controls:SqlEditor.Style>
-                        </controls:SqlEditor>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition  Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <controls:SqlEditor ShowLineNumbers="True"
+                                                Margin="0,0,-2,-2"
+                                                Background="Transparent"
+                                                Foreground="{StaticResource MarkerBrush}"
+                                                Sql="{Binding Sql,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                                                SyntaxHighlighting="{Binding Highlighting}"
+                                                VerticalScrollBarVisibility="Auto"
+                                                HorizontalScrollBarVisibility="Auto">
+                                <controls:SqlEditor.Style>
+                                    <Style TargetType="{x:Type controls:SqlEditor}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsVisible"
+                                                     Value="true">
+                                                <Setter Property="FocusManager.FocusedElement"
+                                                        Value="{Binding RelativeSource={RelativeSource Mode=Self}}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </controls:SqlEditor.Style>
+                            </controls:SqlEditor>
+
+                            <GridSplitter Grid.Row="1"
+                                          HorizontalAlignment="Stretch"
+                                          VerticalAlignment="Center"
+                                          Height="2"
+                                          Visibility="{Binding Result.IsEmpty,Converter={convertors:InvertedBooleanToVisibilityConverter}}" />
+                            <ContentPresenter Grid.Row="2"
+                                              Content="{Binding Result}" />
+                        </Grid>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>

@@ -57,13 +57,13 @@ namespace DBManager.Application.ViewModels.Windows
 
             var server = await loader.LoadServerAsync(new LoadingContext(data, CancellationToken.None));
 
-            Context.Resolver.Bind<IConnectionData>()
-                .ToConstant(server.ConnectionData)
-                .Named(server.Name);
-
             if (_metadataTree.RootItems.Cast<MetadataViewModelBase>().Any(s => s.Name.Equals(server.Name)))
                 return;
 
+            Context.Resolver.Bind<IConnectionData>()
+                .ToConstant(server.ConnectionData)
+                .Named(server.Name);
+            
             _metadataTree.RootItems.Add(new ServerViewModel(server));
         }
     }

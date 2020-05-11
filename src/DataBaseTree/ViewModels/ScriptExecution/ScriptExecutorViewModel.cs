@@ -15,7 +15,7 @@ using Microsoft.Win32;
 using Ninject;
 using ExecutionContext = DBManager.Default.Execution.ExecutionContext;
 
-namespace DBManager.Application.ViewModels
+namespace DBManager.Application.ViewModels.ScriptExecution
 {
     public class ScriptExecutorViewModel : ViewModelBase
     {
@@ -27,8 +27,11 @@ namespace DBManager.Application.ViewModels
         private readonly string _fileName;
         private readonly MetadataViewModelBase _root;
 
+        private readonly CancellationTokenSource _tokenSource;
+
         private ICommand _executeCommand;
         private ICommand _saveCommand;
+        private ICommand _cancelCommand;
 
         private string _filePath;
         private string _sql;
@@ -41,7 +44,7 @@ namespace DBManager.Application.ViewModels
         private object _data;
 
         private IEnumerable<string> _availableСontexts;
-        
+
         public IHighlightingDefinition Highlighting { get; }
 
         public string Sql
@@ -100,6 +103,11 @@ namespace DBManager.Application.ViewModels
         public ICommand SaveCommand => _saveCommand ??
                                           (_saveCommand = new RelayCommand(s => SaveInternal()));
 
+        public ICommand CancelCommand => _cancelCommand ?? 
+                                         (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel(), s => IsBusy));
+
+        public ScriptResultViewModel Result { get; } = new ScriptResultViewModel();
+
         public ScriptExecutorViewModel(string filename, MetadataViewModelBase root)
         {
             _fileName = filename;
@@ -134,11 +142,20 @@ namespace DBManager.Application.ViewModels
 
             try
             {
-                Data = await executor.ExecuteAsync(Sql, new ExecutionContext(connection, ExecutionContext, CancellationToken.None));
+                IsBusy = true;
+                var item = await executor.ExecuteAsync(Sql,
+                    new ExecutionContext(connection, ExecutionContext, CancellationToken.None));
+
+                Result.Fill(item);
 
             }
             catch (Exception e)
             {
+                Result.Fill(e);
+            }
+            finally
+            {
+                IsBusy = false;
             }
 
         }
@@ -188,5 +205,7 @@ namespace DBManager.Application.ViewModels
         {
             return true;
         }
+
+
     }
 }

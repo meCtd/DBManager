@@ -17,6 +17,7 @@
                 <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ScrollBarStyles.xaml"/>
                 <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TabControlStyles.xaml"/>
                 <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ContextMenuStyles.xaml"/>
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/LoadingIndicatorTemplates.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

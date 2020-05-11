@@ -1,10 +1,12 @@
 ﻿using System.Data;
+using System.Data.Common;
 using System.Threading.Tasks;
+using Framework.Utils;
 
 namespace DBManager.Default.Execution
 {
     public interface IScriptExecutor
     {
-        Task<DataTable> ExecuteAsync(string sql, IExecutionContext context);
+        Task<IScriptExecutionResult> ExecuteAsync(string sql, IExecutionContext context);
     }
 }

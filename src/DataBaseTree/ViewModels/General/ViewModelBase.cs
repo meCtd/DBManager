@@ -28,6 +28,11 @@ namespace DBManager.Application.ViewModels.General
             return true;
         }
 
+        protected void RefreshAllBindings()
+        {
+            OnPropertyChanged(string.Empty);
+        }
+
         public virtual void Dispose()
         {
             PropertyChanged = null;
