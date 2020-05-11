@@ -15,7 +15,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 {
     public class ScriptResultViewModel : ViewModelBase
     {
-        private bool _isBusy = true;
+        private bool _isBusy;
 
         private string _message;
 
