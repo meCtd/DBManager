@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Microsoft.Win32;
 
 namespace DBManager.Application.Controls
 {
@@ -25,7 +26,7 @@ namespace DBManager.Application.Controls
 
         private void ShowOpenFileDialog()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog
+            var dialog = new OpenFileDialog
             {
                 Filter = FileFilter
             };

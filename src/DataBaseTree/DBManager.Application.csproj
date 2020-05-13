@@ -95,10 +95,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Behaviors\TabContent.cs" />
     <Compile Include="Behaviors\MouseWheelClickTrigger.cs" />
     <Compile Include="Behaviors\BindingProxy.cs" />
     <Compile Include="Behaviors\TreeViewBehavior.cs" />
     <Compile Include="Behaviors\WindowDragBehaviour.cs" />
+    <Compile Include="Controls\ResizableItemControl.cs" />
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Controls\TextBoxWithOpenFile.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
@@ -129,7 +131,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\ServerViewModel.cs" />
     <Compile Include="ViewModels\ScriptExecution\ScriptResultViewModel.cs" />
     <Compile Include="ViewModels\ScriptExecution\ScriptsViewModel.cs" />
-    <Compile Include="ViewModels\ScriptExecution\ScriptExecutorViewModel.cs" />
+    <Compile Include="ViewModels\ScriptExecution\ScriptViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConenctionManagerViewModel.cs" />
     <Compile Include="ViewModels\Windows\ConnectionWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\CategoryViewModel.cs" />
@@ -139,7 +141,7 @@
     <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
-    <Compile Include="Views\Resources\Controls\LoadingIndicator.cs" />
+    <Compile Include="Controls\LoadingIndicator.cs" />
     <Compile Include="Views\Windows\ContentWindow.xaml.cs">
       <DependentUpon>ContentWindow.xaml</DependentUpon>
     </Compile>
@@ -182,6 +184,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Resources\Controls\CustomControls\ResizableItemControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Resources\Controls\CustomControls\TextBoxWithOpenFile.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -218,7 +224,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Resources\Controls\LoadingIndicatorTemplates.xaml">
+    <Page Include="Views\Resources\Controls\CustomControls\LoadingIndicatorTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

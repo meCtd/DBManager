@@ -50,5 +50,10 @@ namespace DBManager.Application.Utils
 
             App.Current.Dispatcher.Invoke(action);
         }
+
+        public void RunOnUiAsync(Action action)
+        {
+            App.Current.Dispatcher.InvokeAsync(action);
+        }
     }
 }
