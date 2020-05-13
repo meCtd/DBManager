@@ -105,7 +105,7 @@
                         <DockPanel DockPanel.Dock="Top"
                                    LastChildFill="False">
                             <StackPanel  DockPanel.Dock="Left"
-                                         Orientation="Horizontal">
+                                         Orientation="Horizontal">   
                                 <Button Style="{StaticResource MenuItemButtonStyle}"
                                         Command="{Binding ExecuteCommand}"
                                         Content="{StaticResource ExecuteIcon}"
@@ -130,7 +130,7 @@
                                     </PriorityBinding>
                                 </ComboBox.ItemsSource>
                             </ComboBox>
-                        </DockPanel>
+                        </DockPanel> 
                         <Border DockPanel.Dock="Top"
                                 BorderBrush="{StaticResource PrimaryBrush}"
                                 BorderThickness="0,3,0,0" />
@@ -151,22 +151,44 @@
                                                 HorizontalScrollBarVisibility="Auto">
                                 <controls:SqlEditor.Style>
                                     <Style TargetType="{x:Type controls:SqlEditor}">
+                                        <Setter Property="Grid.RowSpan" 
+                                                Value="1"/>
                                         <Style.Triggers>
                                             <Trigger Property="IsVisible"
                                                      Value="true">
                                                 <Setter Property="FocusManager.FocusedElement"
                                                         Value="{Binding RelativeSource={RelativeSource Mode=Self}}" />
                                             </Trigger>
+                                            <DataTrigger Binding="{Binding Result}"
+                                                         Value="{x:Null}">
+                                                <Setter Property="Grid.RowSpan"
+                                                        Value="3" />
+                                            </DataTrigger>
+
                                         </Style.Triggers>
                                     </Style>
                                 </controls:SqlEditor.Style>
                             </controls:SqlEditor>
 
                             <GridSplitter Grid.Row="1"
-                                          HorizontalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"
-                                          Height="2"
-                                          Visibility="{Binding Result.IsEmpty,Converter={convertors:InvertedBooleanToVisibilityConverter}}" />
+                                          Height="2">
+                                <GridSplitter.Style>
+                                <Style TargetType="{x:Type GridSplitter}"
+                                       BasedOn="{StaticResource {x:Type GridSplitter}}">
+
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Result}"
+                                                     Value="{x:Null}">
+                                            <Setter Property="Visibility"
+                                                    Value="Collapsed" />
+                                        </DataTrigger>
+
+                                    </Style.Triggers>
+                                </Style>
+                                </GridSplitter.Style>
+                            </GridSplitter>
 
                             <ContentPresenter Grid.Row="2"
                                               Content="{Binding Result}" />

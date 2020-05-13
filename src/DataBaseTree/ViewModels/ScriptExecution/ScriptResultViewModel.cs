@@ -18,9 +18,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         }
 
         public bool HasData => (Data?.Count ?? 0) > 0;
-
-        public bool IsEmpty => !HasData && string.IsNullOrEmpty(Message);
-
+        
         public ObservableCollection<DataTable> Data { get; }
 
         public ScriptResultViewModel(IEnumerable<DataTable> data, string message)
