@@ -1,13 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace DBManager.Application.ViewModels.General
 {
     public class ViewModelBase : INotifyPropertyChanged, IDisposable
     {
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         protected AppContext Context => AppContext.Current;
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged([CallerMemberName]string propertyName = null)

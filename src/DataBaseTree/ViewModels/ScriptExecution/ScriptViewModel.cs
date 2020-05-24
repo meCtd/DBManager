@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
+using DBManager.Default.Execution;
+using Framework.Extensions;
 using Framework.Utils;
 using ICSharpCode.AvalonEdit.Highlighting;
 using Microsoft.Win32;
@@ -17,7 +23,7 @@ using ExecutionContext = DBManager.Default.Execution.ExecutionContext;
 
 namespace DBManager.Application.ViewModels.ScriptExecution
 {
-    public class ScriptExecutorViewModel : ViewModelBase
+    public class ScriptViewModel : ViewModelBase
     {
         private const string SavedFileFormat = "{0} {1}";
         private const string UnSavedFileFormat = "{0} {1}*";
@@ -26,6 +32,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 
         private readonly string _fileName;
         private readonly MetadataViewModelBase _root;
+
 
         private readonly CancellationTokenSource _tokenSource;
 
@@ -44,6 +51,8 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         private object _data;
 
         private IEnumerable<string> _availableСontexts;
+
+        private ScriptResultViewModel _result;
 
         public IHighlightingDefinition Highlighting { get; }
 
@@ -103,12 +112,16 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         public ICommand SaveCommand => _saveCommand ??
                                           (_saveCommand = new RelayCommand(s => SaveInternal()));
 
-        public ICommand CancelCommand => _cancelCommand ?? 
+        public ICommand CancelCommand => _cancelCommand ??
                                          (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel(), s => IsBusy));
 
-        public ScriptResultViewModel Result { get; } = new ScriptResultViewModel();
+        public ScriptResultViewModel Result
+        {
+            get => _result;
+            set => SetProperty(ref _result, value);
+        }
 
-        public ScriptExecutorViewModel(string filename, MetadataViewModelBase root)
+        public ScriptViewModel(string filename, MetadataViewModelBase root)
         {
             _fileName = filename;
             _root = root;
@@ -143,15 +156,15 @@ namespace DBManager.Application.ViewModels.ScriptExecution
             try
             {
                 IsBusy = true;
-                var item = await executor.ExecuteAsync(Sql,
-                    new ExecutionContext(connection, ExecutionContext, CancellationToken.None));
 
-                Result.Fill(item);
+                var result = await executor.ExecuteAsync(Sql, new ExecutionContext(connection, ExecutionContext, CancellationToken.None));
+
+                Result = new ScriptResultViewModel(await BuildData(result.Reader), BuildMessage(result.Info));
 
             }
             catch (Exception e)
             {
-                Result.Fill(e);
+                Result = new ScriptResultViewModel(e);
             }
             finally
             {
@@ -171,6 +184,36 @@ namespace DBManager.Application.ViewModels.ScriptExecution
                 IsBusy = false;
                 Context.Resolver.Get<IWindowManager>().RunOnUi(CommandManager.InvalidateRequerySuggested);
             });
+        }
+
+        private string BuildMessage(IScriptExecutionInfo info)
+        {
+            var builder = new StringBuilder();
+            info.StatementAffectedRows.ForEach(s => builder.AppendLine($"({s} row(s) affected)\n"));
+            builder.Append($"Completion time : {info.ExecutionTime}");
+
+            return builder.ToString();
+        }
+
+        private async Task<IEnumerable<DataTable>> BuildData(IDisposableToken<DbDataReader> reader)
+        {
+            var result = new List<DataTable>();
+            await Task.Run(() =>
+            {
+                using (reader)
+                {
+                    do
+                    {
+                        var table = new DataTable();
+                        table.Load(reader.Instance);
+
+                        result.Add(table);
+
+                    } while (!reader.Instance.IsClosed);
+                }
+            });
+
+            return result;
         }
 
         private void SaveInternal()
@@ -205,7 +248,6 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         {
             return true;
         }
-
 
     }
 }
