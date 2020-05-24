@@ -72,8 +72,8 @@
 							<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource MouseOverBrush}"/>
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="false">
-							<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
-							<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+							<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource MainBrush}"/>
+							<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource LowBorderBrush}"/>
 							<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
 							<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
 						</Trigger>

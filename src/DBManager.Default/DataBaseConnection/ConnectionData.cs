@@ -65,6 +65,7 @@ namespace DBManager.Default.DataBaseConnection
             catch (Exception)
             {
                 result = false;
+                throw;
             }
 
             return result;
