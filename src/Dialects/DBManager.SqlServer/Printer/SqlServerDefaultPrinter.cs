@@ -3,7 +3,7 @@ using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.SqlServer.Printer
 {
-    internal class SqlServerDefaultPrinter : IPrinter
+    internal class SqlServerDefaultPrinter
     {
         public string GetDefinition(DefinitionObject obj)
         {

@@ -9,7 +9,9 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree">
 
-    <Style TargetType="Canvas"
+	<convertors:SelectTop100RowsButtonVisibilityConverter x:Key="selectTop100Converter"/>
+
+	<Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
         <Setter Property="Height"
                 Value="13" />
@@ -124,8 +126,13 @@
                               Command="{Binding Data.Scripts.NewTabCommand,Source={StaticResource Proxy}}"
                               CommandParameter="{Binding}"
                               Icon="{StaticResource NewScriptIcon}" />
+					<MenuItem Header="Select TOP 100 rows"
+                              Command="{Binding Data.Scripts.SelectTopRowsCommand,Source={StaticResource Proxy}}"
+                              CommandParameter="{Binding}"
+							  Visibility="{Binding Path=., Converter={StaticResource selectTop100Converter}}"
+                              Icon="{StaticResource NewScriptIcon}" />
 
-                </ContextMenu>
+				</ContextMenu>
             </StackPanel.ContextMenu>
 
             <i:Interaction.Triggers>

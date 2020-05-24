@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
-using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
+
 using DBManager.Default.Execution;
+
 using Framework.Utils;
 
 namespace DBManager.SqlServer.Execution
@@ -16,9 +17,6 @@ namespace DBManager.SqlServer.Execution
 
         public async Task<IScriptExecutionResult> ExecuteAsync(string sql, IExecutionContext context)
         {
-            var queryBuilder = new StringBuilder(string.Format(ChangeContextFormat, context.Context))
-                .Append(sql);
-
             var composite = new CompositeDisposable();
 
             var connection = context.Connection.GetConnection();
@@ -27,7 +25,7 @@ namespace DBManager.SqlServer.Execution
 
             var command = SqlServerCreator.Instance.CreateCommand();
             command.Connection = connection;
-            command.CommandText = queryBuilder.ToString();
+            command.CommandText = BuildQuery(sql, context);
 
             var sqlCommand = (SqlCommand)command;
             var affectedRows = new List<int>();
@@ -41,7 +39,7 @@ namespace DBManager.SqlServer.Execution
             composite.Add(reader);
             composite.Add(command);
             composite.Add(connection);
-            
+
             return new ScriptExecutionResult()
             {
                 Info = new ScriptExecutionInfo()
@@ -51,6 +49,18 @@ namespace DBManager.SqlServer.Execution
                 },
                 Reader = new DisposableToken<DbDataReader>(reader, s => { }, s => { composite.Dispose(); })
             };
+        }
+
+        private string BuildQuery(string sql, IExecutionContext context)
+        {
+            var queryBuilder = new StringBuilder();
+
+            if (!string.IsNullOrWhiteSpace(context.Context))
+                queryBuilder.Append(string.Format(ChangeContextFormat, context.Context));
+
+            queryBuilder.AppendLine(sql);
+
+            return queryBuilder.ToString();
         }
     }
 }

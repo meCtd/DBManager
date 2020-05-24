@@ -102,6 +102,7 @@
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Controls\TextBoxWithOpenFile.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
+    <Compile Include="Convertors\SelectTop100RowsButtonVisibilityConverter.cs" />
     <Compile Include="Convertors\ValueConverterGroup.cs" />
     <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
