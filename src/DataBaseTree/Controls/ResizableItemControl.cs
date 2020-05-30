@@ -45,6 +45,15 @@ namespace DBManager.Application.Controls
             set { SetValue(SplitterSizeProperty, value); }
         }
 
+        public static readonly DependencyProperty MinElementSizeProperty = DependencyProperty.Register(
+            "MinElementSize", typeof(double), typeof(ResizableItemControl), new PropertyMetadata(50d));
+
+        public double MinElementSize
+        {
+            get { return (double)GetValue(MinElementSizeProperty); }
+            set { SetValue(MinElementSizeProperty, value); }
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -92,10 +101,10 @@ namespace DBManager.Application.Controls
                 visualItem.DataContext = items[i];
 
                 if (i != Items.Count - 1)
-                    AddObject(visualItem, new GridLength(ElementSize, GridUnitType.Pixel));
+                    AddObject(visualItem, new GridLength(ElementSize, GridUnitType.Pixel), MinElementSize);
                 else
                     //AddObject(visualItem, new GridLength(1, GridUnitType.Star));
-                    AddObject(visualItem, new GridLength(ElementSize, GridUnitType.Pixel));
+                    AddObject(visualItem, new GridLength(ElementSize, GridUnitType.Pixel), MinElementSize);
 
 
                 if (i != Items.Count - 1)
@@ -103,18 +112,18 @@ namespace DBManager.Application.Controls
             }
         }
 
-        void AddObject(UIElement element, GridLength size)
+        void AddObject(UIElement element, GridLength size, double minSize = 0)
         {
             if (Orientation == Orientation.Horizontal)
             {
-                _root.ColumnDefinitions.Add(new ColumnDefinition() { Width = size });
+                _root.ColumnDefinitions.Add(new ColumnDefinition() { Width = size, MinWidth = minSize });
                 Grid.SetColumn(element, _root.ColumnDefinitions.Count - 1);
                 _root.Children.Add(element);
 
             }
             else
             {
-                _root.RowDefinitions.Add(new RowDefinition() { Height = size });
+                _root.RowDefinitions.Add(new RowDefinition() { Height = size, MinHeight = minSize });
                 Grid.SetRow(element, _root.RowDefinitions.Count - 1);
                 _root.Children.Add(element);
             }
@@ -131,7 +140,8 @@ namespace DBManager.Application.Controls
                 VerticalAlignment = Orientation == Orientation.Vertical
                     ? VerticalAlignment.Center
                     : VerticalAlignment.Stretch,
-                ResizeBehavior = GridResizeBehavior.PreviousAndCurrent
+                ResizeBehavior = GridResizeBehavior.PreviousAndCurrent,
+                Background = new SolidColorBrush(Colors.Transparent)
 
             };
 
