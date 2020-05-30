@@ -3,6 +3,8 @@ using System.Windows.Input;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
+using DBManager.Default;
+using Ninject;
 
 namespace DBManager.Application.ViewModels.ScriptExecution
 {
@@ -14,6 +16,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 
         private ICommand _closeTabCommand;
         private ICommand _newTabCommand;
+        private ICommand _selectTopRowCommand;
 
         private ScriptViewModel _selectedTab;
 
@@ -40,6 +43,18 @@ namespace DBManager.Application.ViewModels.ScriptExecution
                 Tabs.Add(tab);
 
                 SelectedTab = tab;
+            }, s => s != null));
+
+        public ICommand SelectTopRowsCommand => _selectTopRowCommand ?? (_selectTopRowCommand =
+            new RelayCommand<MetadataViewModelBase>(s =>
+            {
+                NewTabCommand.Execute(s);
+                
+                var printer = Context.Resolver.Get<IDialectComponent>(s.Dialect.ToString()).Printer;
+
+                SelectedTab.Sql = printer.GetTop100RowsQuery(((DbObjectViewModel)s).Model);
+                SelectedTab.ExecutionContext = null;
+                SelectedTab.ExecuteCommand.Execute(new object());
             }, s => s != null));
 
 

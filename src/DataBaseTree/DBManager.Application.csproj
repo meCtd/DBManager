@@ -104,6 +104,7 @@
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Controls\TextBoxWithOpenFile.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
+    <Compile Include="Convertors\SelectTop100RowsButtonVisibilityConverter.cs" />
     <Compile Include="Convertors\ValueConverterGroup.cs" />
     <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
@@ -211,6 +212,10 @@
     <Page Include="Views\Resources\Controls\DefaultControls\TabControlStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\CheckBoxStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\TextBlockStyles.xaml">
       <SubType>Designer</SubType>
