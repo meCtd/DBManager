@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using DBManager.Default.DataType;
 
 namespace DBManager.Default.Tree.DbEntities
 {
@@ -6,7 +7,7 @@ namespace DBManager.Default.Tree.DbEntities
     public abstract class TypeObject : DbObject
     {
         [DataMember(Name = "db-type")]
-        public DbType DbType { get; set; }
+        public TypeDescriptor DataType { get; set; }
 
         [DataMember(Name = "ordinal")]
         public int Ordinal { get; set; }
@@ -14,7 +15,8 @@ namespace DBManager.Default.Tree.DbEntities
         [DataMember(Name = "default-value")]
         public int DefaultValue { get; set; }
 
-        protected TypeObject(string name) : base(name)
+        protected TypeObject(string name) 
+            : base(name)
         {
         }
 

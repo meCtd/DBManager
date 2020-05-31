@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DBManager.Default.DataType;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
@@ -11,6 +12,8 @@ namespace DBManager.Default.Loader
         IScriptProvider ScriptProvider { get; }
 
         IMetadataHierarchy Hierarchy { get; }
+
+        IDataTypeFactory DataTypeFactory { get; }
 
         Task<Server> LoadServerAsync(ILoadingContext context);
 

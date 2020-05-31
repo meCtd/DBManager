@@ -66,6 +66,10 @@
     <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
     <Compile Include="DataBaseConnection\IConnectionData.cs" />
     <Compile Include="DataBaseConnection\ServerInfo.cs" />
+    <Compile Include="DataType\DataTypeFactory.cs" />
+    <Compile Include="DataType\DataTypeFamily.cs" />
+    <Compile Include="DataType\IDataTypeFactory.cs" />
+    <Compile Include="DataType\TypeDescriptor.cs" />
     <Compile Include="DialectType.cs" />
     <Compile Include="Execution\ExecutionContext.cs" />
     <Compile Include="Execution\IExecutionContext.cs" />
@@ -94,7 +98,6 @@
     <Compile Include="Tree\DbEntities\Column.cs" />
     <Compile Include="Tree\DbEntities\Constraint.cs" />
     <Compile Include="Tree\DbEntities\Database.cs" />
-    <Compile Include="Tree\DbEntities\DbType.cs" />
     <Compile Include="Tree\DbEntities\DefinitionObject.cs" />
     <Compile Include="Tree\DbEntities\Server.cs" />
     <Compile Include="Tree\DbEntities\View.cs" />

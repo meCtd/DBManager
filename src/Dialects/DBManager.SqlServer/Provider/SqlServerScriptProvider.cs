@@ -33,10 +33,10 @@ namespace DBManager.SqlServer.Provider
                     switch (target.Type)
                     {
                         case MetadataType.Table:
-                            return $"SELECT COLUMN_NAME AS [{BaseAtomicSqlLoader.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
+                            return $"SELECT COLUMN_NAME AS [{BaseAtomicSqlLoader.Name}], DATA_TYPE FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[COLUMNS] WHERE TABLE_NAME = '{target.Name}' AND TABLE_SCHEMA = '{target.FullName.Schema}' ORDER BY ORDINAL_POSITION";
 
                         case MetadataType.View:
-                            return $"SELECT COLUMN_NAME AS [{BaseAtomicSqlLoader.Name}] FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[VIEW_COLUMN_USAGE] WHERE VIEW_NAME = '{target.Name}' AND VIEW_SCHEMA = '{target.FullName.Schema}'";
+                            return $"SELECT COLUMN_NAME AS [{BaseAtomicSqlLoader.Name}], DATA_TYPE FROM [{target.FullName.Database}].[INFORMATION_SCHEMA].[VIEW_COLUMN_USAGE] WHERE VIEW_NAME = '{target.Name}' AND VIEW_SCHEMA = '{target.FullName.Schema}'";
 
                         default:
                             throw new ArgumentException();

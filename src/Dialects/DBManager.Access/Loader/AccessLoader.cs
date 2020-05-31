@@ -2,8 +2,10 @@
 using System.IO;
 using System.Threading.Tasks;
 using DBManager.Access.Connection;
+using DBManager.Access.DataType;
 using DBManager.Access.Metadata;
 using DBManager.Default;
+using DBManager.Default.DataType;
 using DBManager.Default.Loader;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree.DbEntities;
@@ -14,8 +16,8 @@ namespace DBManager.Access.Loader
     internal class AccessLoader : LoaderBase
     {
         public override IScriptProvider ScriptProvider => throw new NotImplementedException();
-
         public override IMetadataHierarchy Hierarchy { get; } = new AccessHierarchy();
+        public override IDataTypeFactory DataTypeFactory { get; } = new AccessDataTypeFactory();
 
         public AccessLoader(IDialectComponent components)
             : base(new AccessAtomicLoaderFactory(components))
