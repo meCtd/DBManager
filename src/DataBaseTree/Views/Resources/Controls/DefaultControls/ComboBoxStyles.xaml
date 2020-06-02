@@ -125,10 +125,6 @@
                      Color="#FF569DE5" />
     <SolidColorBrush x:Key="ComboBox.Disabled.Glyph"
                      Color="#FFBFBFBF" />
-    <SolidColorBrush x:Key="ComboBox.Disabled.Background"
-                     Color="#FFF0F0F0" />
-    <SolidColorBrush x:Key="ComboBox.Disabled.Border"
-                     Color="#FFD9D9D9" />
     <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background"
                      Color="#FFFFFFFF" />
     <SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border"
@@ -293,10 +289,10 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Background"
                                     TargetName="templateRoot"
-                                    Value="{StaticResource ComboBox.Disabled.Background}" />
+                                    Value="{StaticResource MainBrush}" />
                             <Setter Property="BorderBrush"
                                     TargetName="templateRoot"
-                                    Value="{StaticResource ComboBox.Disabled.Border}" />
+                                    Value="{StaticResource BasicBorderBrush}" />
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -307,16 +303,19 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Background"
                                     TargetName="templateRoot"
-                                    Value="{StaticResource ComboBox.Disabled.Editable.Background}" />
+                                    Value="{StaticResource MainBrush}" />
                             <Setter Property="BorderBrush"
                                     TargetName="templateRoot"
-                                    Value="{StaticResource ComboBox.Disabled.Editable.Border}" />
+                                    Value="{StaticResource BasicBorderBrush}" />
                             <Setter Property="Background"
                                     TargetName="splitBorder"
-                                    Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}" />
+                                    Value="{StaticResource MainBrush}" />
                             <Setter Property="BorderBrush"
                                     TargetName="splitBorder"
-                                    Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}" />
+                                    Value="{StaticResource BasicBorderBrush}" />
+                            <Setter Property="Opacity"
+                                    TargetName="templateRoot"
+                                    Value="0.6" />
                         </MultiDataTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
