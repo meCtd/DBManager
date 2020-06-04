@@ -39,6 +39,7 @@ namespace DBManager.Application.Controls
         public static void RegisterHighlights()
         {
             RegisterHighlight(DialectType.SqlServer, Properties.Resources.MsSql);
+            RegisterHighlight(DialectType.Access, Properties.Resources.MsSql);
         }
 
         private static void RegisterHighlight(DialectType dialect, Byte[] ashx)

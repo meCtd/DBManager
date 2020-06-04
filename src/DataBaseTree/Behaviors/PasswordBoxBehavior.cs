@@ -16,7 +16,7 @@ namespace DBManager.Application.Behaviors
         {
             var behaviour = (PasswordBoxBehavior)d;
 
-            if (behaviour._isSuspended)
+            if (behaviour._isSuspended || behaviour.AssociatedObject is null)
                 return;
 
             behaviour.AssociatedObject.Password = (string)e.NewValue;

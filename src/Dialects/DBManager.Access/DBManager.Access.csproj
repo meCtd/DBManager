@@ -62,6 +62,7 @@
     </Compile>
     <Compile Include="ADO\AccessDbDataReader.cs" />
     <Compile Include="ADO\AccessDbTransaction.cs" />
+    <Compile Include="Execution\AccessExecutor.cs" />
     <Compile Include="Loader\AccessAtomicLoaderFactory.cs" />
     <Compile Include="Loader\AccessLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\AccessColumnLoader.cs" />
@@ -80,6 +81,11 @@
       <Project>{4650985B-2A74-4AA0-9C73-1971DAA68D1E}</Project>
       <Name>DBManager.Default</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Framework\Framework.csproj">
+      <Project>{EE8DC46C-9770-4D63-A66F-ABC608F881E2}</Project>
+      <Name>Framework</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

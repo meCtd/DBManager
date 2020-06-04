@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Common;
 using System.Linq;
 
@@ -52,6 +53,37 @@ namespace Framework.Extensions
         public static T Get<T>(this DbDataReader reader, string columnName)
         {
             return reader.GetFieldValue<T>(reader.GetOrdinal(columnName));
+        }
+
+        public static DataTable ToTable(this IDataReader reader)
+        {
+            var table = new DataTable();
+            var schema = reader.GetSchemaTable();
+
+            if (schema is null)
+                return table;
+
+            int i = 0;
+            var rows = schema.Rows.OfType<DataRow>().OrderBy(s => s[1]).ToArray();
+            foreach (var row in rows)
+            {
+                table.Columns.Add(row[0]?.ToString() ?? $"Column{i}");
+                i++;
+            }
+
+            while (reader.Read())
+            {
+                var row = table.NewRow();
+
+                for (int j = 0; j < rows.Length; j++)
+                {
+                    row[j] = reader[j];
+                }
+
+                table.Rows.Add(row);
+            }
+
+            return table;
         }
     }
 }

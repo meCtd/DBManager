@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Data;
 using System.Data.Common;
 using System.Runtime.InteropServices;
 using Microsoft.Office.Interop.Access.Dao;
@@ -111,7 +112,9 @@ namespace DBManager.Access.ADO
 
         public override Type GetFieldType(int ordinal)
         {
-            return _executeResult.Fields[ordinal].Value.GetType();
+            return HasRows 
+                ? _executeResult.Fields[ordinal].Value.GetType() 
+                : typeof(object);
         }
 
         public override float GetFloat(int ordinal)
@@ -161,7 +164,12 @@ namespace DBManager.Access.ADO
 
         public override int GetValues(object[] values)
         {
-            throw new NotImplementedException();
+            var data = (object[,]) _executeResult.GetRows();
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = data[i, 0];
+            }
+            return values.Length;
         }
 
         public override bool IsDBNull(int ordinal)
@@ -172,6 +180,20 @@ namespace DBManager.Access.ADO
         public override bool NextResult()
         {
             return false;
+        }
+
+        public override DataTable GetSchemaTable()
+        {
+            var schemaTable = new DataTable();
+            schemaTable.Columns.Add("ColumnName", typeof(string));
+            schemaTable.Columns.Add("ColumnOrdinal", typeof(int));
+            
+            for (int i = 0; i < _executeResult.Fields.Count; i++)
+            {
+                schemaTable.Rows.Add(_executeResult.Fields[i].Name, (int)_executeResult.Fields[i].OrdinalPosition);
+            }
+
+            return schemaTable;
         }
 
         public override bool Read()

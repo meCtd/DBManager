@@ -1,5 +1,5 @@
-﻿using System;
-using System.ComponentModel.Composition;
+﻿using System.ComponentModel.Composition;
+using DBManager.Access.Execution;
 using DBManager.Access.Loader;
 using DBManager.Default;
 using DBManager.Default.Execution;
@@ -15,12 +15,12 @@ namespace DBManager.Access
 
         public DialectType Type => DialectType.Access;
 
-        public IPrinter Printer => throw new NotImplementedException();
+        public IPrinter Printer { get; }
 
         public ILoader Loader => _loader ?? (_loader = new AccessLoader(this));
 
-        public IComponentCreator Creator { get; } = new AccessCreator();
+        public IComponentCreator Creator { get; } = AccessCreator.Instance;
 
-        public IScriptExecutor Executor { get; }
+        public IScriptExecutor Executor { get; } = AccessExecutor.Instance;
     }
 }

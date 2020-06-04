@@ -82,7 +82,7 @@
                                       CanUserResizeRows="False"
                                       AutoGenerateColumns="True"
                                       VerticalScrollBarVisibility="Auto"
-                                      HorizontalScrollBarVisibility="Auto"/>
+                                      HorizontalScrollBarVisibility="Auto" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </controls:ResizableItemControl>
@@ -105,7 +105,7 @@
                         <DockPanel DockPanel.Dock="Top"
                                    LastChildFill="False">
                             <StackPanel  DockPanel.Dock="Left"
-                                         Orientation="Horizontal">   
+                                         Orientation="Horizontal">
                                 <Button Style="{StaticResource MenuItemButtonStyle}"
                                         Command="{Binding ExecuteCommand}"
                                         Content="{StaticResource ExecuteIcon}"
@@ -119,6 +119,7 @@
                             </StackPanel>
 
                             <ComboBox DockPanel.Dock="Right"
+                                      Visibility="{Binding WithContext,Converter={convertors:BooleanToVisibilityConverter Hide=True},Mode=OneTime}"
                                       Width="300"
                                       SelectedItem="{Binding ExecutionContext}"
                                       IsSynchronizedWithCurrentItem="True">
@@ -130,7 +131,7 @@
                                     </PriorityBinding>
                                 </ComboBox.ItemsSource>
                             </ComboBox>
-                        </DockPanel> 
+                        </DockPanel>
                         <Border DockPanel.Dock="Top"
                                 BorderBrush="{StaticResource PrimaryBrush}"
                                 BorderThickness="0,3,0,0" />
@@ -151,8 +152,8 @@
                                                 HorizontalScrollBarVisibility="Auto">
                                 <controls:SqlEditor.Style>
                                     <Style TargetType="{x:Type controls:SqlEditor}">
-                                        <Setter Property="Grid.RowSpan" 
-                                                Value="1"/>
+                                        <Setter Property="Grid.RowSpan"
+                                                Value="1" />
                                         <Style.Triggers>
                                             <Trigger Property="IsVisible"
                                                      Value="true">
@@ -171,22 +172,22 @@
                             </controls:SqlEditor>
 
                             <GridSplitter Grid.Row="1"
-                                HorizontalAlignment="Stretch"
+                                          HorizontalAlignment="Stretch"
                                           VerticalAlignment="Center"
                                           Height="2">
                                 <GridSplitter.Style>
-                                <Style TargetType="{x:Type GridSplitter}"
-                                       BasedOn="{StaticResource {x:Type GridSplitter}}">
+                                    <Style TargetType="{x:Type GridSplitter}"
+                                           BasedOn="{StaticResource {x:Type GridSplitter}}">
 
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Result}"
-                                                     Value="{x:Null}">
-                                            <Setter Property="Visibility"
-                                                    Value="Collapsed" />
-                                        </DataTrigger>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Result}"
+                                                         Value="{x:Null}">
+                                                <Setter Property="Visibility"
+                                                        Value="Collapsed" />
+                                            </DataTrigger>
 
-                                    </Style.Triggers>
-                                </Style>
+                                        </Style.Triggers>
+                                    </Style>
                                 </GridSplitter.Style>
                             </GridSplitter>
 

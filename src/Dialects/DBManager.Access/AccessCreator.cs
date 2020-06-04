@@ -10,6 +10,12 @@ namespace DBManager.Access
 {
     internal class AccessCreator : IComponentCreator
     {
+        internal static AccessCreator Instance { get; } = new AccessCreator();
+
+        private AccessCreator()
+        {
+        }
+
         public DbCommand CreateCommand() => new AccessDbCommand();
 
         public IDataParameter CreateParameter() => throw new NotImplementedException();

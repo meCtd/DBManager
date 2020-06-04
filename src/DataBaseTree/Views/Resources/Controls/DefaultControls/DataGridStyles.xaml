@@ -4,14 +4,21 @@
     <Style TargetType="{x:Type DataGrid}">
         <Setter Property="Background"
                 Value="{StaticResource PrimaryBrush}" />
-        <Setter Property="BorderBrush" Value="Black"></Setter>
+        <Setter Property="BorderBrush"
+                Value="Black"/>
     </Style>
 
     <Style TargetType="{x:Type DataGridColumnHeader}">
         <Setter Property="Background"
                 Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="Foreground"
+                Value="{StaticResource MarkerBrush}" />
+        <Setter Property="BorderThickness"
+                Value="0,0,0,1" />
+        <Setter Property="BorderBrush"
+                Value="Black" />
         <Setter Property="Padding"
-                Value="2"/>
+                Value="2" />
     </Style>
 
     <Style TargetType="{x:Type DataGridCell}">

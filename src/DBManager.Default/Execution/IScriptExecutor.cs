@@ -7,6 +7,7 @@ namespace DBManager.Default.Execution
 {
     public interface IScriptExecutor
     {
+        bool HasContext { get; }
         Task<IScriptExecutionResult> ExecuteAsync(string sql, IExecutionContext context);
     }
 }

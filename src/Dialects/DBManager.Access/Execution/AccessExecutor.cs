@@ -1,25 +1,27 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+
 using DBManager.Default.Execution;
+
 using Framework.Utils;
 
-namespace DBManager.SqlServer.Execution
+namespace DBManager.Access.Execution
 {
-    internal class SqlServerScriptExecutor : IScriptExecutor
+    internal class AccessExecutor : IScriptExecutor
     {
-        private const string ChangeContextFormat = "USE {0};\n";
+        internal static AccessExecutor Instance { get; } = new AccessExecutor();
 
-        public bool HasContext => true;
-
-        internal static SqlServerScriptExecutor Instance { get; } = new SqlServerScriptExecutor();
-
-        private SqlServerScriptExecutor()
+        private AccessExecutor()
         {
         }
+
+        public bool HasContext => false;
 
         public async Task<IScriptExecutionResult> ExecuteAsync(string sql, IExecutionContext context)
         {
@@ -29,13 +31,9 @@ namespace DBManager.SqlServer.Execution
             await connection.OpenAsync(context.Token);
 
 
-            var command = SqlServerCreator.Instance.CreateCommand();
+            var command = AccessCreator.Instance.CreateCommand();
             command.Connection = connection;
-            command.CommandText = BuildQuery(sql, context);
-
-            var sqlCommand = (SqlCommand)command;
-            var affectedRows = new List<int>();
-            sqlCommand.StatementCompleted += (s, e) => affectedRows.Add(e.RecordCount);
+            command.CommandText = sql;
 
             var stopWatch = Stopwatch.StartNew();
             var reader = await command.ExecuteReaderAsync(context.Token);
@@ -51,22 +49,10 @@ namespace DBManager.SqlServer.Execution
                 Info = new ScriptExecutionInfo()
                 {
                     ExecutionTime = elapsed,
-                    StatementAffectedRows = affectedRows
+                    StatementAffectedRows = Enumerable.Empty<int>()
                 },
                 Reader = new DisposableToken<DbDataReader>(reader, s => { }, s => { composite.Dispose(); })
             };
-        }
-
-        private string BuildQuery(string sql, IExecutionContext context)
-        {
-            var queryBuilder = new StringBuilder();
-
-            if (!string.IsNullOrWhiteSpace(context.Context))
-                queryBuilder.Append(string.Format(ChangeContextFormat, context.Context));
-
-            queryBuilder.AppendLine(sql);
-
-            return queryBuilder.ToString();
         }
     }
 }

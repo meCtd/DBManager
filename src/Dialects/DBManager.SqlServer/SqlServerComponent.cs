@@ -22,6 +22,6 @@ namespace DBManager.SqlServer
 
         public IComponentCreator Creator => SqlServerCreator.Instance;
 
-        public IScriptExecutor Executor { get; } = new SqlServerScriptExecutor();
+        public IScriptExecutor Executor { get; } = SqlServerScriptExecutor.Instance;
     }
 }

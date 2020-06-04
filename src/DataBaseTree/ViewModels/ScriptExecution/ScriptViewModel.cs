@@ -104,6 +104,8 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 
         public string Name => string.Format(_currentFormat, _fileName, _root.Name);
 
+        public bool WithContext => Context.Resolver.Get<IDialectComponent>(Dialect.ToString()).Executor.HasContext;
+
         public DialectType Dialect => _root.Dialect;
 
         public ICommand ExecuteCommand => _executeCommand ??
@@ -137,6 +139,10 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         private IEnumerable<string> GetContexts()
         {
             IEnumerable<string> items = null;
+
+            if (!WithContext)
+                return Enumerable.Empty<string>();
+
             using (PerformOperation(() =>
             {
                 _root.LoadChildrenAsync().GetAwaiter().GetResult();
@@ -204,12 +210,10 @@ namespace DBManager.Application.ViewModels.ScriptExecution
                 {
                     do
                     {
-                        var table = new DataTable();
-                        table.Load(reader.Instance);
 
-                        result.Add(table);
+                        result.Add(reader.Instance.ToTable());
 
-                    } while (!reader.Instance.IsClosed);
+                    } while (!reader.Instance.IsClosed && reader.Instance.NextResult());
                 }
             });
 
