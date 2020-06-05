@@ -8,17 +8,23 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
 using DBManager.Default.Execution;
+
 using Framework.Extensions;
 using Framework.Utils;
+
 using ICSharpCode.AvalonEdit.Highlighting;
+
 using Microsoft.Win32;
+
 using Ninject;
+
 using ExecutionContext = DBManager.Default.Execution.ExecutionContext;
 
 namespace DBManager.Application.ViewModels.ScriptExecution
@@ -210,8 +216,10 @@ namespace DBManager.Application.ViewModels.ScriptExecution
                 {
                     do
                     {
+                        var table = reader.Instance.ToTable();
 
-                        result.Add(reader.Instance.ToTable());
+                        if (table != null)
+                            result.Add(table);
 
                     } while (!reader.Instance.IsClosed && reader.Instance.NextResult());
                 }

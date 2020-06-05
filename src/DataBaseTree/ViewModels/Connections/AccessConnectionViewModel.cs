@@ -6,7 +6,8 @@ namespace DBManager.Application.ViewModels.Connections
     {
         public AccessConnectionViewModel(IConnectionData model)
             : base(model)
-        { }
+        {
+        }
 
         protected override string ValidateColumn(string columnName)
         {

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Data;
 using System.Data.Common;
 using System.Runtime.InteropServices;
+
 using Microsoft.Office.Interop.Access.Dao;
 
 namespace DBManager.Access.ADO
@@ -112,8 +113,8 @@ namespace DBManager.Access.ADO
 
         public override Type GetFieldType(int ordinal)
         {
-            return HasRows 
-                ? _executeResult.Fields[ordinal].Value.GetType() 
+            return HasRows
+                ? _executeResult.Fields[ordinal].Value.GetType()
                 : typeof(object);
         }
 
@@ -164,7 +165,7 @@ namespace DBManager.Access.ADO
 
         public override int GetValues(object[] values)
         {
-            var data = (object[,]) _executeResult.GetRows();
+            var data = (object[,])_executeResult.GetRows();
             for (int i = 0; i < values.Length; i++)
             {
                 values[i] = data[i, 0];
@@ -184,11 +185,14 @@ namespace DBManager.Access.ADO
 
         public override DataTable GetSchemaTable()
         {
+            if (_executeResult is null)
+                return null;
+
             var schemaTable = new DataTable();
             schemaTable.Columns.Add("ColumnName", typeof(string));
             schemaTable.Columns.Add("ColumnOrdinal", typeof(int));
-            
-            for (int i = 0; i < _executeResult.Fields.Count; i++)
+
+            for (int i = 0; i < _executeResult?.Fields.Count; i++)
             {
                 schemaTable.Rows.Add(_executeResult.Fields[i].Name, (int)_executeResult.Fields[i].OrdinalPosition);
             }
@@ -203,7 +207,7 @@ namespace DBManager.Access.ADO
             else if (!_executeResult.EOF)
                 _executeResult.MoveNext();
 
-            return !_executeResult.EOF;
+            return !_executeResult?.EOF ?? false;
         }
 
         public override void Close()

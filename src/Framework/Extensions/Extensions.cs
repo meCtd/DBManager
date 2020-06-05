@@ -61,7 +61,7 @@ namespace Framework.Extensions
             var schema = reader.GetSchemaTable();
 
             if (schema is null)
-                return table;
+                return null;
 
             int i = 0;
             var rows = schema.Rows.OfType<DataRow>().OrderBy(s => s[1]).ToArray();
