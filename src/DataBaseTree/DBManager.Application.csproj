@@ -139,7 +139,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModels\Windows\DataGenarationConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Windows\DataGenerationConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
