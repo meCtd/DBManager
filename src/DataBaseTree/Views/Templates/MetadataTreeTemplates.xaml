@@ -134,6 +134,7 @@
                     <Separator />
                     <MenuItem Header="Genarate data"
 							  Visibility="{Binding Path=., Converter={StaticResource selectTop100Converter},ConverterParameter={x:Static tree:MetadataType.Table }}"
+                              Command="{Binding Data.Tree.ShowDataGenerationConfigWindow, Source={StaticResource Proxy}}"
                               Icon="{StaticResource ConnectIcon}" />
 
 				</ContextMenu>

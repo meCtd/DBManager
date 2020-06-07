@@ -22,7 +22,12 @@
         Title="{Binding Header}">
 
     <Window.Resources>
-        <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/DataGenerationConfigWindowTemplate.xaml" />
+        </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
     <DockPanel>
