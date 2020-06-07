@@ -9,7 +9,7 @@
                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:metadataTree="clr-namespace:DBManager.Application.ViewModels.MetadataTree">
 
-	<convertors:TreeContextMenuButtonVisibilityConverter x:Key="selectTop100Converter"/>
+	<convertors:TreeContextMenuButtonVisibilityConverter x:Key="buttonVisibilityConverter"/>
 
 	<Style TargetType="Canvas"
            x:Key="MetadataIconCanvasStyle">
@@ -129,11 +129,11 @@
 					<MenuItem Header="Select TOP 100 rows"
                               Command="{Binding Data.Scripts.SelectTopRowsCommand,Source={StaticResource Proxy}}"
                               CommandParameter="{Binding}"
-							  Visibility="{Binding Path=., Converter={StaticResource selectTop100Converter},ConverterParameter={x:Static tree:MetadataType.DataObject }}"
+							  Visibility="{Binding  Converter={StaticResource buttonVisibilityConverter},ConverterParameter={x:Static tree:MetadataType.DataObject }}"
                               Icon="{StaticResource NewScriptIcon}" />
                     <Separator />
                     <MenuItem Header="Genarate data"
-							  Visibility="{Binding Path=., Converter={StaticResource selectTop100Converter},ConverterParameter={x:Static tree:MetadataType.Table }}"
+							  Visibility="{Binding  Converter={StaticResource buttonVisibilityConverter},ConverterParameter={x:Static tree:MetadataType.Table }}"
                               Command="{Binding Data.Tree.ShowDataGenerationConfigWindow, Source={StaticResource Proxy}}"
                               Icon="{StaticResource ConnectIcon}" />
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DBManager.Application.ViewModels.Windows
 {
-    class DataGanarationConfigurationViewModel : WindowViewModelBase
+    class DataGenarationConfigurationViewModel : WindowViewModelBase
     {
         public override string Header => "Data generation configuration";
         public override bool CanUserCloseWindow => true;

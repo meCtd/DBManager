@@ -25,7 +25,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/ConenctionWindowTemplate.xaml" />
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/DataGenerationConfigWindowTemplate.xaml" />
+                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Templates/DataGenerationConfigurationWindowTemplate.xaml" />
         </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

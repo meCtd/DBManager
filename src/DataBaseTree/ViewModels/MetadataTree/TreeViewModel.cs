@@ -21,10 +21,9 @@ namespace DBManager.Application.ViewModels.MetadataTree
         private TreeViewItemViewModelBase _selectedItem;
 
         public ObservableCollection<TreeViewItemViewModelBase> RootItems { get; }
-        public ICommand ShowDataGenerationConfigWindow => _showDataGenerationConfigWindow ?? (_showDataGenerationConfigWindow = new RelayCommand(s => ExecuteShowDataGenerationConfigWindow()));
         private void ExecuteShowDataGenerationConfigWindow()
         {
-            var viewModel = new DataGanarationConfigurationViewModel();
+            var viewModel = new DataGenarationConfigurationViewModel();
             
             Context.Resolver
                 .Get<IWindowManager>()
@@ -51,6 +50,7 @@ namespace DBManager.Application.ViewModels.MetadataTree
             }
         }
 
+        public ICommand ShowDataGenerationConfigWindow => _showDataGenerationConfigWindow ?? (_showDataGenerationConfigWindow = new RelayCommand(s => ExecuteShowDataGenerationConfigWindow()));
         public ICommand SetSelectedItemCommand => _setSelectedItemCommand ??
                                                   (_setSelectedItemCommand = new RelayCommand<TreeViewItemViewModelBase>(
                                                       item => SelectedItem = item,

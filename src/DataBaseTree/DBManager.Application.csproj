@@ -139,7 +139,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
-    <Compile Include="ViewModels\Windows\DataGanarationConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\Windows\DataGenarationConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
@@ -250,7 +250,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Templates\DataGenerationConfigWindowTemplate.xaml">
+    <Page Include="Views\Templates\DataGenerationConfigurationWindowTemplate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

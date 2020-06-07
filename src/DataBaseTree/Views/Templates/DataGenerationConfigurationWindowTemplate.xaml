@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:DBManager.Application.Views.Templates"
                     xmlns:windows="clr-namespace:DBManager.Application.ViewModels.Windows">
 
-    <DataTemplate DataType="{x:Type windows:DataGanarationConfigurationViewModel}">
+    <DataTemplate DataType="{x:Type windows:DataGenarationConfigurationViewModel}">
         <Grid/>
 
     </DataTemplate>
