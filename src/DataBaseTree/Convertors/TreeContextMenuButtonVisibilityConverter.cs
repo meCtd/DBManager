@@ -8,16 +8,17 @@ using DBManager.Default.Tree;
 
 namespace DBManager.Application.Convertors
 {
-    class SelectTop100RowsButtonVisibilityConverter : IValueConverter
+    class TreeContextMenuButtonVisibilityConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var vm = (MetadataViewModelBase)value;
+            var cds = (MetadataType)parameter;
 
             if (vm is null)
                 return Visibility.Collapsed;
 
-            return (vm.Type == MetadataType.Table || vm.Type == MetadataType.View) && !(vm is CategoryViewModel)
+            return (cds.HasFlag(vm.Type)) && !(vm is CategoryViewModel)
                     ? Visibility.Visible
                     : Visibility.Collapsed;
         }
