@@ -63,6 +63,7 @@
     <Compile Include="ADO\AccessDbDataReader.cs" />
     <Compile Include="ADO\AccessDbTransaction.cs" />
     <Compile Include="Execution\AccessExecutor.cs" />
+    <Compile Include="DataType\AccessDataTypeFactory.cs" />
     <Compile Include="Loader\AccessAtomicLoaderFactory.cs" />
     <Compile Include="Loader\AccessLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\AccessColumnLoader.cs" />

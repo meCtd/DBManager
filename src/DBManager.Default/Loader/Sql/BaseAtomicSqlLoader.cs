@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DBManager.Default.MetadataFactory;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
+using Framework.Extensions;
 
 namespace DBManager.Default.Loader.Sql
 {
@@ -41,7 +42,7 @@ namespace DBManager.Default.Loader.Sql
 
         protected virtual DbObject CreateObject(DbDataReader reader)
         {
-            var name = reader.GetString(reader.GetOrdinal(Name));
+            var name = reader.Get<string>(Name);
             return MetadataTypeFactory.Instance.Create(Type, name);
         }
 

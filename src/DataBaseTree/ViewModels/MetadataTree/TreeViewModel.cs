@@ -7,6 +7,8 @@ using System.Windows.Input;
 using DBManager.Application.Utils;
 using DBManager.Application.ViewModels.General;
 using DBManager.Application.ViewModels.MetadataTree.TreeItems;
+using DBManager.Application.ViewModels.Windows;
+using Ninject;
 
 namespace DBManager.Application.ViewModels.MetadataTree
 {
@@ -14,10 +16,19 @@ namespace DBManager.Application.ViewModels.MetadataTree
     {
         private ICommand _setSelectedItemCommand;
         private ICommand _copyItem;
+        private ICommand _showDataGenerationConfigWindow;
 
         private TreeViewItemViewModelBase _selectedItem;
 
         public ObservableCollection<TreeViewItemViewModelBase> RootItems { get; }
+        private void ExecuteShowDataGenerationConfigWindow()
+        {
+            var viewModel = new DataGenerationConfigurationViewModel();
+            
+            Context.Resolver
+                .Get<IWindowManager>()
+                .ShowWindow(viewModel);
+        }
 
         public ICollectionView TreeView { get; }
 
@@ -38,6 +49,10 @@ namespace DBManager.Application.ViewModels.MetadataTree
                     });
             }
         }
+
+        public ICommand ShowDataGenerationConfigWindow => _showDataGenerationConfigWindow ?? 
+            (_showDataGenerationConfigWindow = new RelayCommand(
+                s => ExecuteShowDataGenerationConfigWindow()));
 
         public ICommand SetSelectedItemCommand => _setSelectedItemCommand ??
                                                   (_setSelectedItemCommand = new RelayCommand<TreeViewItemViewModelBase>(

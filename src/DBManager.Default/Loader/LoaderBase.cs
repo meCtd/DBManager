@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using DBManager.Default.DataType;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree;
 using DBManager.Default.Tree.DbEntities;
@@ -12,6 +13,7 @@ namespace DBManager.Default.Loader
 
         public abstract IScriptProvider ScriptProvider { get; }
         public abstract IMetadataHierarchy Hierarchy { get; }
+        public abstract IDataTypeFactory DataTypeFactory { get; }
 
         protected LoaderBase(IAtomicLoaderFactory loaderFactory)
         {

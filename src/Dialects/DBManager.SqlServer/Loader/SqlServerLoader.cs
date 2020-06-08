@@ -2,10 +2,12 @@
 using System.Threading.Tasks;
 using DBManager.Default;
 using DBManager.Default.DataBaseConnection;
+using DBManager.Default.DataType;
 using DBManager.Default.Loader;
 using DBManager.Default.Providers;
 using DBManager.Default.Tree.DbEntities;
 using DBManager.Default.Tree.Hierarchy;
+using DBManager.SqlServer.DataType;
 using DBManager.SqlServer.Metadata;
 using DBManager.SqlServer.Provider;
 
@@ -15,6 +17,7 @@ namespace DBManager.SqlServer.Loader
     {
         public override IScriptProvider ScriptProvider { get; } = new SqlServerScriptProvider();
         public override IMetadataHierarchy Hierarchy { get; } = new SqlServerHierarchy();
+        public override IDataTypeFactory DataTypeFactory { get; } = new SqlServerDataTypeFactory();
 
         public SqlServerLoader(IDialectComponent components)
             : base(new SqlServerAtomicLoaderFactory(components))

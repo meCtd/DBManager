@@ -10,5 +10,10 @@ namespace DBManager.Default.Tree.DbEntities
         public Column(string name) : base(name)
         {
         }
+
+        public override string ToString()
+        {
+            return $"{Name} [{DataType.Name}]";
+        }
     }
 }

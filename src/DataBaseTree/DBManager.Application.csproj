@@ -104,7 +104,7 @@
     <Compile Include="Controls\SqlEditor.cs" />
     <Compile Include="Controls\TextBoxWithOpenFile.cs" />
     <Compile Include="Convertors\MultiVisibilityConverter.cs" />
-    <Compile Include="Convertors\SelectTop100RowsButtonVisibilityConverter.cs" />
+    <Compile Include="Convertors\TreeContextMenuButtonVisibilityConverter.cs" />
     <Compile Include="Convertors\ValueConverterGroup.cs" />
     <Compile Include="Convertors\MultiBooleanAndConverter.cs" />
     <Compile Include="Convertors\ObjectConverter.cs" />
@@ -139,6 +139,7 @@
     <Compile Include="ViewModels\MetadataTree\TreeItems\DbObjectViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\MetadataViewModelBase.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeItems\TreeViewItemViewModelBase.cs" />
+    <Compile Include="ViewModels\Windows\DataGenerationConfigurationViewModel.cs" />
     <Compile Include="ViewModels\Windows\TreeWindowViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeSearchViewModel.cs" />
     <Compile Include="ViewModels\MetadataTree\TreeViewModel.cs" />
@@ -248,6 +249,10 @@
     <Page Include="Views\Templates\ConnectionTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\DataGenerationConfigurationWindowTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Templates\MetadataTreeTemplates.xaml">
       <SubType>Designer</SubType>

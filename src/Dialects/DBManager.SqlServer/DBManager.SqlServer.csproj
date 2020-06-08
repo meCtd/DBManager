@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Connection\SqlServerConnectionData.cs" />
+    <Compile Include="DataType\SqlServerDataTypeFactory.cs" />
     <Compile Include="Loader\AtomicLoaders\SqlServerColumnLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\SqlServerConstraintLoader.cs" />
     <Compile Include="Loader\AtomicLoaders\SqlServerFunctionLoader.cs" />
