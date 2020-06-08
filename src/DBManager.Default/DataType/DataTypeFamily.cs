@@ -2,6 +2,7 @@
 {
     public enum DataTypeFamily
     {
+        Unknown,
         Integer,
         Float,
         String,

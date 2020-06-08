@@ -124,6 +124,13 @@
     <Compile Include="ViewModels\Connections\AccessConnectionViewModel.cs" />
     <Compile Include="ViewModels\Connections\ConnectionViewModelBase.cs" />
     <Compile Include="ViewModels\Connections\SqlServerConnectionViewModel.cs" />
+    <Compile Include="ViewModels\DataGeneration\BoolConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\DataGeneration\ColumnConfigurationViewModelBase.cs" />
+    <Compile Include="ViewModels\DataGeneration\ConfigurationViewModelFactory.cs" />
+    <Compile Include="ViewModels\DataGeneration\DateTimeConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\DataGeneration\FloatConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\DataGeneration\IntegerConfigurationViewModel.cs" />
+    <Compile Include="ViewModels\DataGeneration\StringConfigurationViewModel.cs" />
     <Compile Include="ViewModels\General\Context.cs" />
     <Compile Include="ViewModels\General\IWindowContext.cs" />
     <Compile Include="ViewModels\General\WindowViewModelBase.cs" />
@@ -206,6 +213,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Resources\Controls\DefaultControls\GroupBoxStyles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Resources\Controls\DefaultControls\ScrollBarStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -239,6 +250,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Resources\Icons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Templates\ColumnConfigurationTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

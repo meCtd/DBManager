@@ -66,6 +66,9 @@
     <Compile Include="DataBaseConnection\ConnectionProperty.cs" />
     <Compile Include="DataBaseConnection\IConnectionData.cs" />
     <Compile Include="DataBaseConnection\ServerInfo.cs" />
+    <Compile Include="DataGeneration\Configuration\DataGenConfig.cs" />
+    <Compile Include="DataGeneration\Configuration\DataGenerationColumnConfig.cs" />
+    <Compile Include="DataGeneration\Configuration\Enum\Distribution.cs" />
     <Compile Include="DataType\DataTypeFactory.cs" />
     <Compile Include="DataType\DataTypeFamily.cs" />
     <Compile Include="DataType\IDataTypeFactory.cs" />
@@ -123,5 +126,6 @@
       <Name>Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

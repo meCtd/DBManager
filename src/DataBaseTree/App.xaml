@@ -6,24 +6,25 @@
 
     <Application.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml" />
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Icons.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Converters.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBlockStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ComboBoxStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ScrollBarStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TabControlStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/DataGridStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ContextMenuStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/CheckBoxStyles.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/LoadingIndicatorTemplates.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/LoadingIndicatorTemplates.xaml"/>
-                <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/ResizableItemControl.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml" />
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Icons.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Converters.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ButtonStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBoxStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TextBlockStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ComboBoxStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ScrollBarStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/TabControlStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/DataGridStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/ContextMenuStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/CheckBoxStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/DefaultControls/GroupBoxStyles.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/LoadingIndicatorTemplates.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/LoadingIndicatorTemplates.xaml"/>
+				<utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Controls/CustomControls/ResizableItemControl.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
     </Application.Resources>
     
 </Application>

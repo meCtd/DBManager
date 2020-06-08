@@ -6,9 +6,11 @@
         <utils:SharedResourceDictionary Source="pack://application:,,,/Views/Resources/Constants/ColorConstants.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type TextBlock}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Foreground" Value="{StaticResource MarkerBrush}"/>
-    </Style>
-    
+	<Style x:Key="DefaultDarkTextBlock" TargetType="{x:Type TextBlock}">
+		<Setter Property="OverridesDefaultStyle" Value="True"/>
+		<Setter Property="Foreground" Value="{StaticResource MarkerBrush}"/>
+	</Style>
+
+	<Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource DefaultDarkTextBlock}"/>
+
 </ResourceDictionary>
