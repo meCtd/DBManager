@@ -5,6 +5,7 @@ using DBManager.Default;
 using DBManager.Default.Execution;
 using DBManager.Default.Loader;
 using DBManager.Default.Printers;
+using DBManager.SqlServer.Printer;
 
 namespace DBManager.Access
 {
@@ -15,7 +16,7 @@ namespace DBManager.Access
 
         public DialectType Type => DialectType.Access;
 
-        public IPrinter Printer { get; }
+        public IPrinter Printer { get; } = new AccessPrinterFactory();
 
         public ILoader Loader => _loader ?? (_loader = new AccessLoader(this));
 

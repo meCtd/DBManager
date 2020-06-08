@@ -13,7 +13,10 @@ namespace DBManager.Default.Tree.DbEntities
 
         public override string ToString()
         {
-            return $"{Name} [{DataType?.Name}]";
+            if (DataType == null)
+                return Name;
+
+            return $"{Name} [{DataType.Name}]";
         }
     }
 }
