@@ -88,7 +88,8 @@
             </DrawingGroup>
         </DrawingBrush.Drawing>
     </DrawingBrush>
-
+
+
     <DrawingBrush x:Key="ClosedCategory"
                   Stretch="Uniform">
         <DrawingBrush.Drawing>
@@ -408,6 +409,18 @@
                                      Geometry="F1 M 96,192L 288,192L 288,224L 96,224L 96,192 Z " />
                     <GeometryDrawing Brush="{StaticResource MouseOverBrush}"
                                      Geometry="F1 M 96,256L 288,256L 288,288L 96,288L 96,256 Z " />
+                </DrawingGroup.Children>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+    <DrawingBrush x:Key="OpenIcon"
+                  Stretch="Uniform">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <DrawingGroup.Children>
+                    <GeometryDrawing Brush="{StaticResource MouseOverBrush}"
+                                     Geometry="F1 M 59.2653,11.2507C 58.636,10.4587 57.6773,10 56.6667,10L 53.3333,10C 53.3333,8.15601 51.844,6.66667 50,6.66667L 46.6667,6.66667L 46.6667,3.33334C 46.6667,1.48934 45.1773,0 43.3333,0L 3.33333,0C 1.48933,0 0,1.48934 0,3.33334L 0,43.3333C 0,45.1773 1.48933,46.6667 3.33333,46.6667L 50,46.6667C 51.5627,46.6667 52.9173,45.584 53.2507,44.0573L 59.9173,14.0573C 60.14,13.068 59.9013,12.036 59.2653,11.2507 Z M 3.33333,3.33334L 43.3333,3.33334L 43.3333,6.66667L 40,6.66667C 38.156,6.66667 36.6667,8.15601 36.6667,10L 16.6667,10C 15.104,10 13.7507,11.084 13.412,12.6093C 13.412,12.6093 6.672,43.0933 6.672,43.3333L 3.33333,43.3333" />
                 </DrawingGroup.Children>
             </DrawingGroup>
         </DrawingBrush.Drawing>

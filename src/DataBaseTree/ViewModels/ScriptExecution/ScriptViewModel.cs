@@ -33,6 +33,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
     {
         private const string SavedFileFormat = "{0} {1}";
         private const string UnSavedFileFormat = "{0} {1}*";
+        private const string SqlFilter = "SQL-files (*.sql)|*.sql";
 
         public static IEnumerable<string> EmptyContexts { get; } = new[] { "..." };
 
@@ -44,6 +45,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 
         private ICommand _executeCommand;
         private ICommand _saveCommand;
+        private ICommand _openCommand;
         private ICommand _cancelCommand;
 
         private string _filePath;
@@ -119,6 +121,10 @@ namespace DBManager.Application.ViewModels.ScriptExecution
 
         public ICommand SaveCommand => _saveCommand ??
                                           (_saveCommand = new RelayCommand(s => SaveInternal()));
+
+        public ICommand OpenCommand => _openCommand ??
+                                       (_openCommand = new RelayCommand(s => OpenFileCommand()));
+
 
         public ICommand CancelCommand => _cancelCommand ??
                                          (_cancelCommand = new RelayCommand(s => _tokenSource.Cancel(), s => IsBusy));
@@ -201,8 +207,14 @@ namespace DBManager.Application.ViewModels.ScriptExecution
         private string BuildMessage(IScriptExecutionInfo info)
         {
             var builder = new StringBuilder();
-            info.StatementAffectedRows.ForEach(s => builder.AppendLine($"({s} row(s) affected)\n"));
-            builder.Append($"Completion time : {info.ExecutionTime}");
+
+            var rows = info.StatementAffectedRows.ToArray();
+            rows.ForEach(s => builder.AppendLine($"({s} row(s) affected)\n"));
+
+            if (rows.Length == 0)
+                builder.Append("Operation completed successfully!\n");
+
+            builder.Append($"\nCompletion time : {info.ExecutionTime}");
 
             return builder.ToString();
         }
@@ -239,6 +251,27 @@ namespace DBManager.Application.ViewModels.ScriptExecution
             HasChanges = false;
         }
 
+        private void OpenFileCommand()
+        {
+            var dialog = new OpenFileDialog()
+            {
+                Filter = SqlFilter,
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
+            };
+
+            var result = dialog.ShowDialog(Context.Resolver.Get<IWindowManager>().CurrentWindow);
+
+            if (result != true)
+                return;
+
+            using (var reader = new StreamReader(File.Open(dialog.FileName, FileMode.Open, FileAccess.Read)))
+            {
+                Sql = reader.ReadToEnd();
+                _filePath = dialog.FileName;
+                HasChanges = false;
+            }
+        }
+
         private void SetupFileName()
         {
             if (!string.IsNullOrEmpty(_filePath))
@@ -247,7 +280,7 @@ namespace DBManager.Application.ViewModels.ScriptExecution
             var dialog = new SaveFileDialog
             {
                 FileName = _fileName,
-                Filter = "SQL-files (*.sql)|*.sql",
+                Filter = SqlFilter,
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)
             };
 

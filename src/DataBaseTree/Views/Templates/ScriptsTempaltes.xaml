@@ -115,6 +115,10 @@
                                         Command="{Binding SaveCommand}"
                                         Content="{StaticResource SaveIcon}"
                                         ToolTip="Save" />
+                                <Button Style="{StaticResource MenuItemButtonStyle}"
+                                        Command="{Binding OpenCommand}"
+                                        Content="{StaticResource OpenIcon}"
+                                        ToolTip="Open" />
 
                             </StackPanel>
 
