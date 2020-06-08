@@ -4,11 +4,14 @@ using System.Linq;
 
 using DBManager.Default.DataGeneration.Configuration;
 using DBManager.Default.DataGeneration.Configuration.Enum;
+using DBManager.Default.DataType;
 
 namespace DBManager.Application.ViewModels.DataGeneration
 {
     class FloatConfigurationViewModel : ColumnConfigurationViewModelBase
     {
+        protected override DataTypeFamily TypeFamily => DataTypeFamily.Float;
+
         public double MinValue
         {
             get => (double)_config[ColumnName][nameof(MinValue)];

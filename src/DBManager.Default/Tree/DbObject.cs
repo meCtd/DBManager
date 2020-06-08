@@ -58,6 +58,21 @@ namespace DBManager.Default.Tree
             obj.Parent = this;
         }
 
+        public T GetFirstAncestorOf<T>() where T : DbObject
+        {
+            var current = Parent;
+
+            while (Parent != null)
+            {
+                if (current.GetType() == typeof(T))
+                    return (T)current;
+
+                current = current.Parent;
+            }
+
+            return null;
+        }
+
         public override string ToString()
         {
             return Name;

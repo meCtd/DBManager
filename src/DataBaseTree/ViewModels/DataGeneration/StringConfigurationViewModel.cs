@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DBManager.Application.ViewModels.General;
-using DBManager.Default.DataGeneration.Configuration;
+﻿using DBManager.Default.DataGeneration.Configuration;
+using DBManager.Default.DataType;
 
 namespace DBManager.Application.ViewModels.DataGeneration
 {
     class StringConfigurationViewModel : ColumnConfigurationViewModelBase
     {
+        protected override DataTypeFamily TypeFamily => DataTypeFamily.String;
+
         public StringConfigurationViewModel(string columnName, DataGenConfig config) 
             : base(columnName,config)
         {

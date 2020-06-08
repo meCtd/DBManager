@@ -69,6 +69,14 @@
     <Compile Include="DataGeneration\Configuration\DataGenConfig.cs" />
     <Compile Include="DataGeneration\Configuration\DataGenerationColumnConfig.cs" />
     <Compile Include="DataGeneration\Configuration\Enum\Distribution.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGeneratorFactory.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGenerator\AtomicGeneratorBase.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGenerator\BoolValueGenerator.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGenerator\FloatValueGenerator.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGenerator\IntegerValueGenerator.cs" />
+    <Compile Include="DataGeneration\Core\AtomicGenerator\UnsupportedValueGenerator.cs" />
+    <Compile Include="DataGeneration\Core\DataGenerator.cs" />
+    <Compile Include="DataGeneration\Core\DataRecordCreator.cs" />
     <Compile Include="DataType\DataTypeFactory.cs" />
     <Compile Include="DataType\DataTypeFamily.cs" />
     <Compile Include="DataType\IDataTypeFactory.cs" />

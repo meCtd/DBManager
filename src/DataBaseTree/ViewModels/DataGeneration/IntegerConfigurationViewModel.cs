@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using DBManager.Default.DataGeneration.Configuration;
 using DBManager.Default.DataGeneration.Configuration.Enum;
+using DBManager.Default.DataType;
 
 namespace DBManager.Application.ViewModels.DataGeneration
 {
     class IntegerConfigurationViewModel : ColumnConfigurationViewModelBase
     {
+        protected override DataTypeFamily TypeFamily => DataTypeFamily.Integer;
+
         public int MinValue 
         { 
             get => (int)_config[ColumnName][nameof(MinValue)];

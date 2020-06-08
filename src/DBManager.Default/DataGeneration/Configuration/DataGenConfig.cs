@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using DBManager.Default.Tree.DbEntities;
 
 namespace DBManager.Default.DataGeneration.Configuration
 {
     public class DataGenConfig
     {
+        public Table Scope { get; set; }
+
         public int RowCount { get; set; } = 1;
         public long Seed { get; set; } = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
@@ -15,8 +18,9 @@ namespace DBManager.Default.DataGeneration.Configuration
             get => ColumnConfigurations[columnName];
         }
 
-        public DataGenConfig()
+        public DataGenConfig(Table scope)
         {
+            Scope = scope;
             ColumnConfigurations = new Dictionary<string, DataGenerationColumnConfig>(StringComparer.InvariantCultureIgnoreCase);
         }
     }

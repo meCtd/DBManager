@@ -132,7 +132,7 @@
 							  Visibility="{Binding  Converter={StaticResource buttonVisibilityConverter},ConverterParameter={x:Static tree:MetadataType.DataObject }}"
                               Icon="{StaticResource NewScriptIcon}" />
                     <Separator />
-                    <MenuItem Header="Genarate data"
+                    <MenuItem Header="Generate data"
 							  Visibility="{Binding  Converter={StaticResource buttonVisibilityConverter},ConverterParameter={x:Static tree:MetadataType.Table }}"
                               Command="{Binding Data.Tree.ShowDataGenerationConfigWindow, Source={StaticResource Proxy}}"
                               Icon="{StaticResource ConnectIcon}" />

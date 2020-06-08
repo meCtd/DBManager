@@ -1,9 +1,12 @@
 ﻿using DBManager.Default.DataGeneration.Configuration;
+using DBManager.Default.DataType;
 
 namespace DBManager.Application.ViewModels.DataGeneration
 {
     class BoolConfigurationViewModel : ColumnConfigurationViewModelBase
     {
+        protected override DataTypeFamily TypeFamily => DataTypeFamily.Boolean;
+
         public int TrueFactor
         {
             get => (int)_config[ColumnName][nameof(TrueFactor)];
